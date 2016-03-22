@@ -1,0 +1,122 @@
+<link href="/plugins/dropzone/dropzone.css" type="text/css" rel="stylesheet" />
+
+<script src="/plugins/dropzone/dropzone.js"></script>
+<script>
+    $(document).ready(function () {
+        var dropzone = $(".dropzone2").dropzone({
+            url: "/plugins/dropzone/upload.php",
+            maxFiles: 4,
+            success: function (file) {
+                $('<input type="hidden" name="photos[]" value="' + file.name + '">').insertAfter(".dropzone2");
+                if (file.previewElement) {
+                    return file.previewElement.classList.add("dz-success");
+                }
+            },
+            init: function () {
+                this.on("addedfile", function (file) {
+
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement("<button>Remove file</button>");
+
+
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function (e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                         $.ajax({
+                            type: "post",
+                            dataType: "json",
+                            url: "/plugins/dropzone/delete.php",
+                            data: {filename:file.name}
+                        });
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                    });
+
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        });
+        dropzone.on('success', function () {
+            alert('tt');
+        });
+        dropzone.on("queuecomplete", function (file) {
+            alert("All files have uploaded ");
+        });
+
+    });
+</script>
+
+
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Advertisments'), true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+
+    <div class="container mt25 offset-0 advertismentList">
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0 advertismentCategoryList">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Add advertisment')." - ".$this->translate('step')." 2"; ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+            <div class="padding10 grey">
+                <div class="col-md-4"> 
+                    <strong><?= $this->translate('Category'); ?>:</strong>
+                </div>
+                <div class="col-md-8">
+                    <?= $this->category['Group']['Translation'][$this->language]['title'] . " - " . $this->category['Translation'][$this->language]['title']; ?>
+            
+                </div>
+                <br />
+                    <br />
+                <form action="<?= $this->form->getAction(); ?>" method="post">
+                <?= $this->form->getElement('title'); ?>
+                <?= $this->form->getElement('content'); ?>
+                <?= $this->form->getElement('finish_date'); ?>
+                <?= $this->form->getElement('price'); ?>
+                <h3 class="list-title"><?= $this->translate('Photos'); ?></h3>
+                <?= $this->translate('Maximum of 4 photos'); ?>
+                
+                <div class="dropzone2" id="myDropzone" style="min-height:150px;">
+                    <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+                </div>
+
+                <h3 class="list-title"><?= $this->translate('Contact details'); ?></h3>
+                <?= $this->form->getElement('name'); ?>
+                <?= $this->form->getElement('email'); ?>
+                <?= $this->form->getElement('phone'); ?>
+                <?= $this->form->getElement('postcode'); ?>
+                <?= $this->form->getElement('town'); ?>
+                <?= $this->form->getElement('street'); ?>
+                <div class="text-center">
+                    <?= $this->form->getElement('submit'); ?>
+                </div>
+            </form>
+
+            </div>
+
+        </div>
+        <!-- END OF LEFT CONTENT -->			
+
+        <!-- RIGHT CONTENT -->
+        <!-- END OF RIGHT CONTENT -->
+
+        <div class="clearfix"></div>
+    </div>
+
+
+</div>
+

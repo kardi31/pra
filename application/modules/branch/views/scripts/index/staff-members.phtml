@@ -1,0 +1,68 @@
+<?php  use Del\Icon; ?>
+<style>
+    .stars-small{
+        margin-bottom:0px;
+    }
+    .stars-small i{
+        font-size:15px;
+        line-height: 15px;
+    }
+    .meet-the-team-desc strong{
+        display:block;
+        margin-bottom:10px;
+    }
+    </style>
+<!-- TAB 2 -->
+<div id="staff-members" class="tab-pane fade">
+    <div class="tab-pane1">
+        <?php 
+            foreach($this->branch['StaffMembers'] as $key=>$staff):
+            ?>
+            <div class="col-md-4 col-xs-6 col-sm-4">
+                <?php //  $this->url(array('slug' => $staff['link']), 'domain-staff-profile'); ?>
+                <img src="<?= $staff->getPictureUrl('215x215'); ?>" />
+                    <?php // $staff->getProfilePicture('mb10 w215 img-responsive'); ?>
+                <!--<img src="http://placehold.it/215x215" style="margin-bottom:10px; "/>-->
+                <span class="staff-name-pos" style="float:left">
+                    <strong><?= $staff->getFullName(); ?></strong><br />
+                    <?= $staff['position']; ?>
+                </span>
+                        <?php // $intRating = round($staff->getRating()); ?>
+                <span class="tt" title="<?= $intRating ?> Stars" style="float:right;">
+                    <!--FEATURED REVIEW&nbsp;&nbsp;-->
+                    <span class="gold stars stars-small">
+                        <?= MF_Text::showStars($staff['rating']); ?>
+                    </span>
+                    <br />
+                    <?= $staff['active_reviews']." ".$this->translate('reviews'); ?>
+                </span>
+            <div class="clearfix"></div>
+            <br />
+                <div class="meet-the-team-desc">
+                    <?php 
+                    $description = $staff['Translation'][$this->language]['description'];
+                    if(strlen($description)){
+                        echo substr($description,0,200);
+                    }
+                    else{
+                        echo $this->translate("No description");
+                    }
+                    ?>
+    <!--<a href="/agent/<?php //  $staff->getUrl()."/".$staff->getProfileId()."/"; ?>" class="darkbronze block mt15">View full profile</a>-->
+                </div>
+            </div>
+        <?php /*if($key%3==2): ?>
+        
+        <div class="clearfix hidden-xs mt10"></div>
+        <div class="line2 hidden-xs"></div>
+        <?php endif; ?>
+        <?php if($key%2==1): ?>
+        
+        <div class="clearfix hidden-sm hidden-lg hidden-md mt10"></div>
+        <div class="line2 hidden-sm hidden-lg hidden-md"></div>
+        <?php endif; */ ?>
+        <?php endforeach; ?>
+        <div class="clearfix mt20"></div>
+        <div class="clearfix"></div>
+    </div>
+</div>

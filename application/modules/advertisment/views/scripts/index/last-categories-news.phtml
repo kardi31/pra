@@ -1,0 +1,74 @@
+<?php 
+    $bannerNames = array('first','second','third','fourth','fifth');
+$key = -1;
+    foreach($this->advertismentList as $category => $advertismentes): 
+        $advertisment = $advertismentes[0];
+        unset($advertismentes[0]);
+        $key++;
+    ?>
+<?php echo $this->action('banner-main-'.$bannerNames[$key],'index','banner'); ?>
+<div class="home-block">
+    <div class="main-title cat-<?php echo MF_Text::createSlug($category); ?>-main-title">
+                <a href="#" class="right button cat-<?php echo MF_Text::createSlug($category); ?>-box" >ZOBACZ WSZYSTKIE</a>
+                    <h2><?php echo $category; ?></h2>
+                    <span>Przegląd najciekawszych informacji</span>
+            </div>
+    
+            <div class="category-default-block paragraph-row">
+                
+                    <div class="column6">
+                            <div class="item-main">
+                                <?php if(strlen($advertisment['Translation'][$this->language]['slug'])): ?>
+                                    <div class="item-header">
+                                            <a style="position:relative" href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>" class="image-hover">
+                                                <img src="/media/photos/<?php echo $advertisment['PhotoRoot']['offset'];?>/406x250/<?php echo $advertisment['PhotoRoot']['filename'];?>" alt="" />
+                                                 <?php if(count($advertisment['Videos'])>1): ?>
+                                                    <img class="playBtn" src="/images/icon_play.png" />
+                                                <?php endif; ?>
+                                            </a>
+                                    </div>
+                                    <div class="item-content">
+                                            <div class="content-category">
+                                                    <a href="<?php echo $this->url(array('slug' => $advertisment['Category']['slug']),'domain-advertisment-category'); ?>" class="cat-<?php echo $advertisment['Category']['slug']; ?>-title"><?php echo $advertisment['Category']['title']; ?></a>
+                                            </div>
+                                            <h3><a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>"><?php echo $advertisment['Translation'][$this->language]['title']; ?></a></h3>
+                                            <p><?php echo MF_Text::truncate(strip_tags($advertisment['Translation'][$this->language]['content']),150); ?></p>
+                                            <a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>" class="read-more-link">Czytaj więcej<i class="fa fa-angle-double-right"></i></a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                    </div>
+
+                    <div class="column6 smaller-articles">
+
+                        <?php foreach($advertismentes as $advertisment): 
+                                $photoRoot = $advertisment['PhotoRoot'];
+                                ?>
+                                   <div class="item">
+                                        <div class="item-header">
+                                                <a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>" class="image-hover">
+                                                    <img src="/media/photos/<?php echo $advertisment['PhotoRoot']['offset'];?>/61x61/<?php echo $advertisment['PhotoRoot']['filename'];?>" alt="" />
+                                                </a>
+                                        </div>
+                                        <div class="item-content">
+                                                <h3><a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>"><?php echo MF_Text::truncate(strip_tags($advertisment['Translation'][$this->language]['content']),80); ?></a></h3>
+                                                <a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>" class="read-more-link">Czytaj więcej<i class="fa fa-angle-double-right"></i></a>
+                                        </div>
+                                    </div>
+
+                            <?php endforeach; ?>
+
+
+                    </div>
+
+            </div>
+
+    </div>
+<?php if($key==3): ?>
+    <?php echo $this->action('banner-main-'.$bannerNames[4],'index','banner'); ?>
+<?php endif; ?>
+<?php endforeach; ?>
+
+                        
+                        
+                        

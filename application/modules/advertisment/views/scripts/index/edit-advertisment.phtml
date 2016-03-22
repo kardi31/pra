@@ -1,0 +1,102 @@
+<link href="/plugins/dropzone/dropzone.css" type="text/css" rel="stylesheet" />
+
+<script src="/plugins/dropzone/dropzone.js"></script>
+<script src='/js/jquery.getAddress-2.0.0.js'></script>
+<script>
+    $(document).ready(function () {
+        $('#search-postcode').getAddress({
+            api_key: 's8tIYf3UyUGXSONuEUc7Vg2674',
+            button_label: 'Znajdź swój adres',
+            button_class: 'btn btn-info text-center',
+            input_label: 'Wpisz swój kod pocztowy',
+            input_class: 'form-control',
+            input_muted_style: 'color:#333;',
+            output_fields: {
+                line_1: '#street',
+                post_town: '#town',
+                postcode: '#postcode'
+            }
+        });
+        var dropzone = $(".dropzone2").dropzone({
+            url: "/plugins/dropzone/upload.php",
+            maxFiles: 4,
+            success: function (file) {
+                $('<input type="hidden" name="photos[]" value="' + file.name + '">').insertAfter(".dropzone2");
+                if (file.previewElement) {
+                    return file.previewElement.classList.add("dz-success");
+                }
+            },
+            init: function () {
+                this.on("addedfile", function (file) {
+
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement("<button>Remove file</button>");
+
+
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function (e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                         $.ajax({
+                            type: "post",
+                            dataType: "json",
+                            url: "/plugins/dropzone/delete.php",
+                            data: {filename:file.name}
+                        });
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                    });
+
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        });
+        dropzone.on('success', function () {
+            alert('tt');
+        });
+        dropzone.on("queuecomplete", function (file) {
+            alert("All files have uploaded ");
+        });
+
+    });
+</script>
+<div class="block">
+    <div class="block-title">
+        <h2>Edytuj ogłoszenie</h2>
+    </div>
+    <div class="block-content">
+        <div id="writecomment" class="add-form">
+            <h3 class="list-title">Treść ogłoszenia</h3>
+            <form action="<?= $this->form->getAction(); ?>" method="post">
+                <?= $this->form->getElement('title'); ?>
+                <?= $this->form->getElement('content'); ?>
+                <?= $this->form->getElement('price'); ?>
+
+
+                <h3 class="list-title">Dane kontaktowe</h3>
+                <?= $this->form->getElement('name'); ?>
+                <?= $this->form->getElement('email'); ?>
+                <?= $this->form->getElement('phone'); ?>
+                <div class="col-md-4"></div>
+                <div id="search-postcode" class="col-md-8 text-center"></div>
+                <div class="clearfix"></div>
+                <?= $this->form->getElement('postcode'); ?>
+                <?= $this->form->getElement('town'); ?>
+                <?= $this->form->getElement('street'); ?>
+                <div class="text-center">
+                    <?= $this->form->getElement('submit'); ?>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>

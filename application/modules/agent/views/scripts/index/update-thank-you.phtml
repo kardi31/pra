@@ -1,0 +1,34 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-add-agent'), $this->translate('Add company'));
+
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Thank you'),true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+    
+    <div class="alert alert-success" role="alert">
+                 <?= $this->translate('Thank you. Your update has been passed to the moderator. We will notify you when your changes has been approved.'); ?>
+    </div>
+    <div class="container mt25 offset-0">
+
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0">
+            <div class="padding30">
+                <a class="btn btn-success" href="<?= $this->url(array('id' => $this->id),'domain-add-agent-branch'); ?>"><i class="fa fa-plus"></i> <?= $this->translate('Add another branch'); ?></a>
+        
+            </div>
+        </div>
+        <!-- END OF LEFT CONTENT -->
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-4" >
+            <?php echo $this->action('banner-sidebar2','index','banner'); ?>
+        </div>
+        <!-- END OF RIGHT CONTENT -->
+
+
+    </div>
+
+
+</div>

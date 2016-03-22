@@ -1,0 +1,218 @@
+<?php
+    $pageString = $this->paginator->getCurrentPageNumber();
+    if($pageString==1){
+        $pageString = '';
+    }
+    $pageString = ' - '.$this->translate('page').' '.$pageString;
+
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Search').$pageString, true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+
+<script>
+    $(function(){
+        $('.counthotel2').countTo({
+		from: 1,
+		to: <?= $this->filterCount; ?>,
+		speed: 2000,
+		refreshInterval: 50,
+		onComplete: function(value) {
+			console.debug(this);
+		}
+	});
+        
+        $('#areaSearch').on('submit',function(){
+            var searchParam = $('#searchParam');
+            var searchParamVal = searchParam.val().toLowerCase();
+            var pathname = window.location.pathname;
+            var beforeLastSlash = pathname.substr(0, pathname.lastIndexOf("/"));
+            $(this).attr('action',beforeLastSlash+'/'+searchParamVal); 
+            searchParam.val('');
+        });
+        
+        
+        $('input[type="checkbox"]:checked').each(function(){
+            $(this).closest('.collapse').addClass('in');
+        });
+        
+        
+    })
+    </script>
+	<!-- CONTENT -->
+	<div class="container">
+		<div class="container pagecontainer offset-0">	
+
+                    <form method="GET" id="areaSearch">
+			<!-- FILTERS -->
+			<div class="col-md-3 filters offset-0">
+			
+				
+				<!-- TOP TIP -->
+				<div class="filtertip">
+					<div class="padding20">
+						<p class="size13"><span class="size18 bold counthotel2" data-from="0"  data-speed="2000" data-refresh-interval="50" data-to="<?= $this->filterCount; ?>"></span> <?= $this->translate('Staff members found'); ?></p>
+					</div>
+					<div class="tip-arrow"></div>
+				</div>
+				
+	
+
+	
+	
+				<div class="bookfilters hpadding20">
+					
+					
+						
+						<!-- HOTELS TAB -->
+						<div class="hotelstab2">
+                                                    
+							<span class="opensans size13"><?= $this->translate('Staff name'); ?> </span>
+							<input name="name" id="searchCompany" type="text" class="form-control" value="<?= ucwords($this->staff_name); ?>" placeholder="e.g. John Doe">
+                                                        <br />
+							<span class="opensans size13"><?= $this->translate('Company name'); ?> </span>
+							<input name="search" id="searchParam" type="text" class="form-control" value="<?= ucwords($this->agent_name); ?>" placeholder="e.g. IBM">
+							<div class="clearfix pbottom15"></div>
+							
+                                                        <div class="clearfix"></div>
+							<button type="submit" name="submit" class="btn-search3"><?= $this->translate('Search'); ?></button>
+						</div>
+						<!-- END OF HOTELS TAB -->
+						
+						
+				</div>
+				<!-- END OF BOOK FILTERS -->	
+				
+				<div class="line2"></div>
+				
+				
+				
+				<div class="line2"></div>
+				<div class="clearfix"></div>
+				<br/>
+				<br/>
+				<br/>
+				
+				
+			</div>
+			<!-- END OF FILTERS -->
+			
+			<!-- LIST CONTENT-->
+			<div class="rightcontent col-md-9 offset-0">
+			
+				<div class="hpadding20">
+					<!-- Top filters -->
+					<div class="topsortby">
+						<div class="col-md-4 offset-0">
+								
+								<div class="left mt7"><b><?= $this->translate('Sort by:'); ?></b></div>
+								
+								<div class="right wh70percent">
+									<select name="sort" class="form-control mySelectBoxClass ">
+                                                                            <option <?php echo ((isset($_GET['sort'])&&$_GET['sort']=='name_asc')||!isset($_GET['sort']))?'selected':''; ?> value="name_asc" selected><?= $this->translate('Name'); ?> A-Z</option>
+                                                                            <option <?php echo (isset($_GET['sort'])&&$_GET['sort']=='name_desc')?'selected':''; ?> value="name_desc"><?= $this->translate('Name'); ?> Z-A</option>
+                                                                        </select>
+								</div>
+
+						</div>			
+						<div class="col-md-4">
+										
+							<button type="submit" name="submit" class="btn-search4"><?= $this->translate('Search'); ?></button>
+						</div>
+						<div class="col-md-4 offset-0">
+							
+						</div>
+					</div>
+					<!-- End of topfilters-->
+				</div>
+				<!-- End of padding -->
+				
+				<br/><br/>
+				<div class="clearfix"></div>
+				
+
+				<div class="itemscontainer offset-1">
+			
+	
+                                    <?php foreach($this->paginator as $staff):
+                                        ?>
+					<div class="offset-2">
+						<div class="col-md-3 offset-0">
+							<div class="listitem2">
+								<a href="/assets/images/items/item7.jpg" data-footer="A custom footer text" data-title="A random title" data-gallery="multiimages" data-toggle="lightbox">
+                                                                    
+                                                                    <img src="<?= $staff->getPictureUrl('265x265'); ?>" alt="<?= $staff['firstname']." ".$staff['lastname']; ?>" class="img-responsive"/>
+                                                                </a>
+								<div class="liover"></div>
+							</div>
+						</div>
+						<div class="col-md-9 offset-0">
+							<div class="itemlabel3">
+								<div class="labelright">
+                                                                    <?= str_repeat('<img src="/images/star.png" alt="Star">',round($staff['rating'])); ?>
+                                                                    <?= str_repeat('<img src="/images/star-o.png" alt="Star">',5-round($staff['rating'])); ?>
+                                                                        <br/><br />
+									<span class="size11 grey"><?= $staff['active_reviews']; ?> <?= $this->translate('reviews'); ?></span><br/><br/><br/>
+									 <a class="btn-info bookbtn mt1" href="<?php $this->url(array('slug' => $staff['link']),'domain-staff-profile'); ?>" type="submit">
+                                                                             <?= $this->translate('See profile'); ?>
+                                                                         </a>	<br /><br /><br />
+                                                                        <a class="bookbtn mt1" href="<?=  $this->url(array('branch' => $staff['Branch']['office_link'],'agent' => $staff['Agent']['link'],'staff' => $staff['link']),'domain-add-review-staff'); ?>" type="submit">
+                                                                             <?= $this->translate('Rate review'); ?>
+                                                                         </a>
+								</div>
+								<div class="labelleft2">
+                                                                    
+                                                                        <img src="<?= $staff['Agent']->getLogoUrl('150x80'); ?>" class="pull-right">	
+                                                                        <a href="<?= $this->url(array('slug' => $staff['link']),'domain-staff-profile'); ?>"><strong><?= $staff->getFullName() ?></strong></a><br/><br />
+									<p class="grey">
+									<?= MF_Text::truncate($staff['Translation'][$this->language]['description']); ?>
+                                                                        </p><br/>
+                                                                        
+                                                                         <a href="<?= $this->url(array('slug' => $staff['Branch']['office_link'],'agent' => $staff['Agent']['link']),'domain-branch-details'); ?>">
+                                                                             <strong><?= $staff['Agent']['name']; ?></strong><br />
+                                                                        <i class="fa fa-map-marker"></i> <?= $staff['Branch']['address'].", ".$staff['Branch']['town'].", ".$staff['Branch']['postcode']; ?><br />
+                                                                        <?php 
+                                                                            if(strlen($staff['Branch']['phone'])){
+                                                                                echo "<strong><i class='fa fa-phone'></i> ".$staff['Branch']['phone']."</strong>";
+                                                                            }
+                                                                        ?>
+                                                                         </a>
+                                                                        <!--<i class="fa fa-map-marker"></i> <?= $branch['address'].", ".$branch['town'].", ".$branch['postcode']; ?><br />-->
+                                                                        <?php 
+//                                                                            if(strlen($branch['phone'])){
+//                                                                                echo "<strong><i class='fa fa-phone'></i> ".$branch['phone']."</strong>";
+//                                                                            }
+                                                                        ?>
+                                                                        
+									
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+					<div class="offset-2"><hr class="featurette-divider3"></div>
+					
+                                    <?php endforeach; ?>
+				
+					
+
+				</div>	
+				<!-- End of offset1-->		
+
+				<div class="hpadding20">
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'staff_pagination_control.phtml',array()); ?>	
+
+				</div>
+
+			</div>
+			<!-- END OF LIST CONTENT-->
+			
+                    </form>
+		
+
+		</div>
+		<!-- END OF container-->
+		
+	</div>
+	<!-- END OF CONTENT -->
+	

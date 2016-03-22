@@ -1,0 +1,344 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Property:
+  tableName: property_property
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    name:
+      type: string(255)
+    agent_id:
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    description: 
+      type: clob
+    agent_ref:
+      type: string(255)
+    address_1:
+      type: string(255)
+    address_2:
+      type: string(255)
+    address_3:
+      type: string(255)
+    address_4:
+      type: string(255)
+    town:
+      type: string(255)
+    postcode1:
+      type: string(255)
+    postcode2:
+      type: string(255)
+    display_address:
+      type: string(255)
+    branch_identify:
+      type: string(255)
+    status_id:
+      type: integer(4)
+    bedrooms:
+      type: integer(4)
+    bathrooms:
+      type: integer(4)
+    living_rooms:
+      type: integer(4)
+    price:
+      type: integer(20)
+    prop_sub_id:
+      type: integer(4)
+    published:
+      type: boolean
+      default: 1
+    trans_type_id:
+      type: integer(4)
+    new_home:
+      type: boolean
+      default: 0
+    slideshow:
+      type: boolean
+      default: 0
+    featured:
+      type: boolean
+      default: 0
+    gold:
+      type: boolean
+      default: 0
+    draft:
+      type: boolean
+      default: 0
+    valuation:
+      type: integer(4)
+    min_price:
+      type: integer(20)
+    chain_fee:
+      type: boolean
+      default: 0
+    lat:
+      type: string(255)
+    lng:
+      type: string(255)
+    search_price:
+      type: float(10,2)
+    expired:
+      type: boolean
+      default: 0
+    media_image_60:
+      type: string(255)
+    media_image_text_60:
+      type: string(255)
+    media_image_60:
+      type: string(255)
+    media_document_50:
+      type: string(255)
+    media_document_text_50:
+      type: string(255)
+Image:
+  tableName: property_image
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    image:
+      type: string(255)
+    order:
+      type: integer(4)
+    upload:
+      type: boolean
+      default: 0
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: Images
+      alias: Property
+      type: one
+      foreignType: many  
+FloorPlan:
+  tableName: property_floor_plan
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    floor_plan:
+      type: string(255)
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: FloorPlans
+      alias: Property
+      type: one
+      foreignType: many   
+Feature:
+  tableName: property_feature
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    feature:
+      type: string(255)
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: Features
+      alias: Property
+      type: one
+      foreignType: many  
+Let:
+  tableName: property_let
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    date_available:
+      type: timestamp
+    bond:
+      type: integer(4)
+    type_id:
+      type: integer(4)
+    furn_id:
+      type: integer(4)
+    rent_frequency:
+      type: integer(4)
+    contract_in_months:
+      type: integer(4)
+    washing_machine:
+      type: boolean
+      default: 0
+    dishwasher:
+      type: boolean
+      default: 0
+    burglar_alarm:
+      type: boolean
+      default: 0
+    bill_inc_water:
+      type: boolean
+      default: 0
+    bill_inc_gas:
+      type: boolean
+      default: 0
+    bill_inc_electricity:
+      type: boolean
+      default: 0
+    bill_inc_tv_licence:
+      type: boolean
+      default: 0
+    bill_inc_tv_subscription:
+      type: boolean
+      default: 0
+    bill_inc_internet:
+      type: boolean
+      default: 0
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: Let
+      alias: Property
+      type: one
+      foreignType: one  
+Sale:
+  tableName: property_sale
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    price_qualifier:
+      type: integer(4)
+    tenure_type_id:
+      type: integer(4)
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: Sale
+      alias: Property
+      type: one
+      foreignType: one
+Lead:
+  tableName: property_lead
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    email:
+      type: string(255)
+    tel:
+      type: string(255)
+    address:
+      type: string(255)
+    country:
+      type: string(255)
+    postcode1:
+      type: string(255)
+    postcode2:
+      type: string(255)
+    message:
+      type: clob
+    notes:
+      type: clob
+    more_details:
+      type: boolean
+      default: 0
+    view_property:
+      type: boolean
+      default: 0
+    consent_for_contact:
+      type: boolean
+      default: 0
+    send_confirmation_email:
+      type: boolean
+      default: 0
+    buyorrent:
+      type: varchar(255)
+    price:
+      type: integer(4)
+    beds:
+      type: integer(4)
+    town:
+      type: varchar(255)
+    district:
+      type: varchar(255)
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: Leads
+      alias: Property
+      type: one
+      foreignType: many  
+Alert:
+  tableName: property_alert
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    property_id:
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    email:
+      type: string(255)
+    ip:
+      type: string(255)
+    town:
+      type: string(255)
+    type:
+      type: string(255)
+    hostname:
+      type: string(255)
+  relations:
+    Property:
+      local: property_id
+      foreign: id
+      foreignAlias: Alerts
+      alias: Property
+      type: one
+      foreignType: many  

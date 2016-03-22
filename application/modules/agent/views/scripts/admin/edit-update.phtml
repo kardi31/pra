@@ -1,0 +1,176 @@
+
+<script type="text/javascript">
+$(document).ready(function() {
+   
+    
+     $('.section').hide();
+     $('.contentSection').show();
+     $('.btnList li').click(function(){
+        var rel = $(this).attr('rel');
+        $('.section').hide();
+        $('.'+rel).show();
+     });
+});
+</script>
+
+<div class="row-fluid">
+
+    <div class="span12">
+        
+        <div class="box">
+            
+            <div class="title">
+
+                <h4>
+                    <span class="icon16 icomoon-icon-pencil"></span>
+                    <span><?php echo $this->translate('Edytuj nowego agenta') ?> </span>
+                </h4>
+                
+            </div>
+            <div class="content clearfix">
+                <ul class="btnList">
+                    <li rel="contentSection"><button class="btn" type="button">Treść</button></li>
+                    <li rel="metatagSection"><button class="btn" type="button">Pokaż metatagi</button></li>
+                </ul>
+                <form class="form-horizontal" action="<?php echo $this->form->getAction() ?>" method="post" enctype="multipart/form-data">
+                    
+                    <h3>Dane uzupełniającego</h3>
+                    <?= $this->form->firstname; ?>
+                    <?= $this->form->lastname; ?>
+                    <?= $this->form->email; ?>
+                    <hr />
+                    <?= $this->form->name; ?>
+                    <?= $this->form->agent_email; ?>
+                    <hr />
+                    <h3>Oddział 1</h3>
+                    <?= $this->form->office_name; ?>
+                    <?= $this->form->address; ?>
+                    <?= $this->form->town; ?>
+                    <?= $this->form->county; ?>
+                    <?= $this->form->postcode; ?>
+                    <hr />
+                    <h4><?= $this->translate('Opening hours'); ?></h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><?= $this->translate('Opening hour'); ?></th>
+                                <th><?= $this->translate('Closing hour'); ?></th>
+                                <th><?= $this->translate('Closed'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            for($i=1;$i<=7;$i++): ?>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            <?php
+                                                if($this->language=='pl')
+                                                    echo MF_Text::polishDayOfWeek($i); 
+                                                else
+                                                    echo MF_Text::dayOfWeek($i); 
+                                            ?>
+                                        </label>
+                                    </td>
+                                    <td><?= $this->form->hoursForm->getElement('start_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $this->form->hoursForm->getElement('end_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $this->form->hoursForm->getElement('closed_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                </tr>
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+                    
+                    
+                    <ul id="myTab" class="nav nav-tabs pattern">
+                            <li class="dropdown">
+                                <?php foreach($this->languages as $key => $language): ?>
+                                <li class="<?php if($language == $this->adminLanguage->getId()): ?>active<?php endif; ?>"><a href="#dropdown<?php echo $key + 1 ?>" data-toggle="tab"><?php echo $language ?></a></li>
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
+                    
+                     <div class="tab-content">
+                    <?php  foreach($this->languages as $key => $language):  ?>
+                    <div class="tab-pane<?php if($language == $this->adminLanguage->getId()): ?> in active<?php endif; ?>" id="dropdown<?php echo $key + 1 ?>">
+                        <span class="section contentSection">
+                            <?php  if($this->form->translations->getSubForm($language)): ?>
+                                <?php echo $this->form->translations->getSubForm($language)->description->setAttrib('class', 'tinymce') ?>
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                    <?php  endforeach; ?>
+                     </div>
+                    <?= $this->form->phone; ?>
+                    <?= $this->form->facebook; ?>
+                    <?= $this->form->twitter; ?>
+                    <?= $this->form->branch_email; ?>
+                    <?php 
+                    $branchNo = 1;
+                    foreach($this->form->getSubForms() as $subForm){ 
+                        if(!$subForm->translations)
+                            continue;
+                        ?>
+                    
+                    <hr />
+                    <h3>Oddział <?= (++$branchNo); ?></h3>
+                    <?= $subForm->office_name; ?>
+                    <?= $subForm->address; ?>
+                    <?= $subForm->town; ?>
+                    <?= $subForm->county; ?>
+                    <?= $subForm->postcode; ?>
+                    
+                    <hr />
+                    <h4><?= $this->translate('Opening hours'); ?></h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><?= $this->translate('Opening hour'); ?></th>
+                                <th><?= $this->translate('Closing hour'); ?></th>
+                                <th><?= $this->translate('Closed'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i=1;$i<=7;$i++): ?>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            <?php
+                                                if($this->language=='pl')
+                                                    echo MF_Text::polishDayOfWeek($i); 
+                                                else
+                                                    echo MF_Text::dayOfWeek($i); 
+                                            ?>
+                                        </label>
+                                    </td>
+                                    <td><?= $subForm->hoursForm->getElement('start_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $subForm->hoursForm->getElement('end_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $subForm->hoursForm->getElement('closed_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                </tr>
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+                    
+                    <?= $subForm->phone; ?>
+                    <?= $subForm->facebook; ?>
+                    <?= $subForm->twitter; ?>
+                    <?= $subForm->branch_email; ?>
+                    
+                    <?php }  ?>
+                     <div class="tab-content">
+                        </div>
+                            
+                        <?php echo $this->form->id ?>
+                    <div class="form-actions">
+                        <?php echo $this->form->submit ?>
+                        <button name="save_only" id="btnSaveOnly" type="submit" class="btn btn-primary"><?php echo $this->translate('Save and stay') ?></button>
+                        <a href="<?php echo $this->adminUrl('list-category', 'agent') ?>" class="btn"><?php echo $this->translate('Cancel') ?></a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>   
+</div> 
+    

@@ -1,0 +1,379 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Review:
+  tableName: review_review
+  actAs:
+    I18n:
+      fields: [review,feedback,fee_feedback]
+      tableName: review_review_translation
+      className: ReviewTranslation
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    agent_id:
+      type: integer(11)
+    branch_id:
+      type: integer(11)
+    rating:
+      type: integer(11)
+    recommend:
+      type: bool
+      default: 0
+    review:
+      type: clob
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    phone:
+      type: string(255)
+    display_name:
+      type: string(255)
+    email:
+      type: string(255)
+    view:
+      type: boolean
+      default: 1
+    ip:
+      type: string(255)
+    hostname:
+      type: string(255)
+    feedback:
+      type: clob
+    service_date:
+      type: date
+    featured:
+      type: boolean
+      default: 0
+    activation_ip:
+      type: string(255)
+    activation_hostname:
+      type: string(255)
+    helpful:
+      type: integer(4)
+    staff:
+      type: integer(4)
+    staff2:
+      type: integer(4)
+    notes:
+      type: clob
+    fee_feedback:
+      type: clob
+    approved_by:
+      type: string(255)
+ReviewTranslation:
+  tableName: review_review_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    review:
+      type: clob
+    feedback:
+      type: clob
+    fee_feedback:
+      type: clob
+  relations:
+    Review:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Review
+      type: one
+      foreignType: many
+Files:
+  tableName: review_files
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    review_id:
+      type: integer(11)
+    src:
+      type: string(255)
+    type:
+      type: string(255)
+    ext:
+      type: string(255)
+  relations:
+    Review:
+      local: review_id
+      foreign: id
+      foreignAlias: Files
+      alias: Review
+      type: one
+      foreignType: many
+Comment:
+  tableName: review_comment
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+    I18n:
+      fields: [comment]
+      tableName: review_comment_translation
+      className: CommentTranslation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    review_id:
+      type: integer(11)
+    activation_code:
+      type: string(255)
+    name:
+      type: string(255)
+    email:
+      type: string(255)
+    comment:
+      type: clob
+    hostname:
+      type: string(255)
+    ip:
+      type: string(255)
+    view:
+      type: boolean
+      default: 1
+    approve:
+      type: boolean
+      default: 0
+    activated:
+      type: boolean
+      default: 0
+    activation_ip:
+      type: string(255)
+    activation_hostname:
+      type: string(255)
+    notes:
+      type: clob
+  relations:
+    Review:
+      local: review_id
+      foreign: id
+      foreignAlias: Comments
+      alias: Review
+      type: one
+      foreignType: many
+CommentTranslation:
+  tableName: review_comment_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    comment:
+      type: clob
+  relations:
+    Comment:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Comment
+      type: one
+      foreignType: many
+CommentFiles:
+  tableName: review_comment_files
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    comment_id:
+      type: integer(11)
+    src:
+      type: string(255)
+    type:
+      type: string(255)
+    ext:
+      type: string(255)
+  relations:
+    Comment:
+      local: comment_id
+      foreign: id
+      foreignAlias: Files
+      alias: Comment
+      type: one
+      foreignType: many
+AbuseReport:
+  tableName: review_abuse_report
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    review_id:
+      type: integer(11)
+    name:
+      type: string(255)
+    email:
+      type: string(255)
+    tel:
+      type: string(255)
+    mob:
+      type: string(255)
+    comment:
+      type: clob
+    report_date:
+      type: timestamp
+    review_id:
+      type: integer(4)
+    comment_id:
+      type: integer(4)
+    ip:
+      type: string(255)
+    archive:
+      type: boolean
+      default: 0
+  relations:
+    Review:
+      local: review_id
+      foreign: id
+      foreignAlias: AbuseReports
+      alias: Review
+      type: one
+      foreignType: many
+Temp:
+  tableName: review_temp
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    agent_id:
+      type: integer(11)
+    branch_id:
+      type: integer(11)
+    rating:
+      type: integer(11)
+    recommend:
+      type: bool
+      default: 0
+    review:
+      type: clob
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    phone:
+      type: string(255)
+    display_name:
+      type: string(255)
+    email:
+      type: string(255)
+    activated:
+      type: boolean
+      default: 0
+    ip:
+      type: string(255)
+    hostname:
+      type: string(255)
+    activation_code:
+      type: string(255)
+    feedback:
+      type: clob
+    service_date:
+      type: date
+    activation_ip:
+      type: string(255)
+    activation_hostname:
+      type: string(255)
+    staff:
+      type: integer(4)
+    staff2:
+      type: integer(4)
+    notes:
+      type: clob
+Alert:
+  tableName: review_alert
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    agent_id:
+      type: integer(11)
+    branch_id:
+      type: integer(11)
+    email:
+      type: string(255)
+AlertSend:
+  tableName: review_alert_send
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    alert_id:
+      type: integer(11)
+    review_id:
+      type: integer(11)
+    sent:
+      type: boolean
+      default: 0
+  relations:
+    Alert:
+      local: alert_id
+      foreign: id
+      foreignAlias: Alert
+      alias: Send
+      type: one
+      foreignType: many
+    Review:
+      local: review_id
+      foreign: id
+      foreignAlias: AlertsSend
+      alias: Review
+      type: one
+      foreignType: many
+RankingWeek:
+  tableName: review_ranking_week
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    review_id:
+      type: integer(11)
+    year:
+      type: integer(11)
+    week:
+      type: integer(11)
+    rank:
+      type: integer(11)
+  relations:
+    Review:
+      local: review_id
+      foreign: id
+      foreignAlias: RankingWeek
+      alias: Review
+      type: one
+      foreignType: one

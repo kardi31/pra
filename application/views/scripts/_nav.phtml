@@ -1,0 +1,146 @@
+<!-- Top wrapper -->
+<div class="navbar-wrapper2 " style="min-height:110px;">
+    <div class="container pl0 pr0">
+        <div class="uks-largest text-danger italic opensans tc">
+            <div class="pull-right tr loginlink">
+                <small><a href="/properties/home"><?= MF_View_Helper_Icon::SIGN_IN;?> Sign In / Register</a></small>
+            </div>
+            The UK's Largest Customer Review Website for the Property Industry
+        </div>
+        <div class="navbar mtnav">
+
+            <div class="container">
+                <!-- Navigation-->
+                <div class="navbar-header">
+                    <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <?= MF_View_Helper_Icon::BARS; ?>
+                    </button>
+                    <a href="/" class="navbar-brand"><img src="/img/allagents_logo.png" alt="allAgents" class="logo"/></a>
+                    <div class="review-ticker">
+                        <span>1</span>
+                        <span>1</span>
+                        <span>7</span>
+                        <span>7</span>
+                        <span>8</span>
+                        <span>5</span>
+                    </div>
+                    <div class="pull-left ml10  mt10">
+                        Reviews
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/suppliers">Write a Review</a></li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Agents <?= MF_View_Helper_Icon::CARET_DOWN ;?></a>
+                            <ul class="dropdown-menu posright-0">
+                                <li>
+                                    <div class="row dropwidth03">
+                                        <ul class="droplist col-md-12">
+                                            <li><a href="/search">Find agents</a></li>
+                                            <li><a href="/find-people">Find people</a></li>
+                                            <li><a href="/write-a-review">Write a review</a></li>
+                                            <li><a href="/compare-fees">Compare fees</a></li>
+                                            <li><a href="/top-100-rated-firms-of-the-week/">Power 100 agents</a></li>
+                                            <li><a href="/agent-support">Agent support</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="/league-tables">League Tables <?= MF_View_Helper_Icon::CARET_DOWN ;?></a>
+                            <ul class="dropdown-menu posright-0">
+                                <li>
+                                    <div class="row dropwidth01">
+                                        <ul class="droplist col-md-4">
+                                            <li class="dropdown-header">Popular Cities</li>
+                                            <li><a href="#">London</a></li>
+                                            <li><a href="#">Glasgow</a></li>
+                                            <li><a href="#">Etc</a></li>
+                                        </ul>
+                                        <ul class="droplist col-md-4">
+                                            <li class="dropdown-header">Popular Postcodes</li>
+                                            <li><a href="#">SW1</a></li>
+                                            <li><a href="#">G31</a></li>
+                                            <li><a href="#">Etc</a></li>
+                                        </ul>
+                                        <ul class="droplist col-md-4">
+                                            <li class="dropdown-header">Best Members of</li>
+                                            <li><a href="#" target="_blank">RIC</a></li>
+                                            <li><a href="#" target="_blank">TPOS</a></li>
+                                            <li><a href="#" target="_blank">SafeAgent</a></li>
+                                            <li><a href="#" target="_blank">DPS</a></li>
+                                            <li><a href="#" target="_blank">Etc</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="/">Properties <?= MF_View_Helper_Icon::CARET_DOWN ;?></a>
+                            <ul class="dropdown-menu posright-0">
+                                <li>
+                                    <div class="row dropwidth03">
+                                        <ul class="droplist col-md-12">
+                                            <li><a href="/properties/for-sale/search/area/">For sale</a></li>
+                                            <li><a href="/properties/to-rent/search/area/">To rent</a></li>
+                                            <li><a href="/contact-transparent-agent/">Arrange a valuation</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="/suppliers">Suppliers <?= MF_View_Helper_Icon::CARET_DOWN ;?></a>
+                            <ul class="dropdown-menu posright-0">
+                                <li>
+                                    <div class="row dropwidth03">
+                                        <ul class="droplist col-md-12">
+                                            <li><a href="/suppliers">Find a supplier</a></li>
+                                            <li><a href="/suppliers/add">Add a supplier</a></li>
+                                            <li><a href="/suppliers/review">Write a review</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="/jobs">Jobs <?= MF_View_Helper_Icon::CARET_DOWN ;?></a>
+                            <ul class="dropdown-menu posright-0">
+                                <li>
+                                    <div class="row dropwidth03">
+                                        <ul class="droplist col-md-12">
+                                            <li><a href="/suppliers">Find a Job</a></li>
+                                            <li><a href="/suppliers/add">Post a Job</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /Navigation-->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Top wrapper -->
+<!--<header>
+            <div class="top">
+                    <div class="container">
+                            <div class="col-12">
+                              <div class="col-2">
+                                    <div class="logo"><img src="/assets/images/swit.png" alt=""/></div>
+                              </div>
+                                    <nav id="top-menu">
+                                            <?php echo $this->partial('menu_main_tree.phtml', 'menu', array('tree' => $this->tree, 'parent' => $this->menuItem, 'language' => $this->language)) ?>
+                                            <a href="#" id="pull">Menu</a>
+                                    </nav>
+                <nav class="mobilemenu">
+                        <?php echo $this->partial('mobile_menu_main_tree.phtml', 'menu', array('tree' => $this->tree, 'parent' => $this->menuItem, 'language' => $this->language)) ?>
+                          
+                </nav>
+  
+                            </div>
+                    </div>
+            </div>
+</header>-->

@@ -1,0 +1,20 @@
+<?php if(count($this->breakingAdvertisment)>0): ?>
+<div class="breaking-advertisment">
+        <div class="the-title">
+                UWAGA WAŻNE!
+        </div>
+        <ul>
+            <?php foreach($this->breakingAdvertisment as $advertisment): ?>
+             <li>
+                     <a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>">
+                         <?php echo $advertisment['Translation'][$this->language]['title']; ?>
+                     </a>
+                 
+             </li>
+
+
+            <?php endforeach; ?>
+
+        </ul>
+</div>
+<?php endif; ?>

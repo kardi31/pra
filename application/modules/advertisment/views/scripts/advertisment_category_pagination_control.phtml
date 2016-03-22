@@ -1,0 +1,28 @@
+<?php if ($this->pageCount > 1): ?>
+<ul class="pagination right paddingbtm20">
+    <!-- Previous page link -->
+                        <?php if (isset($this->previous)): ?>
+    <li>
+                                  <a href="<?php echo $this->url(array('category' => $this->category,'page' => $this->previous), 'domain-advertisment-category-page'); ?>"><i class="fa fa-caret-left"></i></a>
+    </li>
+ <?php endif;?> 
+                          <?php foreach ($this->pagesInRange as $page): ?>
+    <li>
+                          <?php if($page!= $this->current): ?>
+                                <a class="page-numbers" href="<?php echo $this->url(array('category' => $this->category,'page' => $page), 'domain-advertisment-category-page'); ?>"><?php echo $page; ?></a>
+                          <?php else: ?>
+                             <span class="page-numbers current"><?php echo $page; ?></span>
+                          <?php endif; ?>
+    </li>
+                          <?php endforeach; ?>
+                          
+                          <?php if (isset($this->next)): ?>
+    <li>
+                                  <a href="<?php echo $this->url(array('category' => $this->category,'page' => $this->next), 'domain-advertisment-category-page'); ?>"><i class="fa fa-caret-right"></i></a>
+    </li>
+  <?php endif;?> 
+                      
+                
+    <!-- Next page link -->
+</ul>
+<?php endif; ?>

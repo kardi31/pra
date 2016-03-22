@@ -1,0 +1,20 @@
+<?php if(count($this->breakingNews)>0): ?>
+<div class="breaking-news">
+        <div class="the-title">
+                UWAGA WAŻNE!
+        </div>
+        <ul>
+            <?php foreach($this->breakingNews as $news): ?>
+             <li>
+                     <a href="<?php echo $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-news-article'); ?>">
+                         <?php echo $news['Translation'][$this->language]['title']; ?>
+                     </a>
+                 
+             </li>
+
+
+            <?php endforeach; ?>
+
+        </ul>
+</div>
+<?php endif; ?>

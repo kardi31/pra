@@ -1,0 +1,33 @@
+<?php if(isset($this->tree)): ?>
+                    <select>
+    <?php foreach($this->tree as $item): ?>
+            
+            <?php if($item['route']=="domain-seniorzy"): ?>
+                <option value="http://switkrzeszowice.pl"><?php echo $item->Translation[$this->language]->title; ?></option>
+            <?php else: ?>
+                <option value="<?php echo $this->url(array('slug' => $item['Translation'][$this->language]['slug']),$item['route']) ;?>"><?php echo $item->Translation[$this->language]->title; ?></option>
+            <?php endif; ?>
+            <?php if($item->getNode()->getChildren()):
+                ?>
+                <?php echo $this->partial('mobile_menu_main_tree.phtml', 'menu', array('subtree' => $item->getNode()->getChildren(), 'parent' => $item, 'language' => $this->language)) ?>
+            <?php 
+            endif; ?>
+        
+        <?php endforeach; ?>
+                    </select>
+    <?php elseif(isset($this->subtree)): ?>
+        <?php foreach($this->subtree as $item): ?>
+            <?php if($item->Translation[$this->language]->title): ?>
+            
+                <?php if(strpos(APPLICATION_ENV,'development')){
+                    $uri = ".swit.localhost";
+                }
+                else{
+                    $uri = ".switkrzeszowice.pl";
+                }
+                ?>
+                <option value="http://<?php echo str_replace('-','',$item->Translation[$this->language]->slug).$uri ?>"><?php echo $item->Translation[$this->language]->title; ?></option>
+                 
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>

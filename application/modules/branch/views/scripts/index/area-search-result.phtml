@@ -1,0 +1,330 @@
+<?php
+    $pageString = $this->paginator->getCurrentPageNumber();
+    if($pageString==1){
+        $pageString = '';
+    }
+    else{
+        $pageString = ' - '.$this->translate('page').' '.$pageString;
+    }
+
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Search').$pageString, true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+
+<script>
+    $(function(){
+        $('.counthotel2').countTo({
+		from: 1,
+		to: <?= $this->filterCount; ?>,
+		speed: 2000,
+		refreshInterval: 50,
+		onComplete: function(value) {
+			console.debug(this);
+		}
+	});
+        
+        $('#areaSearch').on('submit',function(){
+            var searchParam = $('#searchParam');
+            var searchParamVal = searchParam.val().toLowerCase();
+            var pathname = window.location.pathname;
+            var beforeLastSlash = pathname.substr(0, pathname.lastIndexOf("/"));
+            $(this).attr('action',beforeLastSlash+'/'+searchParamVal); 
+//            searchParam.val('');
+        });
+        
+        
+        $('input[type="checkbox"]:checked').each(function(){
+            $(this).closest('.collapse').addClass('in');
+        });
+        
+        
+    })
+    </script>
+	<!-- CONTENT -->
+	<div class="container">
+		<div class="container pagecontainer offset-0">	
+
+                    <form method="GET" id="areaSearch">
+			<!-- FILTERS -->
+			<div class="col-md-3 filters offset-0">
+			
+				
+				<!-- TOP TIP -->
+				<div class="filtertip">
+					<div class="padding20">
+						<p class="size13"><span class="size18 bold counthotel2" data-from="0"  data-speed="2000" data-refresh-interval="50" data-to="<?= $this->filterCount; ?>"></span> <?= $this->translate('Companies found'); ?></p>
+					</div>
+					<div class="tip-arrow"></div>
+				</div>
+				
+	
+
+	
+	
+				<div class="bookfilters hpadding20">
+					
+					
+						
+						<!-- HOTELS TAB -->
+						<div class="hotelstab2">
+                                                    
+							<span class="opensans size13"><?= $this->translate('Company name'); ?> </span>
+							<input name="name" id="searchCompany" type="text" class="form-control" value="<?= ucwords($this->searchName); ?>" placeholder="<?= $this->translate('e.g. Mechanic'); ?>">
+                                                        <br />
+							<span class="opensans size13"><?= $this->translate('Town, area or postcode'); ?> </span>
+							<input name="search" id="searchParam" type="text" class="form-control" value="<?= ucwords($this->searchString); ?>" placeholder="<?= $this->translate('e.g. Glasgow'); ?>">
+							<div class="clearfix pbottom15"></div>
+							
+                                                        <div class="clearfix"></div>
+							<button type="submit" name="submit" class="btn-search3"><?= $this->translate('Search'); ?></button>
+						</div>
+						<!-- END OF HOTELS TAB -->
+						
+						
+				</div>
+				<!-- END OF BOOK FILTERS -->	
+				
+				<div class="line2"></div>
+				
+				<div class="padding20title"><h3 class="opensans dark filterByHeader"><?= $this->translate('Filters'); ?></h3></div>
+				<div class="line2"></div>
+				
+				<!-- Star ratings -->	
+				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse1">
+				  <?= $this->translate('Rating'); ?> <span class="collapsearrow"></span>
+				</button>
+
+				<div id="collapse1" class="collapse in">
+					<div class="hpadding20">
+						<div class="checkbox">
+							<label>
+							  <input type="checkbox" name="rating[]" value="5" <?php echo (isset($_GET['rating'])&&in_array(5,$_GET['rating']))?'checked':''; ?>>
+                                                          <?= str_repeat('<img src="/images/star.png" alt="Star">',5); ?>
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+							  <input type="checkbox" name="rating[]" value="4" <?php echo (isset($_GET['rating'])&&in_array(4,$_GET['rating']))?'checked':''; ?>>
+                                                          <?= str_repeat('<img src="/images/star.png" alt="Star">',4); ?>
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+							  <input type="checkbox" name="rating[]" value="3" <?php echo (isset($_GET['rating'])&&in_array(3,$_GET['rating']))?'checked':''; ?>>
+                                                          <?= str_repeat('<img src="/images/star.png" alt="Star">',3); ?>
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+							  <input type="checkbox" name="rating[]" value="2" <?php echo (isset($_GET['rating'])&&in_array(2,$_GET['rating']))?'checked':''; ?>>
+                                                          <?= str_repeat('<img src="/images/star.png" alt="Star">',2); ?>
+							</label>
+						</div>
+						<div class="checkbox">
+							<label>
+							  <input type="checkbox" name="rating[]" value="1" <?php echo (isset($_GET['rating'])&&in_array(1,$_GET['rating']))?'checked':''; ?>>
+                                                          <?= str_repeat('<img src="/images/star.png" alt="Star">',1); ?>
+							</label>
+						</div>	
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<!-- End of Star ratings -->
+				
+				<div class="line2"></div>
+				
+                                <!-- Acomodations -->		
+				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse4">
+				  <?= $this->translate('Category'); ?> <span class="collapsearrow"></span>
+				</button>
+				
+				<div id="collapse4" class="collapse in">
+					<div class="hpadding20">
+                                            <?php foreach($this->categories as $mainCategory): ?>
+                                            <h5 class="filterSubheader collapsebtn" data-toggle="collapse" data-target="#subcategory_<?= $mainCategory['id']; ?>"><i class="fa fa-angle-down"></i><?= $mainCategory['Translation'][$this->language]['title']; ?></h5>
+                                                <div class="collapse" id="subcategory_<?= $mainCategory['id']; ?>">
+                                                <?php foreach($mainCategory->getNode()->getChildren() as $subcategory): ?>
+                                                    <div class="radio">
+                                                      <label>
+                                                            <input type="checkbox" name="category[]" id="" value="<?= $subcategory['id']; ?>" <?php  
+                                                            if(isset($_GET['category'])){
+                                                                if(is_array($_GET['category'])){
+                                                                    if(in_array($subcategory['id'],$_GET['category'])){
+                                                                        echo 'checked';
+                                                                    }
+                                                                }
+                                                                else{
+                                                                    if($subcategory['id']==$_GET['category'])
+                                                                        echo 'checked';
+                                                                }
+                                                            }
+                                                            ?>>
+                                                            <?= $subcategory['Translation'][$this->language]['title'] ?>
+                                                      </label>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                                </div>
+                                            <?php endforeach; ?>
+						
+					</div>	
+					<div class="clearfix"></div>					
+				</div>
+                                
+                                <div class="line2"></div>
+				
+				<!-- Acomodations -->		
+				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse3">
+				  Region <span class="collapsearrow"></span>
+				</button>
+				
+				<div id="collapse3" class="collapse in">
+					<div class="hpadding20">
+                                            <?php foreach($this->areas as $country => $countryElements): ?>
+                                            <h5 class="filterSubheader collapsebtn"  data-toggle="collapse" data-target="#subregion_<?= $country['id']; ?>"><i class="fa fa-angle-down"></i><?= $this->translate($country); ?></h5>
+                                                <div class="collapse" id="subregion_<?= $country['id']; ?>">
+                                                <?php foreach($countryElements as $region_id => $region): ?>
+                                                    <div class="radio">
+                                                      <label>
+                                                            <input type="checkbox" name="area[]" id="" value="<?= $region_id; ?>" <?php echo (isset($_GET['area'])&&in_array($region_id,$_GET['area']))?'checked':''; ?>>
+                                                            <?= $this->translate($region); ?>
+                                                      </label>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                                </div>
+                                            <?php endforeach; ?>
+						
+					</div>	
+					<div class="clearfix"></div>					
+				</div>
+				<!-- End of Acomodations -->
+				
+				<div class="line2"></div>
+				
+				
+				<div class="line2"></div>
+				<div class="clearfix"></div>
+				<br/>
+				<br/>
+				<br/>
+				
+				
+			</div>
+			<!-- END OF FILTERS -->
+			
+			<!-- LIST CONTENT-->
+			<div class="rightcontent col-md-9 offset-0">
+			
+				<div class="hpadding20">
+					<!-- Top filters -->
+					<div class="topsortby">
+						<div class="col-md-4 offset-0">
+								
+								<div class="left mt7"><b><?= $this->translate('Sort by:'); ?></b></div>
+								
+								<div class="right wh70percent">
+									<select name="sort" class="form-control mySelectBoxClass ">
+                                                                            <option <?php echo ((isset($_GET['sort'])&&$_GET['sort']=='name_asc')||!isset($_GET['sort']))?'selected':''; ?> value="name_asc" selected><?= $this->translate('Name'); ?> A-Z</option>
+                                                                            <option <?php echo (isset($_GET['sort'])&&$_GET['sort']=='name_desc')?'selected':''; ?> value="name_desc"><?= $this->translate('Name'); ?> Z-A</option>
+                                                                            <option <?php echo (isset($_GET['sort'])&&$_GET['sort']=='rating_asc')?'selected':''; ?> value="rating_asc"><?= $this->translate('Rating'); ?> 1-5</option>
+                                                                            <option <?php echo (isset($_GET['sort'])&&$_GET['sort']=='rating_desc')?'selected':''; ?> value="rating_desc"><?= $this->translate('Rating'); ?> 5-1</option>
+                                                                            <option <?php echo (isset($_GET['sort'])&&$_GET['sort']=='votes_asc')?'selected':''; ?> value="votes_asc"><?= $this->translate('Reviews no'); ?> 0-1000</option>
+                                                                            <option <?php echo (isset($_GET['sort'])&&$_GET['sort']=='votes_desc')?'selected':''; ?> value="votes_desc"><?= $this->translate('Reviews no'); ?> 1000-0</option>
+									</select>
+								</div>
+
+						</div>			
+						<div class="col-md-4">
+										
+							<button type="submit" name="submit" class="btn-search4"><?= $this->translate('Search'); ?></button>
+						</div>
+						<div class="col-md-4 offset-0">
+							
+						</div>
+					</div>
+					<!-- End of topfilters-->
+				</div>
+				<!-- End of padding -->
+				
+				<br/><br/>
+				<div class="clearfix"></div>
+				
+
+				<div class="itemscontainer offset-1">
+			
+	
+                                    <?php foreach($this->paginator as $branch): 
+                                            $url = $this->url(array('slug' => $branch['office_link'],'agent' => $branch['Agent']['link']),'domain-branch-details');
+                                            $reviewUrl = $this->url(array('branch' => $branch['office_link'],'agent' => $branch['Agent']['link']),'domain-add-review-branch');
+                                        
+                                        ?>
+					<div class="offset-2">
+						<div class="col-md-3 offset-0">
+                                                    <div class="listitem2">
+                                                        <a href="<?= $url ?>" >
+                                                            <img src="<?= $branch->getOfficeImage(); ?>" alt="<?= $branch['office_name']; ?>"/>
+                                                        </a>
+                                                    </div>
+						</div>
+						<div class="col-md-9 offset-0">
+							<div class="itemlabel3">
+								<div class="labelright">
+                                                                    <?= str_repeat('<img src="/images/star.png" alt="Star">',round($branch['rating'])); ?>
+                                                                    <?= str_repeat('<img src="/images/star-o.png" alt="Star">',5-round($branch['rating'])); ?>
+                                                                        <br/><br />
+									<span class="size11 grey"><?= $branch['votes']; ?> <?= $this->translate('reviews'); ?></span><br/><br/>><br/>
+									 <a class="btn-info bookbtn mt1" href="<?= $url ?>" type="submit">
+                                                                             <?= $this->translate('See profile'); ?>
+                                                                         </a>	<br /><br /><br />
+                                                                        <a class="bookbtn mt1" href="<?= $reviewUrl; ?>" type="submit">
+                                                                             <?= $this->translate('Rate review'); ?>
+                                                                         </a>
+								</div>
+								<div class="labelleft2">
+                                                                    
+                                                                        <?php if($branch['premium_support']) { ?>
+                                                                            <img src="<?= $branch->get('Agent')->getLogoUrl('225x90'); ?>" alt="<?= $branch['Agent']['name']; ?>" class="pull-right logo">	
+                                                                        <?php } ?>
+                                                                        <a href="<?= $url; ?>"><strong><?= $branch['Agent']['name']." - ".$branch['office_name']; ?></strong></a><br/><br />
+									<p class="grey">
+									<?= MF_Text::truncate($branch['Translation'][$this->language]['description']); ?>
+                                                                        </p><br/>
+                                                                        <i class="fa fa-map-marker"></i> <?= $branch['address'].", ".$branch['town'].", ".$branch['postcode']; ?><br />
+                                                                        <?php 
+                                                                            if(strlen($branch['phone'])){
+                                                                                echo "<strong><i class='fa fa-phone'></i> ".$branch['phone']."</strong>";
+                                                                            }
+                                                                        ?>
+                                                                        
+									
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+					<div class="offset-2"><hr class="featurette-divider3"></div>
+					
+                                    <?php endforeach; ?>
+				
+					
+
+				</div>	
+				<!-- End of offset1-->		
+
+				<div class="hpadding20">
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'area_pagination_control.phtml',array()); ?>
+
+				</div>
+
+			</div>
+			<!-- END OF LIST CONTENT-->
+			
+                    </form>
+		
+
+		</div>
+		<!-- END OF container-->
+		
+	</div>
+	<!-- END OF CONTENT -->
+	

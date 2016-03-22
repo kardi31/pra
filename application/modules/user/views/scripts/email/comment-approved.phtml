@@ -1,0 +1,4 @@
+<?= $this->translate('Your comment has just been publish. To read your comment please click the link below'); ?><br /><br />
+<a href="<?php echo $this->url(array('id' => $this->review['Review']['id']), 'domain-review'); ?>"><?php echo $this->url(array('id' => $this->comment['Review']['id']), 'domain-review'); ?></a><br /><br />
+<?= $this->translate('Kind regards'); ?>, <br />
+<?= $this->translate('Rate Pole'); ?>

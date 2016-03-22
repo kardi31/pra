@@ -1,0 +1,15 @@
+<div class="block">
+    <h2 class="list-title">Ogłoszenia o prace</h2>
+    <ul class="article-list">
+        <?php foreach($this->lastAds as $ad): ?>
+            <li>
+                <a href="<?= $this->url(array('slug' => $ad['Translation'][$this->language]['slug'],'category' => $ad['Category']['slug']),'domain-single-advertisment'); ?>">
+                    <?= $ad['Translation'][$this->language]['title']; ?>
+                </a>
+                <span class="meta-date"><?= MF_Text::timeFormat($ad['created_at'],'d/m/Y'); ?></span>
+                <a href="<?= $this->url(array('category' => $ad['Category']['slug'],'slug' => $ad['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" class="h-comment h-comment-empty"><?= $ad['Category']['title']; ?> - <?= $ad['Category']['Group']['title']; ?></a>
+            
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

@@ -1,0 +1,202 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Advertisment:
+  tableName: advertisment_advertisment
+  actAs:
+    I18n:
+      fields: [title, slug, content]
+      tableName: advertisment_advertisment_translation
+      className: AdvertismentTranslation
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    user_id:
+      type: integer(4)
+    last_user_id:
+      type: integer(4)
+    title:
+      type: string(255)
+    slug:
+      type: string(255)
+    content:
+      type: clob
+    publish:
+      type: boolean
+      default: 1
+    publish_date:
+      type: timestamp
+    photo_root_id:
+      type: integer(4)
+    metatag_id:
+      type: integer(4)
+    video_root_id:
+      type: integer(4)
+    price:
+      type: integer(4)
+    category_id:
+      type: integer(4)
+    views:
+      type: integer(11)
+    town:
+      type: string(255)
+    postcode:
+      type: string(255)
+    street:
+      type: string(255)
+    event_date:
+      type: timestamp
+    finish_date:
+      type: timestamp
+    name:
+      type: string(255)
+    email:
+      type: string(255)
+    phone:
+      type: string(255)
+    promoted:
+      type: boolean
+      default: 0
+AdvertismentTranslation:
+  tableName: advertisment_advertisment_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    slug:
+      type: string(255)
+    title:
+      type: string(255)
+    content:
+      type: clob
+  relations:
+    Advertisment:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Advertisment
+      type: one
+      foreignType: many
+Category:
+  tableName: advertisment_category
+  actAs:
+    I18n:
+      fields: [title, slug, content]
+      tableName: advertisment_category_translation
+      className: CategoryTranslation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    user_id:
+      type: integer(4)
+    group_id:
+      type: integer(4)
+    metatag_id:
+      type: integer(4)
+    last_user_id:
+      type: integer(4)
+    title:
+      type: string(255)
+    slug:
+      type: string(255)
+    content:
+      type: clob
+  relations:
+    Advertisment:
+      local: id
+      foreign: category_id
+      foreignAlias: Category
+      alias: Advertisments
+      type: many
+      foreignType: one
+CategoryTranslation:
+  tableName: advertisment_category_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    slug:
+      type: string(255)
+    title:
+      type: string(255)
+    content:
+      type: clob
+  relations:
+    Category:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Category
+      type: one
+      foreignType: many
+CategoryGroup:
+  tableName: advertisment_category_group
+  actAs:
+    I18n:
+      fields: [title, slug, content]
+      tableName: advertisment_category_group_translation
+      className: CategoryGroupTranslation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    user_id:
+      type: integer(4)
+    metatag_id:
+      type: integer(4)
+    last_user_id:
+      type: integer(4)
+    title:
+      type: string(255)
+    slug:
+      type: string(255)
+    content:
+      type: clob
+  relations:
+    Category:
+      local: id
+      foreign: group_id
+      foreignAlias: Group
+      alias: Categories
+      type: many
+      foreignType: one
+CategoryGroupTranslation:
+  tableName: advertisment_category_group_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    slug:
+      type: string(255)
+    title:
+      type: string(255)
+    content:
+      type: clob
+  relations:
+    Category:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Group
+      type: one
+      foreignType: many

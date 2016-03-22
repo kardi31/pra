@@ -1,0 +1,188 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Advertising:
+  tableName: advertising_advertising
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    name:
+      type: string(255)
+    position_id:
+      type: integer(4)
+    date_added:
+      type: timestamp
+    ad_type:
+      type: string(255)
+    source:
+      type: string(255)
+    size_id:
+      type: integer(4)
+    position_id:
+      type: integer(4)
+    alt_text:
+      type: string(255)
+    ad_link:
+      type: string(255)
+    active:
+      type: boolean
+      default: 1
+    date_from:
+      type: timestamp
+    is_sponsored:
+      type: boolean
+      default: 0
+    clicks:
+      type: integer(4)
+    archived:
+      type: boolean
+      default: 0
+AdvertisingPage:
+  tableName: advertising_advertising_page
+  actAs:
+    Timestampable: ~
+  columns:
+    page_id:
+      primary: true
+      type: integer(4)
+    ad_id:
+      primary: true
+      type: integer(4)
+Page:
+  tableName: advertising_page
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    page:
+      type: string(255)
+    value:
+      type: string(255)
+  relations:
+    Advertising:
+        refClass: AdvertisingPage
+        local: page_id
+        foreign: ad_id
+        foreignType: many
+        foreignAlias: Pages
+        alias: Ads
+Size:
+  tableName: advertising_size
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    size:
+      type: string(255)
+    value:
+      type: string(255)
+  relations:
+    Advertising:
+      local: id
+      foreign: size_id
+      foreignAlias: Size
+      alias: Advertising
+      type: many
+      foreignType: one
+Position:
+  tableName: advertising_position
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    position:
+      type: string(255)
+    value:
+      type: string(255)
+  relations:
+    Position:
+      local: id
+      foreign: position_id
+      foreignAlias: Position
+      alias: Advertising
+      type: many
+      foreignType: one
+Branch:
+  tableName: advertising_branch
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    ad_id:
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    active:
+      type: boolean(1)
+  relations:
+    Advertising:
+      local: ad_id
+      foreign: id
+      foreignAlias: Branches
+      alias: Advertising
+      type: many
+      foreignType: one
+Agent:
+  tableName: advertising_agent
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    ad_id:
+      type: integer(4)
+    agent_id:
+      type: integer(4)
+    active:
+      type: boolean(1)
+  relations:
+    Advertising:
+      local: ad_id
+      foreign: id
+      foreignAlias: Agent
+      alias: Advertising
+      type: many
+      foreignType: one
+City:
+  tableName: advertising_city
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    ad_id:
+      type: integer(4)
+    city:
+      type: string(255)
+    active:
+      type: boolean(1)
+  relations:
+    Advertising:
+      local: ad_id
+      foreign: id
+      foreignAlias: Cities
+      alias: Advertising
+      type: many
+      foreignType: one

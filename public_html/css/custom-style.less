@@ -1,0 +1,630 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22-May-2015, 09:16:57
+    Author     : Tomasz Kardas
+*/
+.team-slideshow{
+    height:200px;
+    ul{
+        position:absolute;
+        width:15000px;
+        padding-left:0px;
+
+        li{
+            width: 120px;
+            display: inline-block;
+            margin: 0px 10px;
+            vertical-align: top;
+
+            a{
+                display: block;
+                margin-bottom:5px;
+                text-align: center;
+            }
+
+            .m-staff{
+                text-align:center;
+            }
+        }
+    }
+
+}
+
+.company-ad{
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+.stars{
+    i{
+        color:gold;
+    }
+}
+
+.company-description{
+    /*margin-bottom:20px;*/
+    padding:20px;
+    
+}
+
+.underline{
+    text-decoration:underline;
+}
+
+.imageRadius{
+    border-radius:52px;
+    -moz-border-radius: 52px;
+    -webkit-border-radius: 52px;
+    -o-border-radius: 52px;
+
+    img{
+        border-radius:52px;
+        -moz-border-radius: 52px;
+        -webkit-border-radius: 52px;
+        -o-border-radius: 52px;
+    }
+}
+
+.staffPhotoMini{
+    max-height:52px;
+    max-width:52px;
+}
+
+.reviewButtons{
+    font-size:13px;
+    a{
+        font-size:13px;
+        text-decoration:underline;
+    }
+}
+
+.phoneBox{
+    height: 80px;
+    text-align: center;
+    color: #999;
+}
+
+.sidebar-opening-hours{
+    li.current{
+        font-weight: bold
+    }
+}
+
+.staff-content-wrapper{
+    margin-top:20px;
+
+    .staff-description{
+        font-size:16px;
+    }
+}
+
+
+.review_staff_list {
+    display: none;
+
+    .stars {
+        color: #f1da36;
+        text-align: left;
+        margin-bottom: 0px;
+        i {
+            font-size: 18px;
+        }
+    }
+
+    li:after, li:before {
+        display: block;
+        clear: both;
+        content: " ";
+    }
+    li {
+        background: #80A8BB none repeat scroll 0 0;
+        color: white;
+        display: block;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 35px;
+        border-right: 2px solid white;
+        position: relative;
+        margin-bottom: 2px;
+
+        img {
+            &:not(.star){
+                
+            margin-right: 10px;
+            }
+            display: block;
+            float:left;
+        }
+    }
+    li:hover {
+        background: #AB8729;
+        cursor: pointer;
+    }
+    li.selected {
+        background: #AB8729;
+    }
+    .namespan {
+        display: block;
+        margin-left: 10px;
+        float: none;
+        line-height: 20px;
+    }
+    .rating-review {
+        margin-left: 10px;
+        float: none;
+    }
+
+    .spanright {
+        margin-left: 0px;
+    }
+    .spanVotes {
+        display: block;
+        margin-left: 10px;
+        line-height: 20px;
+    }
+    ul {
+        margin-left: 0px;
+        padding-left: 0px;
+        max-height: 260px;
+        display: inline-block;
+        width: 100%;
+        overflow: auto;
+    }
+
+    button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        height: auto;
+        line-height: normal;
+        color: #000;
+    }
+
+    .noexists {
+        line-height: 20px;
+    }
+    i.fa-plus {
+        margin-top: 2px;
+    }
+    .namespan2 {
+        text-decoration: underline;
+    }
+    .namespan3 {
+        font-weight: bold;
+    }
+
+    .addnewperson {
+        display: block;
+        padding: 10px;
+    }
+
+    .newstaff {
+        background: #F0CF79;
+        color: black;
+    }
+}
+.rateRecommendRadio{
+    label{
+        display:inline-block;
+        margin: 5px 10px;
+    }
+}
+
+.filterSubheader{
+    border-bottom: 2px solid rgb(221,221,221);
+    border: 2px solid rgb(221,221,221);
+    padding:5px 2px;
+    text-align:center;
+    padding-left:20px;
+    width: 100%;
+    cursor:pointer;
+    
+    i{
+        float:right;
+        padding-right:20px;
+    }
+}
+
+.filterByHeader{
+    margin-top:0px;
+    padding-top:0px;
+}
+
+#areaSearch{
+   
+    .logo{
+        margin-left:20px;
+        margin-bottom:5px;
+        margin-right:5px;
+        min-width:150px;
+        width:150px;
+    }
+}
+
+.leagueTableWrapper{
+    h1{
+        font-size:14px;
+        margin:0px;
+        margin-top:5px;
+        
+        /*text-align: left;*/
+        padding-left: 20px;
+    }
+    
+    .lh30{    
+        line-height: 30px;
+        height: 30px;
+        display: inline-block;
+        vertical-align: top;
+        width: 60px;
+        text-align: center;
+    }
+    
+    table{
+        border:1px solid #dddddd;
+        margin-top:12px;
+        tr{
+            td{
+                border:1px solid #dddddd;
+                
+                &:nth-of-type(n+4){
+                    text-align:center;
+                }
+            }
+            th{
+                border:1px solid #dddddd;
+                &:nth-of-type(n+3){
+                    text-align:center;
+                }
+            }
+        }
+    }
+    
+    .form-row{
+        margin-top:20px;
+    }
+    
+    button{
+        margin-top:34px;
+    }
+}
+
+.smallSpaceHeader{
+    margin-top:0px;
+    font-weight:bold;
+}
+
+.homepageFeaturedList{
+    h5{
+        margin-bottom:0px;
+    }
+}
+
+.bestInTown{
+    h3{
+        margin-top:0px;
+    }
+}
+
+.dealtitle2{
+    max-width:100%;
+}
+
+.bannerHomepage{
+    .ctitle{
+        a{
+            color:#fff;
+            float:none;
+            padding-top:0px;
+            
+            img{
+                vertical-align: middle;
+                float:right;
+                margin-top:4px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.latestNews{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    div.container{
+        > div {
+            max-width: 522px;
+            margin: 0 auto;
+            background:rgba(255,255,255,0.8);
+            a{
+                display: block;
+                font-size:20px;
+                padding-bottom:10px;
+
+
+                &:hover{
+                    text-decoration:none;
+                }
+            }
+            h3{
+                margin:0px;
+                padding-top:0px;
+                display:inline-block;
+                text-decoration:underline;
+                margin-top:5px;
+                margin-bottom:10px;
+
+            }
+        }
+    }
+}
+
+a.bestFirmOfTheMonth{
+    color:#fff;
+}
+
+.custom-login-container{
+    min-height:565px;
+    
+    .login-wrap{
+        left: 0px;
+        right: 0px;
+    }
+}
+
+.cpadding20{
+    padding:20px;
+}
+
+.admin-form{
+    .form-row{
+        margin-bottom:15px;
+        
+        &:after,&:before{
+            clear:both;
+            display:block;
+            content:" ";
+        }
+    }
+    
+    .form-actions{
+        padding: 20px;
+        margin: 0;
+        background-color: #f5f5f5;
+        border-top: 1px solid #e7ecf1;
+        text-align:center;
+    }
+}
+
+.addPanelBtn{
+    margin-right:20px;
+    margin-top:-20px;
+    margin-bottom:20px;
+}
+
+.padding10{
+    padding:10px;
+}
+
+.advertismentList{
+    .advertismentCategoryList{
+        h3{
+            font-size:20px;
+            color:#000000;
+        }
+        ul{
+            padding-left:10px;
+        }
+    }
+    .black{
+        color:#000000;
+    }
+}
+
+.form-group{
+    &:after,&:before{
+        display:block;
+        content:" ";
+        clear:both;
+    }
+    margin-bottom:15px;
+}
+
+.black{
+    color:#000;
+}
+
+ul.small-padding{
+    padding-left:10px;
+}
+
+.rankingName{
+    h1{
+        *{
+            margin-bottom:0px;
+        }
+        p.size30{
+            padding: 4px 0px;
+        }
+    }
+}
+
+.detailsright.detailsright2{
+    padding-bottom:0px;
+}
+
+.navbar-brand{
+    padding-top:0px !important;
+    
+    img.logo{
+        min-width:300px;
+    }
+}
+
+.mt0{
+    margin-top:0px;
+}
+
+.tab-content3.tab-content-no-height{
+    height:auto;
+    #air{
+        height:auto;
+    }
+}
+
+.btn-search-toLeft{
+    margin-left:0px;
+}
+
+.addReviewPage{
+    h1{
+        margin:0px;
+        padding:0px;
+    }
+    
+    .sectionHeader{
+        font-weight:bold;
+        color:#333;
+        /*size16px bold dark left*/
+    }
+    
+    label{
+        float:right;
+        font-weight:normal;
+        color:#333;
+    }
+    
+    &.addUnlistedAgentPage{
+        label{
+            float:left;
+        }
+    }
+    
+    .selectBranchWrapper{
+        select{
+            margin-top:20px;
+        }
+        label{
+            margin-top:22px;
+        }
+    }
+    
+    .isRecommendedRadio{
+        div{
+            
+            label{
+                display:block;
+                float:none;
+                
+                input{
+                    margin-right:5px;
+                }
+            }
+        }
+    }
+    
+    .fa-exclamation-triangle{
+        margin-left: -30px;
+        margin-top: 2px;
+    }
+}
+.agentMainLogo{
+    margin:0px auto 10px;
+    display:block;
+}
+
+label.required:after{
+    content:" * ";
+    color:#ff0000;
+    display:inline-block;
+}
+
+#sidebar2{
+    img{
+        max-width:300px;
+        float:right;
+    }
+}
+
+ul.bcrumbs{
+    li:before{
+        content:"/ ";
+        padding-right:5px;
+    }
+}
+
+h1{
+    a,a:hover{
+       color: inherit;
+    }
+}
+
+.sidebar-opening-hours{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.btn-unlisted-company{
+    float:right;
+    margin-top:15px;
+}
+
+.addCommentWrapper{
+    .col-md-8:after{
+        display:block;
+        content:" ";
+        clear:both;
+        margin-bottom:10px;
+    }
+}
+
+
+.addCompanyCategoryList{
+    overflow-y:auto;
+    max-height:200px;
+        background: #6B6969;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    
+    div.col-md-4:nth-of-type(3n):after{
+        display:block;
+        clear:both;
+        content:" ";
+    }
+    
+    ul{
+        padding-left:0px;
+        list-style-position:inside;
+        
+        label{
+            color:#eee;
+           float:none !important; 
+           padding:2px 5px;
+           
+           input{
+               display:none;
+           }
+           
+           &:hover{
+               cursor:pointer;
+           }
+           
+           &.active{
+                background:#1F2020;
+                color:#fff;
+            }
+        }
+    }
+    
+    strong{
+            color:#eee;
+        margin-bottom:5px;
+        display:block;
+        border-bottom:1px solid #eee;
+    }
+}

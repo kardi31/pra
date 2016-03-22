@@ -1,0 +1,96 @@
+<h3 class="page-title"> <?= $this->translate('My branches'); ?> </h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="<?= $this->url(array(),'domain-account'); ?>">
+                <?= $this->translate('User panel'); ?>
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span><?= $this->translate('My branches'); ?></span>
+        </li>
+    </ul>
+</div>
+<div class="row awardRace">
+    
+    <?= MF_Text::showFormMessages(); ?>
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box green ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa-building fa "></i>
+                    <span class="caption-subject"><?= $this->translate('My branches'); ?></span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-actions top">
+                    <div class="btn-set pull-left">
+                        <a href="<?= $this->url(array('action' => 'add-branch'),'domain-account');?>" class="btn btn-success">
+                            <i class="fa fa-plus"></i>
+                            <?= $this->translate('Add branch'); ?>
+                        </a>
+                    </div>
+                    <br /><br />
+                </div>
+                <div class="table-scrollable">
+                    <table class="table">
+                        <tr>
+                            <th><?= $this->translate('Office name'); ?></th>
+                            <th><?= $this->translate('Address'); ?></th>
+                            <th><?= $this->translate('Phone'); ?></th>
+                            <th></th>
+                        </tr>
+                        <?php foreach($this->branches as $branch){ ?>
+                        <tr>
+                            <td><?= $branch['office_name']; ?></td>
+                            <td>
+                                <?php
+                                    echo $branch['address']." ".$branch['town'].", ".$branch['postcode'];
+                                ?>
+                            </td>
+                            <td>
+                                <?= $branch['phone']; ?>
+                            </td>
+                            <td>
+                                <a href="<?= $this->url(array('id' => $branch['id']), 'domain-edit-branch'); ?>" class="btn btn-primary">
+                                    <i class="fa fa-pencil"></i>
+                                    <?= $this->translate('Edit this branch'); ?>
+                                </a>
+                                &nbsp;
+                                <a href="<?= $this->url(array('id' => $branch['id']), 'domain-delete-branch'); ?>" data-text="<?= $this->translate('Are you sure you want to delete')." ".$staff['firstname']." ".$staff['lastname']; ?>?" class="confirm btn btn-danger">
+                                    <i class="fa fa-times"></i>
+                                    <?= $this->translate('Delete branch'); ?>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php } ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+<style>
+    
+/*    .awardRace .col-md-6:nth-child(odd):not(:nth-of-type(2)):after,.awardRace .col-md-6:nth-child(odd):not(:nth-of-type(2)):before{
+        display:block;
+        content:" ";
+        clear:both;
+    }*/
+    </style>
+
+    <script>
+    	$(function(){
+                
+                if(!$('.mortgageAdvisors table tr.success').length){
+                    $('.mortgageAdvisors').remove();
+                }
+    		$('.awardRace .col-md-6:nth-child(odd)').after('<div class="clearfix"></div>');
+                
+    	});
+    </script>

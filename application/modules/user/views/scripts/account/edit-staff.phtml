@@ -1,0 +1,184 @@
+<h3 class="page-title"> <?= $this->translate('Edit staff member'); ?> </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="<?= $this->url(array(),'domain-account'); ?>">
+                <?= $this->translate('User panel'); ?>
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="<?= $this->url(array('action' => 'my-staff'),'domain-account'); ?>">
+                <?= $this->translate('My branches'); ?>
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span><?= $this->translate('Edit staff member'); ?></span>
+        </li>
+    </ul>
+</div>
+<div class="row awardRace">
+    <div class="col-md-4">
+    <?= MF_Text::showFormMessages(); ?>
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box green form form-horizontal">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa-users fa "></i>
+                    <span class="caption-subject"><?= $this->translate('Edit staff member'); ?></span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                
+                <form class="admin-form"  method="post" >
+                    <div class="">
+                        <?= $this->form->agent_id; ?>
+                        <div class="clearfix"></div><br />
+
+                        <?= $this->form->firstname; ?>
+                        <?= $this->form->lastname; ?>
+                        <?= $this->form->branch_id; ?>
+                        <?= $this->form->position; ?>
+                        <?= $this->form->description; ?>
+                        <br />
+
+                        <?= $this->form->submit; ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-6">
+            <img src="<?= $this->staff->getPictureUrl('265x265'); ?>" />
+        </div>
+        <div class="col-md-6">
+            <script src="/plugins/croppic/croppic.js"></script>
+            <link rel="stylesheet" type="text/css" href="/plugins/croppic/croppic.css"/>
+
+            <div class="p20">
+
+                <div id="claim-profile" >
+                    <?php if (isset($id3) && $id3 == "wrong-extension") { ?>
+                        <p class="redbox"><strong>Wrong file extension!</strong>. We only accept .jpg and .png files.</p>
+                    <?php } ?>
+                    <div>
+                        <br /><br />
+
+                        <style>
+                            #cropContainerHeader {
+                                width: 50px;
+                                height: 70px;
+                                position:relative; /* or fixed or absolute */
+                            }
+                            #croppic2{
+                                width:265px;
+                                height:265px;
+                                position: relative;
+                                border: 3px solid #FFF;
+                                box-sizing: content-box;
+                                border-radius: 2px;
+                                background-repeat: no-repeat;
+                                background-position: center center;
+                            }
+                            label[for="photoUrl"]{
+                                font-size:20px;
+                                font-weight:bold;
+                            }
+                            #submit-upload-photo{
+                                position:relative;
+                                z-index:100000;
+
+                            }
+                        </style>
+
+                            <input type="hidden" name="photoUrl" id="photoUrl" />
+
+
+                            <br />
+                            <button type="button" class="btn btn-success" id="cropContainerHeaderButton"><?= $this->translate('Change photo'); ?></button>
+                            <input type="button" id="submit-upload-photo" class="btn btn-info" style="display:none"  value="<?= $this->translate('Confirm photo'); ?>" />
+                            <br /><br />
+
+                        <div id="croppic2"></div>
+
+                        <br />&nbsp;<br />
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    #site_activities{
+        height:450px;
+        width:100%;
+    }
+</style>
+<!--
+--><script>
+    $(function () {
+        $('#selectThisBranch').on('click', function () {
+            window.location.href = '<?= $this->url(array('action' => 'edit-staff'), 'domain-account'); ?>/' + $('#staffSelect').val();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var croppicHeaderOptions = {
+            //uploadUrl:'img_save_to_file.php',
+            cropUrl: '/plugins/croppic/img_crop_to_file.php',
+            modal: false,
+            processInline: true,
+            loaderHtml: '<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
+            onAfterImgUpload: function () {
+                $('#submit-upload-photo').show();
+                $('.cropControlReset').on('click', function () {
+                    $('#submit-upload-photo').hide();
+                });
+            },
+            onAfterImgCrop: function () {
+//                        $('#submit-upload-photo').click(function(){
+//                            $('#uploadphotoform').submit();
+//                        });
+            },
+            outputUrlId: 'photoUrl',
+            doubleZoomControls: false,
+            rotateControls: false,
+            customUploadButtonId: 'cropContainerHeaderButton',
+        }
+        var croppic = new Croppic('croppic2', croppicHeaderOptions);
+        //$('#dob').datepicker({dateFormat: 'yy-mm-dd', maxDate: '0', yearRange: '-99Y',changeYear: true});
+        $('#submit-upload-photo').click(function () {
+            croppic.crop();
+            waitForElementToDisplay('.cropControlRemoveCroppedImage', 500);
+            $(this).hide();
+        });
+        function waitForElementToDisplay(selector, time) {
+            if ($(selector).is(':visible')) {
+                $('#uploadphotoform').submit();
+            }
+            else {
+                setTimeout(function () {
+                    waitForElementToDisplay(selector, time);
+                }, time);
+            }
+        }
+
+
+
+
+    });
+</script>

@@ -1,0 +1,185 @@
+<?php
+$news = $this->article;
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-advertisment'), $this->translate('Advertisments'));
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('category' => $news['Category']['Translation'][$this->language]['slug']),'domain-advertisment-category'), $news['Category']['Group']['Translation'][$this->language]['title']." - ".$news['Category']['Translation'][$this->language]['title']);
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $news['Translation'][$this->language]['title']);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+        <div class="container mt25 offset-0">
+
+
+                <!-- CONTENT -->
+                <div class="col-md-12 pagecontainer2 offset-0">
+                        <div class="hpadding50c">
+                                <h1 class="lato size30 slim">
+               <?php echo $news['Translation'][$this->language]['title']; ?></h1>
+                                <p class="aboutarrow"></p>
+                        </div>
+                        <div class="line3"></div>
+
+                        <div class="hpadding50c">
+
+
+
+                                <!-- LEFT IMG -->
+                                <div class="col-md-8 cpdd01 grey2">
+                                    <?php 
+                                    foreach($news['Photos'] as $photo){
+                                        if(strlen($photo['filename'])){ ?>
+                                            <a href="<?= MF_Text::getPhotoUrl($photo[1]); ?>" 
+                                               class="lightview adHeaderPhoto" 
+                                               data-lightview-title="<?php echo $news['Translation'][$this->language]['title']; ?>" 
+                                               data-lightview-caption="<?php echo $news['Translation'][$this->language]['title']; ?>">		
+                                                <img src="<?= MF_Text::getPhotoUrl($photo, '160x160'); ?>" alt="<?php echo $news['Translation'][$this->language]['title']; ?>" title="<?php echo $news['Translation'][$this->language]['title']; ?>" />
+                                            </a>
+
+                                    <?php } 
+                                    }
+                                    ?>
+
+                                        <span class="grey"><?= MF_Text::timeFormat($news['created_at'], 'd/m/Y H:i'); ?> / <?= $this->translate('Author'); ?> <?= $news['name']; ?></span><br>
+                                        <div class="line4"></div>
+                                        <?php echo $news['Translation'][$this->language]['content']; ?>
+                                        <br><br>
+
+<?php echo $this->action('banner-under-news2', 'index', 'banner'); ?>
+                                </div>
+                                <!-- END OF LEFT IMG -->
+
+                                <!-- IMG RIGHT TEXT -->
+                                <div class="col-md-4 cpdd02">
+                                        <div class="opensans grey">
+                                                <span class="lato size18 dark bold"><?= $this->translate('Additional info'); ?></span><br>
+
+
+                                                <ul class="blogcat">
+                                                    <?php if(isset($news['price'])){ ?>
+                                                        <li><?= $this->translate('Price'); ?>: <b><?php echo $news['price']; ?></b></li>
+                                                    <?php } ?>
+
+                                                    <?php if(isset($news['phone'])){ ?>
+                                                        <li><?= $this->translate('Postal code'); ?>: <b><?php echo $news['postcode']; ?></b></li>
+                                                    <?php } ?>
+                                                        
+                                                    <?php if(strlen($news['town'])){ ?>
+                                                        <span><?= $this->translate('Town'); ?>: <b><?php echo $news['town']; ?></b></span>
+                                                    <?php } ?>
+                                                    <?php if(strlen($news['phone'])){ ?>
+                                                        <li><?= $this->translate('Phone'); ?>: <b><?php echo $news['phone']; ?></b></li>
+                                                    <?php } ?>
+
+                                                    <?php if(isset($news['email'])){ ?>
+                                                        <li>Email: <b><?php echo $news['email']; ?></b></li>
+                                                    <?php } ?>
+                                                </ul>
+                                                <br>
+
+                                                <span class="lato size18 dark bold"><?= $this->translate('Share'); ?></span><br><br />
+                                                 <div>
+                                                    <a href="http://www.facebook.com/sharer/sharer.php?u=<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" 
+                                                       data-url="<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" class="custom-soc icon-text ot-share">
+                                                        <img src="/assets/images/icon-facebook.png" />
+                                                    </a>
+                                                    <a href="https://twitter.com/share" data-hashtags="" 
+                                                       data-url="<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" data-via="" data-text="" class="ot-tweet custom-soc icon-text">
+                                                        <img src="/assets/images/icon-twitter.png" />
+                                                    </a>
+                                                    <a href="https://plus.google.com/share?url=<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" class="custom-soc icon-text ot-pluss">
+
+                                                        <img src="/assets/images/icon-gplus.png" />
+                                                    </a>
+                                                    <a href="http://pinterest.com/pin/create/button/?url=<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" data-url="<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" class="ot-pin custom-soc icon-text">
+
+                                                        <img src="/assets/images/icon-pin.png" />
+                                                    </a>
+                                                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>
+                                                       &amp;title=<?= $news['Translation'][$this->language]['title']; ?>" data-url="<?= $this->url(array('slug' => $news['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>" class="ot-link custom-soc icon-text">
+
+                                                        <img src="/assets/images/icon-linkedin.png" />
+                                                    </a>
+                                                </div>
+                                                <br /><br />
+                                                <div class="clearfix"></div>
+
+
+                <ul class="nav navigation-tabs3">
+                    <li class="active"><a href="#tab-newtopic" data-toggle="tab"><span class="glyphicon glyphicon-star"></span> <?= $this->translate('Featured'); ?></a></li>
+                    <li><a href="#tab-comments" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span> <?= $this->translate('Popular'); ?> </a></li>
+
+                </ul>
+
+                <div class="tab-content4">
+                    <!-- Tab 1 -->
+                    <div class="tab-pane active" id="tab-newtopic">
+                        <?php foreach($this->premiumAgents as $premiumAgent): ?>
+                            <div class="col-md-4">
+                                <a href="<?= $this->url(array('slug' => $premiumAgent['link']),'domain-agent-details'); ?>"><img alt="<?= $premiumAgent['name']; ?>" class="left mr20" src="<?= $premiumAgent->getLogoUrl('85x50'); ?>"></a>
+                            </div>
+                            <div class="col-md-8">
+                                <a class="dark" href="<?= $this->url(array('slug' => $premiumAgent['link']),'domain-agent-details'); ?>">
+                                    <b><?= $premiumAgent['name']; ?></b></a>
+                                <br>
+                                <?= str_repeat('<img src="/images/star.png" alt="Star" />',round($premiumAgent['rating'])); ?>
+                            </div>
+
+                            <div class="line4 clearfix mt10"></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <!-- End of Tab 1 -->
+
+                    <!-- Tab 2 -->
+                    <div class="tab-pane" id="tab-comments">
+                        <?php foreach($this->popularAgents as $popularAgent): ?>
+                            <div class="col-md-4">
+                                <a href="<?= $this->url(array('slug' => $popularAgent['link']),'domain-agent-details'); ?>"><img alt="<?= $popularAgent['name']; ?>" class="left mr20" src="<?= $popularAgent->getLogoUrl('85x50'); ?>"></a>
+                            </div>
+                            <div class="col-md-8">
+                                <a class="dark" href="<?= $this->url(array('slug' => $popularAgent['link']),'domain-agent-details'); ?>">
+                                    <b><?= $popularAgent['name']; ?></b></a>
+                                <br>
+                                <?= str_repeat('<img src="/images/star.png" alt="Star" />',round($popularAgent['rating'])); ?>
+                            </div>
+
+                            <div class="line4 clearfix mt10"></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <!-- End of Tab 2 -->
+
+                    <!-- Tab 3 -->
+                    <div class="tab-pane" id="tab-blogcomments">
+
+                    </div>
+                    <!-- End of Tab 3 -->
+                </div>
+
+
+
+
+
+
+
+                                        </div>
+                                </div>
+                                <!-- END OF IMG RIGHT TEXT -->
+                                <div class="clearfix"></div>
+                                <br><br>
+
+
+
+
+
+                        </div>
+
+
+
+                <div class="clearfix"></div><br><br>
+                </div>
+                <!-- END CONTENT -->			
+
+
+
+        </div>
+
+
+</div>

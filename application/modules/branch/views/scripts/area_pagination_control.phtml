@@ -1,0 +1,52 @@
+<?php if ($this->pageCount > 1):
+    
+    $queryData = $_GET;
+    ?>
+    <!-- Previous page link -->
+    <ul class="pagination right paddingbtm20">
+        
+        <?php if (isset($this->previous)):
+            $queryData['page'] = $this->previous;
+            ?>
+            <li>
+                <a href="<?= $this->url(array('page' => $this->previous),'domain-area-search')."?".urldecode(http_build_query($queryData)); ?>">«</a>
+            </li>
+        <?php else: ?>
+            <li class="disabled">
+                <a href="#">«</a>
+            </li>
+        <?php endif; 
+        
+        $pageCounter = 0;
+            foreach ($this->pagesInRange as $page):
+                
+                $pageCounter++;
+                if($pageCounter>5)
+                    break;
+                
+                $queryData['page'] = $page;
+               if ($page != $this->current): ?>
+                <li>
+                    <a href="<?= $this->url(array('page' => $page),'domain-area-search')."?".urldecode(http_build_query($queryData)); ?>"><?= $page; ?></a>
+                </li>
+            <?php else: ?>
+                <li class="active">
+                    <a href="#"><?= $page; ?></a>
+                </li>
+            <?php endif; ?>
+          <?php endforeach; ?>
+
+        <?php if (isset($this->next)):
+            
+                $queryData['page'] = $this->next;
+            ?>
+           <li>
+               <a href="<?= $this->url(array('page' => $this->next),'domain-area-search')."?".urldecode(http_build_query($queryData)); ?>">»</a>
+           </li>
+       <?php else: ?>
+           <li class="disabled">
+               <a href="#">«</a>
+           </li>
+       <?php endif; ?>
+    </ul>
+<?php endif; ?>

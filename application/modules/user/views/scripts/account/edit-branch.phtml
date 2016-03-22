@@ -1,0 +1,81 @@
+<h3 class="page-title"> <?= $this->translate('Edit branch'); ?> </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="<?= $this->url(array(),'domain-account'); ?>">
+                <?= $this->translate('User panel'); ?>
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="<?= $this->url(array('action' => 'list-branch'),'domain-account'); ?>">
+                <?= $this->translate('My branches'); ?>
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <span><?= $this->translate('Edit branch'); ?></span>
+        </li>
+    </ul>
+</div>
+<div class="row awardRace">
+    <div class="col-md-6">
+    <?= MF_Text::showFormMessages(); ?>
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box green form form-horizontal">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa-users fa "></i>
+                    <span class="caption-subject"><?= $this->translate('Edit branch'). " - " . $this->branch['office_name'] . " " . $this->branch['address'] . " " . $this->branch['town'] . ", " . $this->branch['postcode']; ?></span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                
+                <form class="admin-form"  method="post" >
+                    <div class="">
+                          <?= $this->form->agent_id; ?>
+                        <div class="clearfix"></div><br />
+
+                        <?= $this->form->office_name; ?>
+                        <?= $this->form->address; ?>
+                        <?= $this->form->town; ?>
+                        <?= $this->form->postcode; ?>
+                        <?= $this->form->county; ?>
+                        <?= $this->form->phone; ?>
+                        <?= $this->form->url; ?>
+                        <?= $this->form->facebook; ?>
+                        <?= $this->form->twitter; ?>
+                        <?= $this->form->lat; ?>
+                        <?= $this->form->lng; ?>
+                        <br />
+
+                        <?= $this->form->submit; ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#branchcustomer').validate({
+            rules: {
+                firstname: "required",
+                lastname: "required",
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                firstname: "Please type the customers first name",
+                lastname: "Please type the customers last name",
+                email: "We need the customers email."
+            }
+        });
+    });
+</script>

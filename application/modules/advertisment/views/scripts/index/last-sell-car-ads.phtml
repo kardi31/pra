@@ -1,0 +1,40 @@
+<div class="block">
+    <h2 class="list-title">Kursy walut</h2>
+<div id="cinkciarzPlWidget"></div>
+<script type="text/javascript" src="http://cinkciarz.pl/widget/cinkciarz.widget.js"></script>
+</div>
+<br />
+<div class="content-block">
+    <div class="widget">
+    <h2 class="list-title">Samochody na sprzedaż</h2>
+    <div class="widget-articles">
+    <ul >
+        <?php foreach($this->lastAds as $ad):
+            ?>
+            <li>
+                <div class="article-photo">
+                    <a href="<?= $this->url(array('category' => $ad['Category']['slug'],'slug' => $ad['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>"
+                           class="delegate">
+                            <span class="cover" style="font-size:23.333333333333332px;"><i></i>
+                                <img class="image-border" style="max-width:50px;" 
+                                     src="<?php echo (strlen($ad['Photos'][1]['filename'])?MF_Text::getPhotoUrl($ad['Photos'][1]):'/assets/images/photos/image-1.jpg'); ?>" 
+                                     alt="<?= $ad['Translation'][$this->language]['title']; ?>">
+                            </span>
+                        </a>
+                    
+                </div>
+                <div class="article-content">
+                    <a href="<?= $this->url(array('slug' => $ad['Translation'][$this->language]['slug'],'category' => $ad['Category']['slug']),'domain-single-advertisment'); ?>">
+                        <?= $ad['Translation'][$this->language]['title']; ?>
+                    </a>
+                    <span class="meta-date"><?= MF_Text::timeFormat($ad['created_at'],'d/m/Y'); ?></span>
+                    <a href="<?= $this->url(array('slug' => $ad['Translation'][$this->language]['slug'],'category' => $ad['Category']['slug']),'domain-single-advertisment'); ?>" class="h-comment h-comment-empty"><?= $ad['Category']['title']; ?> - <?= $ad['Category']['Group']['title']; ?></a>
+
+                </div>
+                
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    </div>
+    </div>
+</div>

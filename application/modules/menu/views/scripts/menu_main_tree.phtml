@@ -1,0 +1,41 @@
+<?php if(isset($this->tree)): ?>
+    <ul class="nav navbar-nav navbar-right">
+    <?php foreach($this->tree as $item): ?>
+        <li <?php if($item->getNode()->hasChildren()): ?> class="dropdown" <?php endif; ?>>
+            
+            <?php if($item->getNode()->getChildren()):  ?>
+                <a href="javascript:void(0)">
+                    <?php echo $item->Translation[$this->language]->title; ?>
+                    <i class="fa fa-angle-down" ></i>
+                </a>
+                <?php 
+                 echo $this->partial('menu_main_tree.phtml', 'menu', array('subtree' => $item->getNode()->getChildren(), 'parent' => $item, 'language' => $this->language));
+            else: ?>
+                <a href="<?php echo $this->url(array('slug' => $item['Translation'][$this->language]['slug']),$item['route']) ;?>">
+                    <?php echo $item->Translation[$this->language]->title; ?>
+                </a>
+                <?php 
+                 echo $this->partial('menu_main_tree.phtml', 'menu', array('subtree' => $item->getNode()->getChildren(), 'parent' => $item, 'language' => $this->language));
+            endif; ?>
+        </li>
+        
+        <?php endforeach; ?>
+    </ul>
+    <?php elseif(isset($this->subtree)): ?>
+        <ul class="dropdown-menu">
+        <?php foreach($this->subtree as $item): ?>
+            <?php if($item->Translation[$this->language]->title): ?>
+            <li>
+                
+                <a href="<?php echo $this->url(array('slug' => $item['Translation'][$this->language]['slug']),$item['route']) ;?>">
+                    <?php echo $item->Translation[$this->language]->title; ?>
+                </a>
+                 
+            <?php if($item->getNode()->getChildren()): 
+                 echo $this->partial('menu_main_tree.phtml', 'menu', array('subtree' => $item->getNode()->getChildren(), 'parent' => $item, 'language' => $this->language));
+            endif; ?>
+            </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>

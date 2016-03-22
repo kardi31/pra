@@ -1,0 +1,90 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Ranking'),true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+		
+		<div class="container mt25 offset-0">
+			
+			
+			<!-- CONTENT -->
+			<div class="col-md-12 pagecontainer2 offset-0">
+				<div class="hpadding50c">
+                                    <p class="lato size30 slim"><h1><?= $this->translate('Ranking of best Polish companies'); ?></h1></p>
+					<p class="aboutarrow"></p>
+				</div>
+				<div class="line3"></div>
+				
+				<div class="hpadding50c">
+					
+
+                                    
+						<span class="lato size22 dark bold block textcenter"><?= $this->translate('Browse best Polish companies by category and area'); ?></span>
+					<!-- LEFT IMG -->
+					<div class="col-md-7 cpdd01 grey2">
+						
+						<div class="line4"></div>
+                                                
+                                                <div class='col-md-12'>
+                                                    <?php foreach($this->categories as $category): ?>
+                                                    <h4><?= $category['Translation'][$this->language]['title']; ?></h4>
+                                                    <ul>
+                                                        <?php foreach($category->getNode()->getChildren() as $key => $subcategory){ 
+                                                            $area = MF_Text::getArea($key);
+                                                            ?>
+                                                            <li>
+                                                                <a href='<?= $this->url(array('category' => $subcategory['Translation'][$this->language]['slug'],'region' => MF_Text::createSlug($area)),'domain-ranking-region-category'); ?>'><?= $this->translate('Best')." ".$subcategory['Translation'][$this->language]['title']." ".$this->translate('in')." ".$area; ?></a>
+                                                            </li>
+                                                        <?php } ?>
+                                                    </ul> 
+                                                    <?php endforeach; ?>
+                                                </div>
+						
+					</div>
+					<!-- END OF LEFT IMG -->
+					
+					<!-- IMG RIGHT TEXT -->
+					<div class="col-md-5 cpdd02">
+						<div class="opensans grey">
+                                           
+                                                    <div class="line4"></div>
+                                                    <form method="POST" id='leagueTableSearch'>
+                                                        <div class="col-md-12">
+                                                            <?= $this->form->getElement('area'); ?>
+                                                        </div>
+                                                        <br />
+                                                        <div class="col-md-12">
+                                                            <?= $this->form->getElement('category_id'); ?>
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class='col-md-12 pull-right'>
+                                                            <?= $this->form->submit; ?>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </form>
+
+						</div>
+					</div>
+					<!-- END OF IMG RIGHT TEXT -->
+					<div class="clearfix"></div>
+					<br><br>
+					
+				
+
+					
+					
+				</div>
+				
+
+				
+			<div class="clearfix"></div><br><br>
+			</div>
+			<!-- END CONTENT -->			
+			
+
+			
+		</div>
+		
+		
+	</div>

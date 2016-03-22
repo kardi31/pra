@@ -1,0 +1,134 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Add branch'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+    <div class="container mt25 offset-0">
+
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0">
+
+
+            <form class="form1 box1"method="post" >
+                <div class="padding30 grey">
+
+                    <h1 class='h2 pb0 mb0 mt0'><?= $this->translate('Add another branch'); ?></h1>
+                    <hr /> <br /><br />
+                     <span class="step_wrapper" rel="1">
+                        <strong class="h3">1.<?= $this->translate('Company details'); ?></strong>
+                        <hr />
+                        <?= $this->translate('Company name')." : ".$this->update['name']; ?><br />
+                        <?= $this->translate('Number of added branches')." : ".(count($this->update['Branches'])+1); ?>
+                        <br />
+                    </span>
+                    <span class="step_wrapper" rel="2">
+                        <br />
+                        <strong class="h3">2.<?= $this->translate('Branch details'); ?></strong>
+                        <hr />
+                                <?= $this->form->office_name; ?>
+                                <?= $this->form->address; ?>
+                                <?= $this->form->town; ?>
+                                <?= $this->form->postcode; ?>
+                                <?= $this->form->county; ?>
+                                <?= $this->form->branch_email; ?>
+                                <?= $this->form->phone; ?>
+
+                         <hr />
+                        <br />
+                                <div class="col-md-12">
+                                    <h4><?= $this->translate('Opening hours'); ?></h4>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th><?= $this->translate('Opening hour'); ?></th>
+                                                <th><?= $this->translate('Closing hour'); ?></th>
+                                                <th><?= $this->translate('Closed'); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php for($i=1;$i<=7;$i++): ?>
+                                                <tr>
+                                                    <td>
+                                                        <label>
+                                                            <?php
+                                                                if($this->language=='pl')
+                                                                    echo MF_Text::polishDayOfWeek($i); 
+                                                                else
+                                                                    echo MF_Text::dayOfWeek($i); 
+                                                            ?>
+                                                        </label>
+                                                    </td>
+                                                    <td><?= $this->form->hoursForm->getElement('start_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                                    <td><?= $this->form->hoursForm->getElement('end_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                                    <td><?= $this->form->hoursForm->getElement('closed_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                                </tr>
+                                            <?php endfor; ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                    </span>
+                    <span class="step_wrapper" rel="3">
+                        <br />
+                        <strong class="h3">3.<?= $this->translate('Your details'); ?></strong>
+                        <hr />
+                        <?= $this->translate('Your details will not be published. We gather them only for moderation purposes.'); ?>
+                                <br /><br />
+                        <?= $this->translate('Your name')." : ".$this->update->firstname." ".$this->update->lastname; ?><br />
+                                <?= $this->translate('Your email')." : ".$this->update->email; ?>
+                        <br /><br />
+                        
+<br />
+
+                    </span>
+                    
+                    <?= $this->form->submit; ?>
+
+
+                </div>
+
+            </form>
+        </div>
+        <!-- END OF LEFT CONTENT -->
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-4" >
+            <?php echo $this->action('banner-sidebar2','index','banner'); ?>
+        </div>
+        <!-- END OF RIGHT CONTENT -->
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+    $(function(){
+        $('input.closed').on('click',function(){
+            var tr = $(this).closest('tr');
+            var inputs = tr.find('select');
+            if($(this).is(':checked')){
+                inputs.attr('disabled','disabled');
+            }
+            else{
+                inputs.removeAttr('disabled');
+            }
+        });
+        
+        $('input.closed').each(function(){
+            var tr = $(this).closest('tr');
+            var inputs = tr.find('select');
+            if($(this).is(':checked')){
+                inputs.attr('disabled','disabled');
+            }
+            else{
+                inputs.removeAttr('disabled');
+            }
+        });
+    });
+</script>

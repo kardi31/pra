@@ -1,0 +1,153 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('News'),true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+    <div class="container mt25 offset-0">
+        <div class="col-md-12 pagecontainer2 offset-0">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('News'); ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+
+            <div class="hpadding50c">
+
+
+
+                <!-- LEFT IMG -->
+                <div class="col-md-8 cpdd01 grey2">
+                    
+                    <?php foreach($this->paginator as $news): 
+                        $photo = $news['PhotoRoot'];
+                        ?>
+                    <div class="abover">
+                            <a href="<?php echo $this->url(array('slug' => $news['Translation'][$this->language]['slug']), 'domain-news-article'); ?>" >
+                                <img src="<?= MF_Text::getPhotoUrl($photo, '677x200'); ?>" class="fwimg" alt="<?php echo $news['Translation'][$this->language]['title']; ?>">
+                            </a>
+                        
+                        
+                    </div><br>
+
+                    <span class="lato size22 dark bold"><?php echo $news['Translation'][$this->language]['title']; ?></span><br>
+                    <span class="grey">
+                        <?php
+                        if($this->language=='pl'){
+                            echo MF_Text::polishTimeFormat($news['publish_date']);
+                        }
+                        else{
+                            echo MF_Text::timeFormat($news['publish_date'],'d M y');
+                        }
+                        ?>
+                        /
+                        <a href="<?php echo $this->url(array('slug' => $news['Translation'][$this->language]['slug']), 'domain-news-article'); ?>#comment"><?= $this->translate('Comments'); ?>: <?= count($news['Comments']); ?></a> / <?= $this->translate('Author').": ".$news['UserCreated']['first_name']." ".$news['UserCreated']['last_name']; ?> </span><br>
+                        <div class="line4"></div>
+                            <?= MF_Text::truncate($news['Translation'][$this->language]['content'],400); ?>
+                    <br><br>
+                    <a href="<?php echo $this->url(array('slug' => $news['Translation'][$this->language]['slug']), 'domain-news-article'); ?>"  type="submit" class="btn-search5"><?= $this->translate('See full article'); ?> <span class="glyphicon glyphicon-arrow-right"></span></a>
+                    <br><br>
+                      <div class="line4"></div>
+                    <?php endforeach; ?>
+
+
+                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'news_pagination_control.phtml'); ?>
+                </div>
+                <!-- END OF LEFT IMG -->
+
+                <!-- IMG RIGHT TEXT -->
+                <div class="col-md-4 cpdd02">
+                    <div class="opensans grey">
+                        <h2 class="lato size18 dark bold"><?= $this->translate('Popular articles'); ?></h2><br>
+
+                        <ul class="blogcat">
+                            <?php foreach($this->popularArticles as $popularArticle): ?>
+                                <li>
+                                    <a href="<?php echo $this->url(array('slug' => $popularArticle['Translation'][$this->language]['slug']), 'domain-news-article'); ?>">
+                                        <?= MF_Text::truncate($popularArticle['Translation'][$this->language]['title'],40); ?>
+                                    </a> 
+                                    <span class="badge2 pull-right indent0"><i class="fa fa-comment"></i> <?= count($popularArticle['Comments']); ?></span></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <br>
+
+
+                        <!-- Nav tabs -->
+                        <ul class="nav navigation-tabs3">
+                            <li class="active"><a href="#tab-newtopic" data-toggle="tab"><span class="glyphicon glyphicon-star"></span> <?= $this->translate('Featured'); ?></a></li>
+                            <li><a href="#tab-comments" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span> <?= $this->translate('Popular'); ?> </a></li>
+
+                        </ul>
+
+                        <div class="tab-content4">
+                            <!-- Tab 1 -->
+                            <div class="tab-pane active" id="tab-newtopic">
+                                <?php foreach($this->premiumAgents as $premiumAgent): ?>
+                                    <div class="col-md-4">
+                                        <a href="<?= $this->url(array('slug' => $premiumAgent['link']),'domain-agent-details'); ?>"><img alt="<?= $premiumAgent['name']; ?>" class="left mr20" src="<?= $premiumAgent->getLogoUrl('85x50'); ?>"></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a class="dark" href="<?= $this->url(array('slug' => $premiumAgent['link']),'domain-agent-details'); ?>">
+                                            <b><?= $premiumAgent['name']; ?></b></a>
+                                        <br>
+                                        <?= str_repeat('<img src="/images/star.png" alt="Star" />',round($premiumAgent['rating'])); ?>
+                                    </div>
+                                
+                                    <div class="line4 clearfix mt10"></div>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- End of Tab 1 -->
+
+                            <!-- Tab 2 -->
+                            <div class="tab-pane" id="tab-comments">
+                                <?php foreach($this->popularAgents as $popularAgent): ?>
+                                    <div class="col-md-4">
+                                        <a href="<?= $this->url(array('slug' => $popularAgent['link']),'domain-agent-details'); ?>"><img alt="<?= $popularAgent['name']; ?>" class="left mr20" src="<?= $popularAgent->getLogoUrl('85x50'); ?>"></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a class="dark" href="<?= $this->url(array('slug' => $popularAgent['link']),'domain-agent-details'); ?>">
+                                            <b><?= $popularAgent['name']; ?></b></a>
+                                        <br>
+                                        <?= str_repeat('<img src="/images/star.png" alt="Star" />',round($popularAgent['rating'])); ?>
+                                    </div>
+                                
+                                    <div class="line4 clearfix mt10"></div>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- End of Tab 2 -->
+
+                            <!-- Tab 3 -->
+                            <div class="tab-pane" id="tab-blogcomments">
+
+                            </div>
+                            <!-- End of Tab 3 -->
+                        </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+                <!-- END OF IMG RIGHT TEXT -->
+                <div class="clearfix"></div>
+                <br><br>
+
+
+
+
+
+            </div>
+
+
+
+            <div class="clearfix"></div><br><br>
+        </div>
+        <!-- END CONTENT -->			
+
+
+
+    </div>
+
+
+</div>

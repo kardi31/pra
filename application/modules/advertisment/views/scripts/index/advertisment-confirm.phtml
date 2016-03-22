@@ -1,0 +1,39 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Advertisment added'), true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+
+    <div class="container mt25 offset-0 advertismentList">
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0 advertismentCategoryList">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Advertisment added'); ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+            <div class="padding30 grey">
+                <div class="block-title">
+                    <h2><?= $this->translate('Thank you for adding your advertisment'); ?></h2>
+                </div>
+                <div class="block-content">
+                    <?= $this->translate('Your advertisment has been passed to the moderator. It will appear on the website shortly.'); ?>
+                    
+                </div>
+
+            </div>
+
+        </div>
+        <!-- END OF LEFT CONTENT -->			
+
+        <!-- RIGHT CONTENT -->
+
+        <!-- END OF RIGHT CONTENT -->
+
+        <div class="clearfix"></div>
+    </div>
+
+
+</div>

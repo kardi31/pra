@@ -1,0 +1,30 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Awards'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+    <div class="container mt25 offset-0">
+        <div class="col-md-12 pagecontainer2 offset-0">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Awards'); ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+            <div class="hpadding50c">
+                <div class="col-md-6">
+                    <?= $this->translate('Each year Rate Pole is running awards scheme. We award best companies, best branches and best staff members. The awards scheme is completely FREE. Every company, branch and staff member listed on our site is automatically entered into award race.'); ?>
+                    <br /><br />
+                    <?= $this->translate('Gather customer reviews from 1st of January to 31st December and compete for our awards. We launch national awards, regional awards (town, district) and category awards(e.g. Best architect, best mechanic. Every participant must reach a minimum of 4 reviews with an average rating of 3.5 to qualify.'); ?>
+                </div>
+                <div class="col-md-6">
+                    <img src="/images/awards_example.png" alt="<?= $this->translate('Rate Pole Awards'); ?>" class="img-responsive" />
+                </div>
+                <!-- END OF IMG RIGHT TEXT -->
+                <div class="clearfix"></div>
+                <br><br>
+            </div>
+            <div class="clearfix"></div><br><br>
+        </div>
+        <!-- END CONTENT -->	
+    </div>
+</div>

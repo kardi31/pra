@@ -1,0 +1,120 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Job:
+  tableName: job_job
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    agent_id:
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    category:
+      type: integer(4)
+    title:
+      type: string(255)
+    salary:
+      type: integer(11)
+    short_description:
+      type: clob
+    long_description:
+      type: clob
+    full_time:
+      type: boolean
+      default: 0
+    permanent:
+      type: boolean
+      default: 0
+    keywords:
+      type: string(255)
+    location:
+      type: integer(4)
+    salary_text:
+      type: string(255)
+Application:
+  tableName: job_application
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    job_id:
+      type: integer(4)
+    email:
+      type: string(255)
+    status:
+      type: integer(4)
+    cv:
+      type: string(255)
+    cover:
+      type: string(255)
+    letter:
+      type: clob
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    address:
+      type: string(255)
+    tel:
+      type: string(255)
+    mob:
+      type: string(255)
+    availability:
+      type: string(255)
+    expectation:
+      type: string(255)
+    distance:
+      type: string(255)
+  relations:
+    Job:
+      local: job_id
+      foreign: id
+      foreignAlias: Applications
+      alias: Job
+      type: one
+      foreignType: many
+Unverified:
+  tableName: job_unverified
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    agent_id:
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    category:
+      type: integer(4)
+    title:
+      type: string(255)
+    salary:
+      type: integer(11)
+    short_description:
+      type: clob
+    long_description:
+      type: clob
+    full_time:
+      type: boolean
+      default: 0
+    permanent:
+      type: boolean
+      default: 0
+    keywords:
+      type: string(255)
+    location:
+      type: integer(4)
+    salary_text:
+      type: string(255)

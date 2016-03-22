@@ -1,0 +1,149 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-ranking'), $this->translate('Ranking'));
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('category' => $this->category['Translation'][$this->language]['slug']),'domain-ranking-category'), $this->category['Translation'][$this->language]['title']);
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', ucwords($this->region), true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container leagueTableWrapper">
+
+    <div class="container pagecontainer offset-0">
+        <div class="rightcontent col-md-12 offset-0">
+            <div class="filtertip mb15 col-md-3 rankingName">
+                <div class="padding10">
+
+                    <h1 class="">
+                        <?php if($this->region){ ?>
+                            <p class="size17"><?= $this->translate('Best'); ?> <strong class="underline"><?= $this->category['Translation'][$this->language]['title']; ?></strong> <?= $this->translate('in'); ?></p>
+                            <p class="size30 bold"><?= ucwords($this->region); ?></p>
+                            <p class="size17"><?= $this->translate('according to the customers'); ?></p>
+                        <?php } else { ?>
+                            <p class="size17"><?= $this->translate('Best'); ?></p>
+                            <p class="size30 bold"><?= $this->category['Translation'][$this->language]['title']; ?></p>
+                            <p class="size17"><?= $this->translate('according to the customers'); ?></p>
+                        <?php } ?>
+
+                    </h1>
+                </div>
+            </div>
+            <div class="filtertip mb15 col-md-2" style=""></div>
+            <div class="filtertip mb15 col-md-7" style="">
+                <form method="POST" id='leagueTableSearch'>
+                    <div class="col-md-5">
+                        <?= $this->form->getElement('area'); ?>
+                    </div>
+                    <div class="col-md-5">
+                        <?= $this->form->getElement('category_id'); ?>
+                        &nbsp;
+                    </div>
+                    <div class='col-md-2'>
+                        <?= $this->form->submit; ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+
+
+
+            <div class="clearfix"></div>
+
+
+            <div class="itemscontainer offset-1">
+
+
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="2"><?= $this->translate('Company'); ?></th>
+                            <th><?= $this->translate('Points'); ?></th>
+                            <th><?= $this->translate('Reviews'); ?></th>
+                            <th><?= $this->translate('Rating'); ?></th>
+                            <th><?= $this->translate('Overall ranking'); ?></th>
+                        </tr>
+                    </thead>
+
+
+
+
+                    <tbody>
+                        <?php foreach($this->branches as $key => $branch): 
+                            if($key==3||$key==9||$key==14){
+                                if($key==3)
+                                    $adNumber = '';
+                                elseif($key==9)
+                                    $adNumber = 2;
+                                else
+                                    $adNumber = 3;
+                                echo '<tr><td colspan="7" class="text-center">'.$this->action('banner-under-news'.$adNumber,'index','banner').'</td></tr>';
+                            }
+                            
+                            ?>
+                        <tr>
+                            <td>
+                                <p class="h4"><?= $key+1; ?></p>
+                            </td>
+                            <td>
+                                <img src="<?= $branch->get('Agent')->getLogoUrl('150x60'); ?>" alt="<?= $branch['Agent']['name']; ?>">
+                                <br />
+                                <span class="stars">
+                                    <?= str_repeat('<img src="/images/star.png" alt="Star">',round($branch['rating'])); ?>       
+                                </span>	
+                            </td>
+                            <td>
+                                <strong>
+                                    <a href="/view-branch/aldreds-estate-agents/stalham/">
+                                        <?= $branch['Agent']['name']; ?><br> 
+                                        <?= $branch['office_name']; ?>
+                                    </a>
+                                </strong>
+                                <br><strong><i class="fa fa-map-marker"></i></strong> <?= $branch['address']; ?>,
+                                <?= $branch['town']; ?> <?= $branch['postcode']; ?> 
+                                <br>
+                                <strong><i class="fa fa-phone"></i></strong> <?= $branch['phone']; ?> <br>
+                                <a style="color:blue;" href="/view-branch/aldreds-estate-agents/stalham/#contactAgent">
+                                    <?= $this->translate('Contact Branch'); ?>
+                                </a> <br>
+                            </td>
+
+                            <td><?= round($branch['rating']*$branch['votes'],2); ?></td>
+                            <td><?= $branch['votes']; ?></td>
+                            <td><?= $branch['rating']; ?></td>
+                            <td><?= $branch['rank']; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+
+                <!-- Cruise -->
+
+                <div class="clearfix"></div>
+
+                <div class="offset-2"><hr class="featurette-divider3"></div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#leagueTableSearch').on('submit',function(){
+            alert('126');
+            var area = $('#area').val();
+            var category = $('#category_id').val();
+            
+            if(area.length){
+                window.location.href = '/ranking/'+category+'/'+area;
+            }
+            else{
+                window.location.href = '/ranking/'+category;
+            }
+            return false;
+        });
+    });
+</script>

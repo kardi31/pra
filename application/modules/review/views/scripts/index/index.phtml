@@ -1,0 +1,161 @@
+<?php
+$branch = $this->branch;
+$agent = $this->agent;
+$review = $this->review;
+?>
+
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('slug' => $agent['link']),'domain-agent-details'), $agent['name']);
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $branch['office_name'], true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+
+
+
+<div class="container companyBranchDetails">
+    <div class="container pagecontainer offset-0">	
+
+        <!-- SLIDER -->
+        
+        <div class="col-md-12 details-slider">
+                <h1 class="h2 padding20"><?php
+                echo $this->translate('Review of company ')." ";
+                if(count($agent['Branches'])>1){
+                    echo "<a href='".$this->url(array('slug' => $agent['link']),'domain-agent-details')."'>".$agent['name']."</a><br /> ".$branch['office_name']; 
+                }
+                else{
+                    echo $agent['name']." ".$branch['office_name']; 
+                }
+                ?></h1>
+        </div>
+            <div class="line3"></div>
+        <div class="clearfix"></div>
+        <div class="col-md-8 details-slider">
+            <div class="company-description">
+                
+
+    <?= $this->partial('index/show-review.phtml','review',array('review' => $review,'language' => $this->language,'showFull' => true)); ?>
+                <?php if(count($this->comments)>0){ ?>
+                    <h2 class="h3"><?= $this->translate('Comments'); ?></h2>
+                    <?php foreach($this->comments as $comment){ ?>
+                    <hr />
+                   
+<div class="hpadding10" data-id='<?= $comment['id']; ?>'>					
+    <div class="col-md-4 offset-0 center">
+        <div class="padding10">
+            <div class="bordertype5">
+                <div class='clearfix'></div>
+                <span class="dark"><?= $this->translate('author'); ?>: <?= $comment['name']; ?></span>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-8 offset-0">
+        <div class="padding10">
+
+            <span class="opensans size13 lgrey"><i class='fa fa-calendar'></i> <?= $this->translate('Posted'); ?> - <?= MF_Text::timeFormat($review['created_at'], 'd/m/Y'); ?></span><br/>
+            <br />
+            <?php
+                 echo $comment['Translation'][$this->language]['comment'];
+                
+            ?>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+                    
+                    <?php } ?>
+                <?php } ?>
+            </div>
+            
+
+
+        </div>
+        <div class="col-md-4 detailsright detailsright2 offset-0">
+            <div class="padding20">
+                <h3><?php
+                
+                if(count($agent['Branches'])>1){
+                    echo "<a href='".$this->url(array('slug' => $agent['link']),'domain-agent-details')."'>".$agent['name']."</a> ".$branch['office_name']; 
+                }
+                else{
+                    echo $agent['name']." ".$branch['office_name']; 
+                }
+                ?></h3>
+                <span class="stars">
+                    <?= str_repeat('<img src="/images/star.png">',round($branch['rating'])); ?>
+                </span>
+            </div>
+        
+            
+            <div class="line3"></div>
+            
+            
+            
+        <!-- END OF SLIDER -->			
+
+        <!-- RIGHT INFO -->
+
+            <div class="col-md-6 bordertype1 padding20">
+                <span class="opensans size30 bold grey2"><?= ($branch['customer_satisfaction']*100); ?>%</span><br/>
+                <?= $this->translate('of customers'); ?><br/><?= $this->translate('recommends'); ?>
+            </div>
+            <div class="col-md-6 bordertype2 padding20">
+                <span class="opensans size30 bold grey2"><?= $branch['rating']; ?></span>/5<br/>
+                <?= $this->translate('customers ratings'); ?>
+            </div>
+           
+            <div class="col-md-6 bordertype3">
+                <?= $branch['votes']; ?> <?= $this->translate('reviews'); ?>
+            </div>
+            <div class="col-md-6 bordertype3">
+                <a href="#" class="grey underline"><?= $this->translate('Edit details'); ?></a>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+            <div class="line3"></div>
+        <div class="clearfix"></div>
+        <div class="padding20 addCommentWrapper">
+        <h2><?= $this->translate('Reply to this review'); ?></h2>
+        <hr />
+        <form method="POST">
+            <div class="col-md-4 col-xs-12">
+                <label for="name">
+                    <span><?= $this->translate('Your name'); ?></span><span class="red">*</span>
+                </label>
+            </div>
+            <div class="col-md-8 col-xs-12">
+                <?= $this->form->name; ?>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <label for="email">
+                    <span><?= $this->translate('Your email'); ?> (<?= $this->translate('not displayed'); ?>)</span><span class="red">*</span>
+                </label>
+            </div>
+            <div class="col-md-8 col-xs-12">
+                <?= $this->form->email; ?>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <label for="comment">
+                    <span><?= $this->translate('Your comment'); ?></span><span class="red">*</span>
+                </label>
+            </div>
+            <div class="col-md-8 col-xs-12">
+                <?= $this->form->comment; ?>
+            </div>
+        <?php
+        echo $this->form->submit;
+        ?>
+        </form>
+        </div>
+        <!-- END OF RIGHT INFO -->
+
+    </div>
+    <!-- END OF container-->
+
+
+
+
+</div>

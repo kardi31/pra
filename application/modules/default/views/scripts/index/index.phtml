@@ -1,0 +1,394 @@
+
+	<!-- WRAP -->
+	<div class="wrap cstyle03">
+		
+		<div class="container mt-200 z-index100">		
+		  <div class="row">
+			<div class="col-md-4">
+				<div class="bs-example bs-example-tabs cstyle04">
+				
+					<ul class="nav nav-tabs" id="myTab">
+                                            <li class="active"><a data-toggle="tab" href="#air"><i class='fa fa-search'></i> <?= $this->translate('Find company'); ?></a></li>
+						<li class=""><a data-toggle="tab" href="#hotel"><i class="fa fa-pencil"></i> <?= $this->translate('Write review'); ?></a></li>
+					</ul>
+					
+					<div class="tab-content3" id="myTabContent">
+						<div id="air" class="tab-pane fade active in">
+                                                    
+                                                    <form method='GET' action='<?= $this->url(array(),'domain-area-search');?>'>
+                                                        <?= $this->form->area; ?>
+                                                    <br />
+							<?= $this->form->category_id; ?>
+                                                    <br />
+                                                        <?= $this->form->name; ?>
+                                                    </form>
+							
+						</div>
+						<!--End of 1st tab -->
+						
+						<div id="hotel" class="tab-pane fade">
+                                                    <span class='size16'><?= $this->translate('Select company that you want to review'); ?></span>
+                                                    <br /><br />
+                                                    <form method='GET' action='<?= $this->url(array(),'domain-rate-review');?>'>
+                                                        <?= $this->form2->getElement('agent_name'); ?>
+                                                    </form>
+						</div>
+						<!--End of 2nd tab -->
+						
+					</div>
+					
+						<div class="searchbg">
+                                                    <button type="submit" id='searchHomepage' class="btn-search"><?= $this->translate('Search'); ?></button>
+						</div>
+						
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="shadow cstyle05">
+					<div class="fwi one"><img src="http://st.depositphotos.com/1743476/2446/i/450/depositphotos_24462043-Business-vision.jpg" alt="<?= $this->translate('Find specialist'); ?>" />
+                                </div>
+					<div class="ctitle">
+                                            <?= $this->translate('Find your specialist'); ?>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 bannerHomepage">
+				<div class="shadow cstyle05">
+					<div class="fwi one">
+                                            <img src="/media/attachments/<?= $this->banner['AttachmentRoot']['filename']; ?>" alt="<?= $this->banner['Translation'][$this->language]['name']; ?>" />
+                                        </div>
+					<div class="ctitle">
+                                            <a href="<?= $this->banner['website']; ?>">
+                                                <?= $this->banner['Translation'][$this->language]['name']; ?> 
+                                                <img src="/assets/images/spacer.png" alt="<?= $this->translate('Visit website'); ?>"/>
+                                            </a>
+					</div>
+				</div>			
+			</div>
+		  </div>
+		</div>
+		
+		<div class="deals3">
+			<div class="container">	
+				<div class="row">
+					<div class="col-md-4 bestInTown">
+						<h3 class="dtitle"><?= $this->translate('Best companies in')." ".$this->userTown; ?></h3>
+                                                <?php foreach($this->bestTownBranches as $townCompany): ?>
+						<div class="deal">
+							<a href="<?= $this->url(array('agent' => $townCompany['Agent']['link'],'slug' => $townCompany['office_link']),'domain-branch-details'); ?>">
+                                                            <img src="<?= $townCompany->get('Agent')->getLogoUrl('85x50'); ?>" alt="" class="dealthumb"/>
+                                                        </a>
+							<div class="dealtitle dealtitle2">
+								<p><a href="<?= $this->url(array('agent' => $townCompany['Agent']['link'],'slug' => $townCompany['office_link']),'domain-branch-details'); ?>" class="dark">
+                                                            <?= MF_Text::truncate($townCompany['Agent']['name']." - ".$townCompany['office_name'],40); ?></a></p>
+                                                                <?php MF_Text::showStars($townCompany['rating']); ?>
+							</div>				
+						</div>
+                                                <?php endforeach; ?>
+					</div>
+					<!-- End of first row-->
+					
+					<div class="col-md-4 bestInTown">
+						<h3 class="dtitle"><?= $this->translate('Best companies')." - ".$this->category['Translation'][$this->language]['title']; ?></h3>		
+						<?php foreach($this->categoryBranches as $townCompany): ?>
+						<div class="deal">
+							<a href="<?= $this->url(array('agent' => $townCompany['Agent']['link'],'slug' => $townCompany['office_link']),'domain-branch-details'); ?>">
+                                                            <img src="<?= $townCompany->get('Agent')->getLogoUrl('85x50'); ?>" alt="" class="dealthumb"/>
+                                                        </a>
+							<div class="dealtitle dealtitle2">
+								<p><a href="<?= $this->url(array('agent' => $townCompany['Agent']['link'],'slug' => $townCompany['office_link']),'domain-branch-details'); ?>" class="dark">
+                                                                <?= MF_Text::truncate($townCompany['Agent']['name']." - ".$townCompany['office_name'],40); ?></a></p>
+								<?php MF_Text::showStars($townCompany['rating']); ?>
+							</div>				
+						</div>
+                                                <?php endforeach; ?>			
+					</div>
+					<!-- End of first row-->
+					
+					
+					<div class="col-md-4 bestInTown">
+						<h3 class="dtitle"><?= $this->translate('Recently added companies'); ?></h3>		
+						<?php foreach($this->newestBranches as $townCompany): ?>
+						<div class="deal">
+							<a href="<?= $this->url(array('agent' => $townCompany['Agent']['link'],'slug' => $townCompany['office_link']),'domain-branch-details'); ?>">
+                                                            <img src="<?= $townCompany->get('Agent')->getLogoUrl('85x50'); ?>" alt="" class="dealthumb"/>
+                                                        </a>
+							<div class="dealtitle dealtitle2">
+								<p><a href="<?= $this->url(array('agent' => $townCompany['Agent']['link'],'slug' => $townCompany['office_link']),'domain-branch-details'); ?>" class="dark">
+                                                            <?= MF_Text::truncate($townCompany['Agent']['name']." - ".$townCompany['office_name'],40); ?></a></p>
+								<?php MF_Text::showStars($townCompany['rating']); ?>
+							</div>				
+						</div>
+                                                <?php endforeach; ?>		
+					</div>
+					<!-- End of first row-->			
+				</div>
+			</div>
+		</div>
+		
+		<div class="lastminute3 latestNews" style="background-image:url('http://st2.depositphotos.com/3889193/7086/i/450/depositphotos_70861285-Businessman-and-construction-engineer-working-together.jpg')">
+			
+		</div>	
+		
+		<div class="container cstyle06">	
+
+
+			<div class="row anim3">
+			  <div class="col-md-3">
+				<h2><?= $this->translate('Featured'); ?></h2><br/>
+                                <?= $this->translate('Visit our featured companies'); ?>
+			  </div>
+			  <div class="col-md-9">
+			  
+				<!-- Carousel -->
+				<div class="wrapper">
+					<div class="list_carousel homepageFeaturedList">		
+						<ul id="foo2">
+                                                    <?php foreach($this->premiumBranches as $premiumBranch):                                                        ?>
+							<li>
+								<a href="<?=  $this->url(array('agent' => $premiumBranch['Agent']['link'],'slug' => $premiumBranch['office_link']),'domain-branch-details'); ?>">
+                                                                    
+                                                                    
+                                                                    
+                                                                    <img src="<?= $premiumBranch->get('Agent')->getLogoUrl('250x150'); ?>" alt="<?=  $premiumBranch['Agent']['name']." - ".$premiumBranch['office_name']; ?>"/>
+                                                                </a>
+								<div class="m1">
+									<h5 class="dark"><b><?=  $premiumBranch['Agent']['name']." - ".$premiumBranch['office_name']; ?></b></h5>
+									<span class="lh1 green size10"><?= str_repeat('<img src="/images/star.png" />',round($premiumBranch['rating'])); ?></span>							
+								</div>							
+							</li>
+                                                    <?php endforeach; ?>	
+						</ul>
+						<div class="clearfix"></div>
+						<a id="prev_btn2" class="prev" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
+						<a id="next_btn2" class="next" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
+					</div>
+				</div>
+			  
+			  </div>
+			</div>
+                    
+                    
+			<hr class="featurette-divider2">
+                    
+                    <div class="row anim2">
+			  <div class="col-md-3">
+				<h2><?= $this->translate('Latest news'); ?></h2><br/>
+                                <?= $this->translate('Employees news, business news, job related news'); ?>
+			  </div>
+			  <div class="col-md-9">
+			  
+				<!-- Carousel -->
+				<div class="wrapper">
+					<div class="list_carousel homepageFeaturedList">		
+						<ul id="foo">
+                                                    <?php foreach($this->lastNews as $lastNews): ?>
+							<li>
+								<a href="<?=  $this->url(array('slug' => $lastNews['Translation'][$this->language]['slug']),'domain-news-article'); ?>">
+                                                                    <img src="<?= MF_Text::getPhotoUrl($lastNews['PhotoRoot'],'250x150'); ?>" alt="<?=  $lastNews['Translation'][$this->language]['title']; ?>"/>
+                                                                </a>
+								<div class="m1">
+									<h5 class="dark"><b><?=  $lastNews['Translation'][$this->language]['title']; ?></b></h5>						
+								</div>							
+							</li>
+                                                    <?php endforeach; ?>	
+						</ul>
+						<div class="clearfix"></div>
+						<a id="prev_btn2" class="prev" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
+						<a id="next_btn2" class="next" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
+					</div>
+				</div>
+			  
+			  </div>
+			</div>	
+		
+		</div>
+
+
+		
+		<!-- FOOTER -->
+
+		<div class="footerbg">
+			<div class="container">		
+				
+				<div class="col-md-3">
+					<span class="ftitle">Let's socialize</span>
+					<div class="scont">
+						<a href="#" class="social1b"><img src="/assets/images/icon-facebook.png" alt=""/></a>
+						<a href="#" class="social2b"><img src="/assets/images/icon-twitter.png" alt=""/></a>
+						<a href="#" class="social3b"><img src="/assets/images/icon-gplus.png" alt=""/></a>
+						<a href="#" class="social4b"><img src="/assets/images/icon-youtube.png" alt=""/></a>
+						<br/><br/><br/>
+						<img src="/assets/images/logosmal.png" alt="" /><br/>
+						&copy; 2013  |  <a href="#">Privacy Policy</a><br/>
+						All Rights Reserved 
+						<br/><br/>
+						
+					</div>
+				</div>
+				<!-- End of column 1-->
+				
+				<div class="col-md-3">
+					<span class="ftitle">Travel Specialists</span>
+					<br/><br/>
+					<ul class="footerlist">
+						<li><a href="#">Golf Vacations</a></li>
+						<li><a href="#">Ski & Snowboarding</a></li>
+						<li><a href="#">Disney Parks Vacations</a></li>
+						<li><a href="#">Disneyland Vacations</a></li>
+						<li><a href="#">Disney World Vacations</a></li>
+						<li><a href="#">Vacations As Advertised</a></li>
+					</ul>
+				</div>
+				<!-- End of column 2-->		
+				
+				<div class="col-md-3">
+					<span class="ftitle">Travel Specialists</span>
+					<br/><br/>
+					<ul class="footerlist">
+						<li><a href="#">Weddings</a></li>
+						<li><a href="#">Accessible Travel</a></li>
+						<li><a href="#">Disney Parks</a></li>
+						<li><a href="#">Cruises</a></li>
+						<li><a href="#">Round the World</a></li>
+						<li><a href="#">First Class Flights</a></li>
+					</ul>				
+				</div>
+				<!-- End of column 3-->		
+				
+				<div class="col-md-3 grey">
+					<span class="ftitle">Newsletter</span>
+					<div class="relative">
+						<input type="email" class="form-control fccustom2" id="exampleInputEmail1" placeholder="Enter email">
+						<button type="submit" class="btn btn-default btncustom">Submit<img src="/assets/images/arrow.png" alt=""/></button>
+					</div>
+					<br/><br/>
+					<span class="ftitle">Customer support</span><br/>
+					<span class="pnr">1-866-599-6674</span><br/>
+					office@travel.com
+				</div>			
+				<!-- End of column 4-->			
+			
+			
+
+				
+				
+			</div>	
+		</div>
+		
+		<div class="footerbg3">
+			<div class="container center grey"> 
+			<a href="#">Home</a> | 
+			<a href="#">About</a> | 
+			<a href="#">Last minute</a> | 
+			<a href="#">Early booking</a> | 
+			<a href="#">Special offers</a> | 
+			<a href="#">Blog</a> | 
+			<a href="#">Contact</a>
+			<a href="#top" class="gotop scroll"><img src="/assets/images/spacer.png" alt=""/></a>
+			</div>
+		</div>
+		
+		
+
+		
+		
+	</div>
+	<!-- / WRAP -->
+        <script>
+            
+            function formatRepo (repo) {
+                if (repo.loading) return repo.text;
+
+                var logo = repo.logo;
+                if(!logo){
+                    logo = 'https://placehold.it/45x35';
+                }
+
+                var markup = '<div class="clearfix">' +
+                '<div class="col-sm-1 col-md-2">' +
+                '<img src="' + logo + '" />' +
+                '</div>' +
+                '<div class="col-sm-10 col-md-10">' +
+                '<div class="clearfix">' +
+                '<div class="col-sm-12">' + repo.name + '</div>' +
+                '<div class="col-sm-12">' + repo.votes + ' <?= $this->translate('reviews'); ?><br />' +
+                '';
+                    
+                    for(var k =0;k<Math.round(repo.rating);k++){
+                        markup += '<img src="/images/star.png" />';
+                    }
+                markup += '</div>';
+
+
+                markup += '</div></div>';
+
+                return markup;
+              }
+
+              function formatRepoSelection (repo) {
+                return repo.name;
+              }
+            
+    $(function(){
+        $('#searchHomepage').on('click',function(){
+            $('.tab-pane.active form').submit();
+        });
+        
+           $('#air form').on('submit',function(){
+               var form = $(this);
+               var area = $('#area').val();
+               
+               form.attr('action',form.attr('action')+'/'+area);
+               $('#area').val('');
+           }) ;
+           
+            $("#agent_name").select2({
+                ajax: {
+                  url: "/agent/find-agent",
+                  dataType: 'json',
+                  delay: 250,
+                  data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                  },
+                  processResults: function (data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
+                    return {
+                      results: data.items,
+                      pagination: {
+                        more: (params.page * 30) < data.total_count
+                      }
+                    };
+                  },
+                  cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                minimumInputLength: 1,
+                templateResult: formatRepo, // omitted for brevity, see the source of this page
+                templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+              });
+              
+              
+              $('a[href="#air"]').on('click',function(){
+                  $('#searchHomepage').html('<?= $this->translate('Search'); ?>')
+              });
+              
+              $('a[href="#hotel"]').on('click',function(){
+                  $('#searchHomepage').html('<?= $this->translate('Add review'); ?>')
+              });
+    });
+        </script>
+        
+<style>
+    .select2{
+        width:100% !important;
+    }
+</style>

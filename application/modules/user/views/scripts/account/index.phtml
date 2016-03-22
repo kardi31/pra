@@ -1,0 +1,207 @@
+
+ <h3 class="page-title"> <?= $this->translate('Welcome to user panel'); ?>
+                        <small></small>
+                    </h3>
+                    <div class="page-bar">
+                        <ul class="page-breadcrumb">
+                            <li>
+                                <i class="icon-home"></i>
+                                <!--<a href="<?= $this->url(array(),'domain-account'); ?>">-->
+                                    
+                                <!--</a>-->
+                                <!--<i class="fa fa-angle-right"></i>-->
+                            </li>
+<!--                            <li>
+                                <span><?= $this->translate('User panel'); ?></span>
+                            </li>-->
+                        </ul>
+                    </div>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="fa fa-comments"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="<?= $this->user['Agent']['views']; ?>">0</span>
+                </div>
+                <div class="desc"> <?= $this->translate('Your company page visitors'); ?></div>
+            </div>
+            <a class="more" href="javascript:;">
+                &nbsp;
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-bar-chart-o"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="<?= $this->user['Agent']['rank']; ?>">1</span> </div>
+                <div class="desc"><?= $this->translate('Your overall rank'); ?> </div>
+            </div>
+            <a class="more" href="javascript:;"> 
+                &nbsp;
+                <!--                                    View more
+                                                    <i class="m-icon-swapright m-icon-white"></i>-->
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green">
+            <div class="visual">
+                <i class="fa fa-shopping-cart"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="<?= $this->user['Agent']['votes']; ?>">0</span>
+                </div>
+                <div class="desc"> <?= $this->translate('Reviews no'); ?> </div>
+            </div>
+            <a class="more" href="javascript:;"> 
+                &nbsp;
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat purple">
+            <div class="visual">
+                <i class="fa fa-globe"></i>
+            </div>
+            <div class="details">
+                <div class="number"> 
+                    <span data-counter="counterup" data-value="<?= $this->user['Agent']['customer_satisfaction'] * 100; ?>"></span>% </div>
+                <div class="desc"><?= $this->translate('Customer satisfaction'); ?> </div>
+            </div>
+            <a class="more" href="javascript:;"> 
+                &nbsp;
+            </a>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<!-- END DASHBOARD STATS 1-->
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Reviews</span>
+                    <span class="caption-helper">weekly stats</span>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""> </a>
+                    <a href="javascript:;" class="reload" data-original-title="" title=""> </a>
+                    <a href="javascript:;" class="fullscreen" data-original-title="" title=""> </a>
+                    <a href="javascript:;" class="remove" data-original-title="" title=""> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="chart_1" class="chart" >
+
+                </div>
+            </div>
+        </div>
+
+        <!-- END PORTLET-->
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <!-- BEGIN PORTLET-->
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-share font-red-sunglo hide"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">Ranking</span>
+                    <span class="caption-helper"><?= $this->translate('Monthly stats'); ?></span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="site_activities_loading">
+                    <img src="/assets/global/img/loading.gif" alt="loading" /> </div>
+                <div id="site_activities_content" class="display-none">
+                    <div id="site_activities" style="height: 228px;"> </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>
+
+<script>
+    $(function(){
+        
+          if(0!=$("#site_activities").size()) {
+                    var i=null;
+                    $("#site_activities_loading").hide(),
+                    $("#site_activities_content").show();
+                    var l=[
+                        <?php foreach($this->monthlyRankings as $weekNo => $monthlyRanking): ?>
+                                 ["<?= $monthlyRanking['month']."/".$monthlyRanking['year']; ?>",<?= $monthlyRanking['position']; ?>],       
+                                        
+                        <?php endforeach; ?> 
+ 
+                        
+                    ];
+                    $.plot($("#site_activities"), [ {
+                        data:l, 
+//                        lines: {
+//                            fill: .2, lineWidth: 0
+//                        }
+//                        , color:["#BAD9F5"]
+                }
+                , {
+                        data:l, points: {
+                    show: !0, fill: !0, radius: 4, fillColor: "#9ACAE6", lineWidth: 2
+                    }
+                        , color:"#9ACAE6", shadowSize:1
+                }
+                , {
+                        data:l, lines: {
+                    show: !0, fill: !1, lineWidth: 3
+                    }
+                        , color:"#9ACAE6", shadowSize:0
+                }
+            ], {
+                    xaxis: {
+                            tickLength:0, tickDecimals:0, mode:"categories", min:0, font: {
+                                lineHeight: 18, style: "normal", variant: "small-caps", color: "#6F7B8A"
+                            },
+                            
+                        }
+                    , yaxis: {
+                            ticks:5, tickDecimals:0, tickColor:"#eee", font: {
+                    lineHeight: 14, style: "normal", variant: "small-caps", color: "#6F7B8A"
+                      },
+                             transform: function(v) {
+                        return -v;
+                    },
+    inverseTransform: function(v) {
+                        return -v;
+                }
+                }
+                , grid: {
+                            hoverable: !0, clickable: !0, tickColor: "#eee", borderColor: "#eee", borderWidth: 1
+                        }
+                    }
+            );
+                    $("#site_activities").bind("plothover", function(t, a, l) {
+                        if($("#x").text(a.x.toFixed(2)), $("#y").text(a.y.toFixed(2)), l&&i!=l.dataIndex) {
+                            i=l.dataIndex, $("#tooltip").remove();
+                    l.datapoint[0].toFixed(2), l.datapoint[1].toFixed(2);
+                            e(l.pageX, l.pageY, l.datapoint[0], l.datapoint[1]+"M$")
+            }
+            }
+            ),
+                    $("#site_activities").bind("mouseleave", function() {
+                $("#tooltip").remove()
+             }
+            )
+        }
+    });
+</script>

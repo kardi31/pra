@@ -1,0 +1,47 @@
+<div class="content-block">
+
+
+
+    <div class="widget">
+    <h2 class="list-title">Najnowsze ogłoszenia</h2>
+    <div class="widget-articles">
+    <ul >
+        <?php foreach($this->lastAds as $ad): ?>
+            <li>
+                <div class="article-photo">
+                    <a href="<?= $this->url(array('category' => $ad['Category']['slug'],'slug' => $ad['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>"
+                           class="delegate">
+                            <span class="cover" style="font-size:23.333333333333332px;"><i></i>
+                                <img class="image-border" style="max-width:50px;" 
+                                     src="<?php echo (strlen($ad['Photos'][1]['filename'])?MF_Text::getPhotoUrl($ad['Photos'][1]):'/assets/images/photos/image-1.jpg'); ?>" 
+                                     alt="<?= $ad['Translation'][$this->language]['title']; ?>">
+                            </span>
+                        </a>
+                    
+                </div>
+                <div class="article-content">
+                    <a href="<?= $this->url(array('slug' => $ad['Translation'][$this->language]['slug'],'category' => $ad['Category']['slug']),'domain-single-advertisment'); ?>">
+                        <?= $ad['Translation'][$this->language]['title']; ?>
+                    </a>
+                    <span class="meta-date"><?= MF_Text::timeFormat($ad['created_at'],'d/m/Y'); ?></span>
+                    <a href="<?= $this->url(array('slug' => $ad['Translation'][$this->language]['slug'],'category' => $ad['Category']['slug']),'domain-single-advertisment'); ?>" class="h-comment h-comment-empty"><?= $ad['Category']['title']; ?> - <?= $ad['Category']['Group']['title']; ?></a>
+
+                </div>
+                
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    </div>
+    </div>
+
+    <div class="text-center">
+  <h4 class="list-title h4">Chcesz nas wesprzeć?</h4>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="RKR4PHYF442HQ">
+<input type="image" src="https://www.paypalobjects.com/pl_PL/PL/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal – Płać wygodnie i bezpiecznie">
+<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">
+</form>
+    </div>
+</div>
+<br /><br />

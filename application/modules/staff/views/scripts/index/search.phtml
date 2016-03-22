@@ -1,0 +1,58 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Find staff member'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+    <div class="container mt25 offset-0">
+
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0">
+            <div class="padding30 grey">
+                <h1 class="h2"><?= $this->translate('Find staff member'); ?></h1>
+                <br />
+                <div class="bs-example bs-example-tabs">
+
+
+                    <div id="myTabContent">
+                            <form method='GET' action='<?= $this->url(array(), 'domain-staff-search'); ?>'>
+                        <div id="" class="tab-pane fade active in">
+
+                                <?= $this->form->name; ?>
+                                <br />
+                                <?= $this->form->area; ?>
+
+                        </div>
+                        <!--End of 1st tab -->
+
+
+                        <!--End of 2nd tab -->
+
+                        <div class="" style='background:none;'>
+                            <button type="submit" id='searchHomepage' name="staffSearch" class="btn-search" style="margin-left:0px;"><?= $this->translate('Search'); ?></button>
+                        </div>
+                            </form>
+                    </div>
+                    <div class='clearfix'></div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <!-- END OF LEFT CONTENT -->
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-4" >
+            <?php echo $this->action('banner-sidebar2', 'index', 'banner'); ?>
+        </div>
+        <!-- END OF RIGHT CONTENT -->
+
+
+    </div>
+
+
+</div>
+

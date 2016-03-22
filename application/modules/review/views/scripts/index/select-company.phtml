@@ -1,0 +1,162 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Find company'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+    <div class="container mt25 offset-0">
+
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0">
+            <div class="padding30 grey">
+            <h1 class="h2 mt0"><?= $this->translate('Rate review'); ?></h1>
+            <br />
+				<div class="bs-example bs-example-tabs">
+				
+					
+					<div class="tab-content3 tab-content-no-height" id="myTabContent">
+						<div id="air" class="tab-pane fade active in">
+                                                    
+                                                    
+                                                    <span class='size16'><?= $this->translate('Select company that you want to review'); ?></span>
+                                                    <br /><br />
+                                                    <form method='GET' action='<?= $this->url(array(),'domain-rate-review');?>'>
+                                                        <?= $this->form2->getElement('agent_name'); ?>
+                                                    </form>
+							
+						</div>
+						<!--End of 1st tab -->
+						
+						
+						<!--End of 2nd tab -->
+						
+						<div class="" style='background:none;'>
+                                                    <button type="submit" id='searchHomepage' class="btn-search btn-search-toLeft"><?= $this->translate('Add review'); ?></button>
+                                                    <a href='<?= $this->url(array(),'domain-add-unlisted'); ?>' id='searchHomepage' class="btn btn-primary btn-unlisted-company"><?= $this->translate('I cannot find company'); ?></a>
+						</div>
+					</div>
+                                            <div class='clearfix'></div>
+					
+						
+				</div>
+            
+                               
+                                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- END OF LEFT CONTENT -->
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-4" >
+
+
+            
+<?php echo $this->action('banner-sidebar2','index','banner'); ?>
+            
+            
+        </div>
+        <!-- END OF RIGHT CONTENT -->
+
+
+    </div>
+
+
+</div>
+
+        <script>
+            
+            function formatRepo (repo) {
+                if (repo.loading) return repo.text;
+
+                var logo = repo.logo;
+                if(!logo){
+                    logo = 'https://placehold.it/45x35';
+                }
+
+                var markup = '<div class="clearfix">' +
+                '<div class="col-sm-1 col-md-2">' +
+                '<img src="' + logo + '" />' +
+                '</div>' +
+                '<div class="col-sm-10 col-md-10">' +
+                '<div class="clearfix">' +
+                '<div class="col-sm-12">' + repo.name + '</div>' +
+                '<div class="col-sm-12">' + repo.votes + ' <?= $this->translate('reviews'); ?><br />' +
+                '';
+                    
+                    for(var k =0;k<Math.round(repo.rating);k++){
+                        markup += '<img src="/images/star.png" />';
+                    }
+                markup += '</div>';
+
+
+                markup += '</div></div>';
+
+                return markup;
+              }
+
+              function formatRepoSelection (repo) {
+                return repo.name;
+              }
+            
+    $(function(){
+        $('#searchHomepage').on('click',function(){
+            $('.tab-pane.active form').submit();
+        });
+           
+              $.fn.select2.defaults.defaults['language'].inputTooShort = function(){
+                return '<?= $this->translate('Please enter 1 or more characters'); ?>';
+              };
+              $.fn.select2.defaults.defaults['language'].searching = function(){
+                return '<?= $this->translate('Searching...'); ?>';
+              };
+            $("#agent_name").select2({
+                ajax: {
+                  url: "/agent/find-agent",
+                  dataType: 'json',
+                  delay: 250,
+                  
+                  data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                  },
+                  processResults: function (data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
+                    return {
+                      results: data.items,
+                      pagination: {
+                        more: (params.page * 30) < data.total_count
+                      }
+                    };
+                  },
+                  cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                minimumInputLength: 1,
+                templateResult: formatRepo, // omitted for brevity, see the source of this page
+                templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+              });
+              
+              $('a[href="#air"]').on('click',function(){
+                  $('#searchHomepage').html('<?= $this->translate('Search'); ?>')
+              });
+              
+              $('a[href="#hotel"]').on('click',function(){
+                  $('#searchHomepage').html('<?= $this->translate('Add review'); ?>')
+              });
+    });
+        </script>
+        
+<style>
+    .select2{
+        width:100% !important;
+    }
+</style>
+        

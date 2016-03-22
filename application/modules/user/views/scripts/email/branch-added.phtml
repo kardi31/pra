@@ -1,0 +1,14 @@
+<?= $this->translate('Dear')." ".$this->branch['Agent']['name']." ".$this->branch['office_name']; ?><br /><br />
+<?= $this->translate('Your company has been added to Rate Pole. From now on, customers have an opportunity to review your company.');?><br /><br />
+<?= $this->translate('Remember, customer reviews are very important part of company image. Positive reviews may provide additional customers to your business.');?><br /><br />
+<?= $this->translate('You can see your company profile by clicking the link below.'); ?><br /><br />
+<a href="<?php echo $this->url(array('slug' => $this->branch['office_link'],'agent' => $this->branch['Agent']['link']), 'domain-branch-details'); ?>"><?php echo $this->url(array('slug' => $this->branch['office_link'],'agent' => $this->branch['Agent']['link']), 'domain-branch-details'); ?></a>
+<br /><br />
+<?= $this->translate('If you see any incorrect details in your profile, you can login using the details below you can login using the details below to change your company information.'); ?> <br />
+<?= $this->translate('Email')." : ".$this->branch['email']; ?><br />
+<?= $this->translate('Password')." : ".$this->password; ?><br />
+<a href="<?php echo $this->url(array(), 'domain-login'); ?>"><?php echo $this->url(array(), 'domain-login'); ?></a>
+<br /><br />
+<?= $this->translate('Kind regards'); ?>, <br />
+<?= $this->translate('Rate Pole'); ?>
+

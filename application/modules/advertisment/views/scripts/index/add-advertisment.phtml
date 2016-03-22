@@ -1,0 +1,97 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Advertisments'), true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+
+    <div class="container mt25 offset-0 advertismentList">
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0 advertismentCategoryList">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Add advertisment'); ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+            <div class="padding10 grey">
+        <h2><?= $this->translate('Select advertisment category'); ?></h2>
+                 <?php foreach($this->groupAndCategories as $key => $groups): ?>
+        
+                    <div class="col-md-4">
+                        <h3 class="list-title"><?= $groups['Translation'][$this->language]['title']; ?></h3>
+                                <ul class="article-list">
+                                    <?php foreach($groups['Categories'] as $category): ?>
+                                        <li><a href="<?= $this->url(array('category' => $category['Translation'][$this->language]['slug']),'domain-add-advertisment-category'); ?>"><?= $category['Translation'][$this->language]['title']; ?></a></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                    </div>
+                    <?php if($key%3==2): ?>
+                        <div class="clearfix"></div>
+
+                    <?php endif; ?>
+                <?php endforeach; ?>
+
+            </div>
+
+        </div>
+        <!-- END OF LEFT CONTENT -->			
+
+        <!-- RIGHT CONTENT -->
+<!--        <div class="col-md-4">
+
+            <div class="pagecontainer2 paymentbox grey">
+                
+                    <div class="hpadding50c">
+                        <h1 class="lato size30 slim black"><?= $this->translate('Search'); ?></h1>
+                        <p class="aboutarrow"></p>
+                    </div>
+                    <div class="line3"></div>
+                <div class="padding30">
+                    <form id="writecomment" name="writecomment" method='GET' class="contact-form nomaxwidth nomargin searchFirm" action="<?= $this->url(array(),'domain-advertisment'); ?>">
+                        
+                        <div class="">
+                            <label for="c_name"><?= $this->translate('Enter keyword'); ?><span class="required">*</span></label>
+                            <input class='form-control' type="text" name="search" id="contact-name-input" title="Nazwa firmy">
+                            <br />
+                        </div>
+                        <div class="">
+                            <label for="c_name"><?= $this->translate('Enter postcode,district or town'); ?><span class="required">*</span></label>
+                            <input class='form-control' type="text" name="area" id="contact-mail-input" title="Lokalizacja">
+                            <br />
+                        </div>
+                        <div class='clearfix'></div>
+                        <div class="">
+                            <button type="submit" name="submit" class="btn-search4"><?= $this->translate('Search'); ?></button>
+                        </div>
+                        <div class='clearfix'></div>
+                    </form>
+                </div>
+                <div class="line3"></div>
+
+               
+
+
+            </div><br>
+
+             <div class="pagecontainer2 paymentbox grey">
+                
+                <div class="padding30">
+                    <a href="<?php echo $this->url(array(),'domain-add-advertisment') ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $this->translate('Add advertisment') ?></a>
+                    
+                </div>
+                <div class="line3"></div>
+
+               
+
+
+            </div><br>
+
+        </div>-->
+        <!-- END OF RIGHT CONTENT -->
+
+        <div class="clearfix"></div>
+    </div>
+
+
+</div>

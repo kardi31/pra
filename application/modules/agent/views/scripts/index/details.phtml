@@ -1,0 +1,183 @@
+<?php
+$agent = $this->agent;
+$agentPsp = (int) $agent['premium_support'];
+?>
+
+<?php
+    //        Tomasz_Breadcrumb::getInstance()->addLink('/house-prices/','House prices'); 
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $agent['name'], true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+
+
+
+<div class="container companyDetails">
+    <div class="container pagecontainer offset-0">	
+
+        <!-- SLIDER -->
+        <div class="col-md-8 details-slider">
+            <div class="company-ad">
+                <?php if(isset($this->ad)): ?>
+                    <img src="<?= MF_Text::getAdPhotoPath($this->ad['source'],'agent'); ?>" class="img-responsive" />
+                <?php else: ?>
+                    <img src="http://placehold.it/728x90" class="img-responsive" />
+                <?php endif; ?>
+            </div>
+        </div>
+        
+        <div class="col-md-4 detailsright detailsright2 offset-0">
+            <div class="padding20">
+                <h1 class="h2"><?= $agent['name']; ?></h1>
+                <span class="stars">
+                    <?= MF_Text::showStars($agent['rating']); ?>
+                </span>
+            </div>
+
+            <div class="line3"></div>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="line3"></div>
+        <div class="col-md-8 details-slider">
+            <div class="company-description">
+                <?php 
+                
+                if(strlen($agent['Translation'][$this->language]['description'])){
+                    echo $agent['Translation'][$this->language]['description']; 
+                } 
+                else{
+                    echo $this->translate('This company has no description available');
+                }
+                
+                ?>
+
+            </div>
+            <div class="line3"></div>
+            
+            <div class="hpadding20">
+                <div class=" col-md-6">
+                    <a href="#" class="add2fav margtop20"><?= $this->translate('Contact company'); ?></a>
+                </div>
+                <div class=" col-md-6">
+                    <a href="<?= $this->url(array('agent' => $agent['link']),'domain-add-review'); ?>" class="booknow btnmarg margtop20"><?= $this->translate('Add review'); ?></a>
+                </div>
+            </div>
+        </div>
+        <!-- END OF SLIDER -->			
+
+        <!-- RIGHT INFO -->
+
+        <div class="col-md-4 detailsright offset-0">
+            <div class="col-md-6 bordertype1 padding20">
+                <span class="opensans size30 bold grey2"><?= ($agent['customer_satisfaction']*100); ?>%</span><br/>
+                <?= $this->translate('of customers'); ?><br/><?= $this->translate('recommends'); ?>
+            </div>
+            <div class="col-md-6 bordertype2 padding20">
+                <span class="opensans size30 bold grey2"><?= (int)$agent['rating']; ?></span>/5<br/>
+                <?= $this->translate('customers ratings'); ?>
+            </div>
+           
+            <div class="col-md-6 bordertype3">
+                <?= (int)$agent['votes']; ?> <?= $this->translate('reviews'); ?>
+            </div>
+            <div class="col-md-6 bordertype3">
+                <a href="#" class="grey underline"><?= $this->translate('Edit details'); ?></a>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+        <!-- END OF RIGHT INFO -->
+
+    </div>
+    <!-- END OF container-->
+
+    <div class="container mt25 offset-0">
+
+        <div class="col-md-8 pagecontainer2 offset-0">
+            <div class="cstyle10"></div>
+
+            <ul class="nav nav-tabs" id="myTab">
+                <li onclick="mySelectUpdate();
+                        trigerJslider();
+                        trigerJslider2();
+                        trigerJslider3();
+                        trigerJslider4();
+                        trigerJslider5();
+                        trigerJslider6();" class="active"><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext"><?= $this->translate('Reviews'); ?></span>&nbsp;</a></li>
+<!--                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#summary"><span class="summary"></span><span class="hidetext">Summary</span>&nbsp;</a></li>
+                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#roomrates"><span class="rates"></span><span class="hidetext">Room rates</span>&nbsp;</a></li>
+                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#preferences"><span class="preferences"></span><span class="hidetext">Preferences</span>&nbsp;</a></li>
+                <li onclick="loadScript()" class=""><a data-toggle="tab" href="#maps"><span class="maps"></span><span class="hidetext">Maps</span>&nbsp;</a></li>
+                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#thingstodo"><span class="thingstodo"></span><span class="hidetext">Things to do</span>&nbsp;</a></li>-->
+
+            </ul>			
+            <div class="tab-content4" >
+                <?= $this->render('index/reviews.phtml'); ?>
+
+            </div>
+        </div>
+
+        <div class="col-md-4" >
+
+<!--            <div class="pagecontainer2 testimonialbox">
+                <div class="cpadding0 mt-10">
+                    <span class="icon-quote"></span>
+                    <p class="opensans size16 grey2">It was very comfortable to stay and staff were pleasant and welcoming.<br/>
+                        <span class="lato lblue bold size13"><i>by Ellison from United Kingdom</i></span></p> 
+                </div>
+            </div>-->
+
+            <?php if($agent['premium_support']){ ?>
+                <img src="<?= $agent->getLogoUrl('225x90'); ?>" alt="<?= $agent['name'];?> logo" class="agentMainLogo" />
+                <div class="line3"></div>
+            <?php } ?>
+            <div class="pagecontainer2 needassistancebox">
+                <div class="cpadding1">
+                    <span class="icon-help"></span>
+                    <h3 class="opensans"><?= $this->translate('Contact'); ?></h3>
+                    <?php if($agent['HeadOffice']){ ?>
+                        <?php if(strlen($agent['HeadOffice']['phone'])){ ?>
+                            <p class="opensans size30 lblue xslim"><?= $agent['HeadOffice']['phone']; ?></p>
+                        <?php } ?>
+                        <?php if(strlen($agent['HeadOffice']['url'])){ ?>
+                            <p class="size14 grey">WWW: <a href='<?= $agent['HeadOffice']['url']; ?>'><?= substr($agent['HeadOffice']['url'],7); ?></a></p>
+                        <?php } ?>
+                    <?php } ?>
+                </div>
+            </div><br/>
+
+            <div class="pagecontainer2 mt20 alsolikebox">
+                <div class="cpadding1">
+                    <span class="icon-location"></span>
+                    <h3 class="opensans"><?= $this->translate('Branches'); ?></h3>
+                    <div class="clearfix"></div>
+                </div>
+                <?php foreach($agent['Branches'] as $branch){ ?>
+                    <div class="cpadding1 ">
+                        <div class='col-md-6'>
+                            <a href="<?= $this->url(array('agent' => $agent['link'],'slug' => $branch['office_link']),'domain-branch-details'); ?>"><img src="/assets/images/smallthumb-1.jpg" class="left mr20" alt="<?= $agent['name']." ".$branch['town']; ?>"/></a>
+                        </div>
+                        <div class='col-md-6'>
+                        <a href="<?= $this->url(array('agent' => $agent['link'],'slug' => $branch['office_link']),'domain-branch-details'); ?>" class="dark"><b><?= $branch['office_name']; ?></b></a><br/>
+                        
+                        <?= str_repeat('<img src="/images/star.png">',round($branch['rating'])); ?><br />
+                        
+                        <?php echo $branch['address']." <br />";
+                            echo $branch['postcode']." ".$branch['town'];
+                        ?>
+                        </div>
+                        <div class='clearfix'></div>
+                    </div>
+                    <div class="line5"></div>
+                <?php } ?>
+                <br/>
+
+
+            </div>				
+
+        </div>
+    </div>
+
+
+
+</div>

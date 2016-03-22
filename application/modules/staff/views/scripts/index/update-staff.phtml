@@ -1,0 +1,57 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('slug' => $this->staff['Agent']['link']),'domain-agent-details'), $this->staff['Agent']['name']);
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Update staff'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+    <div class="container mt25 offset-0">
+
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0">
+
+
+            <form class="form1 box1"method="post" >
+                <div class="padding30 grey">
+
+
+                        <h1 class='h2 pb0 mb0 mt0'><?= $this->translate('Update staff') . " - " . $this->staff->getFullName(); ?></h1>
+                      <br /><br />
+                    <span class="step_wrapper" rel="1">
+                                <?= $this->form->firstname; ?>
+                                <?= $this->form->lastname; ?>
+                                <?= $this->form->position; ?>
+                                <?= $this->form->email; ?>
+                                <?= $this->form->description; ?>
+                <?php echo $this->form->getElement('g-recaptcha-response'); ?>
+
+
+                    </span>
+
+                    <br />
+                   
+                    <?= $this->form->submit; ?>
+
+
+                </div>
+
+            </form>
+        </div>
+        <!-- END OF LEFT CONTENT -->
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-4" >
+
+            
+<?php echo $this->action('banner-sidebar2','index','banner'); ?>
+            
+            
+        </div>
+        <!-- END OF RIGHT CONTENT -->
+
+
+    </div>
+
+
+</div>

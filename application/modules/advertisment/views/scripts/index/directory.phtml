@@ -1,0 +1,112 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-advertisment'), $this->translate('Advertisments'));
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->category['Group']['Translation'][$this->language]['title']." - ".$this->category['Translation'][$this->language]['title'],true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+
+
+    <div class="container mt25 offset-0 advertismentList">
+
+        <!-- LEFT CONTENT -->
+        <div class="col-md-8 pagecontainer2 offset-0 advertismentCategoryList">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Advertisments')." - ".$this->category['Translation'][$this->language]['title']; ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+            
+               <?php foreach($this->paginator as $advertisment): ?>
+            <div class="padding20">
+                    <div class="col-md-4 offset-0">
+                            <a href="<?= $this->url(array('category' => $advertisment['Category']['Translation'][$this->language]['slug'],'slug' => $advertisment['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>">
+                               <img class="fwimg" style="max-width:200px;"
+                                     src="<?php echo (strlen($advertisment['Photos'][1]['filename'])?MF_Text::getPhotoUrl($advertisment['Photos'][1]):'/assets/images/photos/image-10.jpg'); ?>" 
+                                     alt="<?= $advertisment['Translation'][$this->language]['title']; ?>" />
+                            </a>
+                    </div>
+                    <div class="col-md-8 offset-0">
+                            <div class="col-md-8 mediafix1">
+                                 <a href="<?= $this->url(array('category' => $advertisment['Category']['Translation'][$this->language]['slug'],'slug' => $advertisment['Translation'][$this->language]['slug']),'domain-single-advertisment'); ?>">
+                            
+                                    <h4 class="opensans dark bold margtop1"><?= $advertisment['Translation'][$this->language]['title']; ?> </h4>
+                                 </a>
+                                 <?=  MF_Text::truncate($advertisment['Translation'][$this->language]['content']); ; ?>
+                            </div>
+                            <div class="col-md-4 center bordertype4">
+                                    
+                                <div class="col-md-12">
+                                    <i class="fa fa-map-marker"></i> <?= $advertisment['town']; ?>
+
+                                </div>
+                                <br />
+                                <div class="col-md-12">
+                                    <?= $this->translate('Added');?> : <?= MF_Text::dodanoFormat($advertisment['created_at'],$this->view->language)." ".$this->translate('ago'); ?>
+                                </div>
+                            </div>										
+                    </div>
+                    <div class="clearfix"></div>
+            </div>
+            <div class="line2"></div>
+                <?php endforeach; ?>
+            
+            <div class="pagination pull-right margright20">
+                <?php echo $this->paginationControl($this->paginator, 'Sliding', 'advertisment_category_pagination_control.phtml',array('category' => $advertisment['Category']['Translation'][$this->language]['slug'])); ?>
+            </div>
+            
+        </div>
+        <!-- END OF LEFT CONTENT -->			
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-md-4">
+
+            <div class="pagecontainer2 paymentbox grey">
+                
+                <div class="hpadding50c">
+                    <h1 class="lato size30 slim black"><?= $this->translate('Search'); ?></h1>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
+                <div class="padding30">
+                    <form id="writecomment" name="writecomment" method='GET' class="contact-form nomaxwidth nomargin searchFirm"  action="<?= $this->url(array(),'domain-advertisment'); ?>">
+
+                        <div class="">
+                            <label for="c_name"><?= $this->translate('Enter keyword'); ?><span class="required">*</span></label>
+                            <input class='form-control' type="text" name="search" id="contact-name-input" title="Nazwa firmy">
+                            <br />
+                        </div>
+                        <div class="">
+                            <label for="c_name"><?= $this->translate('Enter postcode,district or town'); ?><span class="required">*</span></label>
+                            <input class='form-control' type="text" name="area" id="contact-mail-input" title="Lokalizacja">
+                            <br />
+                        </div>
+                        <div class='clearfix'></div>
+                        <div class="">
+                            <button type="submit" name="Wyszukaj" class="btn-search4"><?= $this->translate('Search'); ?></button>
+                        </div>
+                        <div class='clearfix'></div>
+                    </form>
+                </div>
+                <div class="line3"></div>
+            </div><br>
+
+            <div class="pagecontainer2 paymentbox grey">
+                
+                <div class="padding30">
+                    <a href="<?php echo $this->url(array(),'domain-add-advertisment') ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $this->translate('Add advertisment') ?></a>
+                    
+                </div>
+                <div class="line3"></div>
+            </div><br>
+            
+            
+<?php echo $this->action('banner-sidebar2','index','banner'); ?>
+
+        </div>
+        <!-- END OF RIGHT CONTENT -->
+
+
+    </div>
+
+
+</div>

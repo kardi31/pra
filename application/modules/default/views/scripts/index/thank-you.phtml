@@ -1,0 +1,48 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Thank you'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+    <div class="container mt25 offset-0">
+        <!-- CONTENT -->
+        <div class="col-md-12 pagecontainer2 offset-0">
+            <div class="hpadding50c">
+                <p class="lato size30 slim"><?= $this->translate('Thank you'); ?></p>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+
+            <div class="hpadding50c">
+
+                <p class="lato size22 slim textcenter">
+                    <?php 
+                    
+                    switch($this->param):
+                        case 'activate-comment':
+                            echo $this->translate('Your comment has been activated. Now our moderation team will validate your comment. We will notify you whether your comment is accepted or rejected.');
+                            break;
+                        case 'activate':
+                            echo $this->translate('Your review has been activated. Now our moderation team will validate your review. We will notify you whether your review is accepted or rejected.');
+                            break;
+                         case 'review':
+                            echo $this->translate('Thank you for your review. You still need to activate this review. Please check your email.');
+                            break;
+                    endswitch;
+                    ?>
+                </p>
+                <br>
+                <div class="line3"></div>
+            </div>
+
+
+
+            <div class="clearfix"></div><br><br>
+        </div>
+        <!-- END CONTENT -->			
+
+
+
+    </div>
+
+
+</div>

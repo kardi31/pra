@@ -1,0 +1,377 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Branch:
+  tableName: branch_branch
+  actAs:
+    I18n:
+      fields: [description]
+      tableName: branch_branch_translation
+      className: BranchTranslation
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    agent_id:
+      type: integer(4)
+    office_name:
+      type: string(255)
+    office_link:
+      type: string(255)
+    address:
+      type: string(255)
+    town:
+      type: string(255)
+    county:
+      type: string(255)
+    country:
+      type: string(255)
+    postcode:
+      type: string(255)
+    phone:
+      type: string(255)
+    fax:
+      type: string(255)
+    email:
+      type: string(255)
+    url:
+      type: string(255)
+    view:
+      type: integer(4)
+    customer_satisfaction:
+      type: float(5,2)
+    rating:
+      type: float(5,2)
+    votes:
+      type: integer(4)
+    rank:
+      type: integer(4)
+    lat:
+      type: string(255)
+    lng:
+      type: string(255)
+    logo:
+      type: string(255)
+    description:
+      type: clob
+    facebook:
+      type: string(255)
+    twitter:
+      type: string(255)
+    premium_support:
+      type: boolean
+      default: 0
+    approved:
+      type: boolean
+      default: 1
+BranchTranslation:
+  tableName: branch_branch_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    description:
+      type: clob
+  relations:
+    Branch:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Branch
+      type: one
+      foreignType: many
+Enquiry:
+  tableName: branch_enquiry
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    name:
+      type: string(255)
+    tel:
+      type: string(255)
+    ip_address:
+      type: string(255)
+    hostname:
+      type: string(255)
+    message:
+      type: clob
+  relations:
+    Branch:
+      local: branch_id
+      foreign: id
+      foreignAlias: Enquiries
+      alias: Branch
+      type: one
+      foreignType: many
+AreaCovered:
+  tableName: branch_area_covered
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    area:
+      type: string(255)
+  relations:
+    Branch:
+      local: branch_id
+      foreign: id
+      foreignAlias: AreasCovered
+      alias: Branch
+      type: one
+      foreignType: many
+Customer:
+  tableName: branch_customer
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    email:
+      type: string(255)
+    tel:
+      type: string(255)
+    capacity:
+      type: integer(4)
+    staff1:
+      type: integer(4)
+    staff2:
+      type: integer(4)
+    address:
+      type: string(255)
+    postcode:
+      type: string(255)
+    added:
+      type: date
+    view:
+      type: boolean
+      default: 1
+    spam_me:
+      type: boolean
+      default: 1
+    last_spammed:
+      type: timestamp
+    reviewed:
+      type: timestamp
+  relations:
+    Branch:
+      local: branch_id
+      foreign: id
+      foreignAlias: Customers
+      alias: Branch
+      type: one
+      foreignType: many
+Update:
+  tableName: branch_update
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    contact_name:
+      type: string(255)
+    contact_email:
+      type: string(255)
+    contact_tel:
+      type: string(255)
+    contact_job:
+      type: string(255)
+    address:
+      type: string(255)
+    district:
+      type: string(255)
+    town:
+      type: string(255)
+    county:
+      type: string(255)
+    postcode:
+      type: string(255)
+    tel:
+      type: string(255)
+    fax:
+      type: string(255)
+    email:
+      type: string(255)
+    url:
+      type: string(255)
+    about:
+      type: clob
+    fees:
+      type: clob
+    complaints:
+      type: clob
+    video:
+      type: string(255)
+    twitter:
+      type: string(255)
+    facebook:
+      type: string(255)
+    date_added:
+      type: date
+    deleted:
+      type: boolean
+      default: 0
+  relations:
+    Update:
+      local: branch_id
+      foreign: id
+      foreignAlias: Updates
+      alias: Branch
+      type: one
+      foreignType: many
+UpdateAreaCovered:
+  tableName: branch_update_area_covered
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    update_id:
+      type: integer(4)
+    area:
+      type: string(255)
+  relations:
+    Update:
+      local: update_id
+      foreign: id
+      foreignAlias: AreasCovered
+      alias: Update
+      type: one
+      foreignType: many
+UpdateOpeningHours:
+  tableName: branch_update_opening_hours
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    update_id:
+      type: integer(4)
+    day_id:
+      type: integer(4)
+    from:
+      type: time
+    to:
+      type: time
+    closed:
+      type: boolean
+      default: 0
+  relations:
+    Update:
+      local: update_id
+      foreign: id
+      foreignAlias: OpeningHours
+      alias: Update
+      type: one
+      foreignType: many 
+Awards:
+  tableName: branch_award
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    year:
+      type: integer(4)
+    rank:
+      type: integer(4)
+    agent:
+      type: string(255)
+    address:
+      type: string(255)
+    district:
+      type: string(255)
+    town:
+      type: string(255)
+    county:
+      type: string(255)
+    postcode:
+      type: string(255)
+    region:
+      type: string(255)
+    reviews:
+      type: integer(4)
+    stars:
+      type: integer(4)
+    rating:
+      type: float(5,2)
+    capacity:
+      type: string(255)
+    region:
+      type: string(255)
+    transparent:
+      type: boolean
+      default: 0
+  relations:
+    Branch:
+      local: branch_id
+      foreign: id
+      foreignAlias: Awards
+      alias: Branch
+      type: one
+      foreignType: many
+OpeningHours:
+  tableName: branch_opening_hours
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+    day_id:
+      type: integer(4)
+    from:
+      type: time
+    to:
+      type: time
+    closed:
+      type: boolean
+      default: 0
+  relations:
+    Branch:
+      local: branch_id
+      foreign: id
+      foreignAlias: OpeningHours
+      alias: Branch
+      type: one
+      foreignType: many

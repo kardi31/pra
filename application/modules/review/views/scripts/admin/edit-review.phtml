@@ -1,0 +1,95 @@
+
+<script type="text/javascript">
+$(document).ready(function() {
+   
+    
+     $('.section').hide();
+     $('.contentSection').show();
+     $('.btnList li').click(function(){
+        var rel = $(this).attr('rel');
+        $('.section').hide();
+        $('.'+rel).show();
+     });
+});
+</script>
+
+<div class="row-fluid">
+
+    <div class="span12">
+        
+        <div class="box">
+            
+            <div class="title">
+
+                <h4>
+                    <span class="icon16 icomoon-icon-pencil"></span>
+                    <span><?php echo $this->translate('Edytuj nowego agenta') ?> </span>
+                </h4>
+                
+            </div>
+            <div class="content clearfix">
+                <ul class="btnList">
+                    <li rel="contentSection"><button class="btn" type="button">Treść</button></li>
+                    <li rel="metatagSection"><button class="btn" type="button">Pokaż metatagi</button></li>
+                </ul>
+                <form class="form-horizontal" action="<?php echo $this->form->getAction() ?>" method="post" enctype="multipart/form-data">
+                    
+                    <?= $this->form->rating; ?>
+                    <?= $this->form->branch_id; ?>
+                    <?= $this->form->agent_id; ?>
+                    <?= $this->form->staff1; ?>
+                    <?= $this->form->staff2; ?>
+                    <?= $this->form->recommend; ?>
+                    <hr />
+                    <h3>Dane uzupełniającego</h3>
+                    <?= $this->form->display_name; ?>
+                    <?= $this->form->firstname; ?>
+                    <?= $this->form->lastname; ?>
+                    <?= $this->form->email; ?>
+                    <?= $this->form->phone; ?>
+                    <?= $this->form->service_date; ?>
+                    <hr />
+                    <?= $this->form->ip; ?>
+                    <?= $this->form->hostname; ?>
+                    <?= $this->form->activation_ip; ?>
+                    <?= $this->form->activation_hostname; ?>
+                    
+                    <hr /><br />
+                    
+                    <ul id="myTab" class="nav nav-tabs pattern">
+                            <li class="dropdown">
+                                <?php foreach($this->languages as $key => $language): ?>
+                                <li class="<?php if($language == $this->adminLanguage->getId()): ?>active<?php endif; ?>"><a href="#dropdown<?php echo $key + 1 ?>" data-toggle="tab"><?php echo $language ?></a></li>
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
+                    
+                     <div class="tab-content">
+                    <?php  foreach($this->languages as $key => $language):  ?>
+                    <div class="tab-pane<?php if($language == $this->adminLanguage->getId()): ?> in active<?php endif; ?>" id="dropdown<?php echo $key + 1 ?>">
+                        <span class="section contentSection">
+                            <?php  if($this->form->translations->getSubForm($language)): ?>
+                                <?php echo $this->form->translations->getSubForm($language)->review->setAttrib('class', 'tinymce') ?>
+                            <?php echo $this->form->translations->getSubForm($language)->feedback->setAttrib('class', 'tinymce') ?>
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                    <?php  endforeach; ?>
+                     </div>
+                     <div class="tab-content">
+                        </div>
+                            
+                        <?php echo $this->form->id ?>
+                    <div class="form-actions">
+                        <?php echo $this->form->submit ?>
+                        <button name="save_only" id="btnSaveOnly" type="submit" class="btn btn-primary"><?php echo $this->translate('Save and stay') ?></button>
+                        <a href="<?php echo $this->adminUrl('list-category', 'agent') ?>" class="btn"><?php echo $this->translate('Cancel') ?></a>
+                        <a href="<?php echo $this->adminUrl('delete-temp-review', 'review',array('id' => $this->review['id'])) ?>" class="btn btn-danger remove"><?php echo $this->translate('Remove') ?></a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>   
+</div> 
+    

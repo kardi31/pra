@@ -1,0 +1,256 @@
+<?php  $news = $this->article; 
+?>
+
+<section id="bc-t">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Strona główna</a></li>
+            <li><span class="sep">   →   </span></li>
+            <li><a href="<?php echo $this->url(array(),'domain-news'); ?>">Aktualności</a></li>
+            <li><span class="sep">   →   </span></li>
+            <li><a href="#"><?php echo $news['Translation'][$this->language]['title']; ?></a></li>
+        </ul>
+
+        <h1 class="blog-title"><?php echo $news['Translation'][$this->language]['title']; ?></h1>
+    </div>
+</section>
+<section id="blog-single">
+        <div class="container">
+                <!-- BLOG POST SINGLE -->
+                <div class="clearfix"></div>
+                <article class="blog-post">
+                <div class="clearfix"></div>
+                        <div class="col-3">
+                            <?php
+                                if(strlen($news['PhotoRoot']['filename'])){
+                                    $photoPath = MF_Text::getPhotoPath($news['PhotoRoot'],'470x269'); 
+                                    $photoExists = true;
+                                }
+                                else{
+                                    $photoPath = "/assets/images/swit.png";
+                                    $photoExists = false;
+                                }
+                                ?>
+                                <div class="post-img"
+                                     <?php if(!$photoExists): ?>style="min-height:195px;padding-top:20px;padding-left:30px;"<?php endif; ?>
+                                     >
+                                    <img src="<?php 
+                                    
+                                    echo $photoPath;
+                                    
+                                    ?>" alt="<?php echo $news['Translation'][$this->language]['title']; ?>" title="<?php echo $news['Translation'][$this->language]['title']; ?>"/></div>
+                                <aside class="sidebar-right">
+                                        <div class="a-name">
+                                                <h3>
+                                                    <span><?php echo $news['UserCreated']['first_name']; ?></span> <?php echo $news['UserCreated']['last_name']; ?></h3>
+                                        </div>
+                                        <ul class="date-a">
+                                                <li><span><i class="fa fa-calendar"></i>Data:</span><a href="#"> <?php echo MF_Text::polishTimeFormat($news['publish_date'],'j M Y H:i'); ?></a></li>
+                                        </ul>			
+                                </aside>
+                        </div>
+                        <div class="col-9">
+                                <div <?php if(!$photoExists): ?>style="padding-left:40px;"<?php endif; ?> class="post-title">
+                                        <h2><?php echo $news['Translation'][$this->language]['title']; ?></h2>
+                                </div>
+                                <div class="post-content">
+                                    <?php if($photoExists): ?>
+                                    <div class="pixel-big">
+                                    </div>
+                                    <?php endif; ?>
+                                        <?php echo $news['Translation'][$this->language]['content'];  ?>
+                                    <div class="share-article-body">
+                                        <div class="main-title">
+                                                <h2>Poleć znajomym</h2>
+                                                <!--<span>Poinformuj innych o artykule</span>-->
+                                        </div>
+                                        <div>
+                                                <a href="http://www.facebook.com/share.php?u=<?php echo "http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]; ?>" class="share-body ot-facebook"><i class="fa fa-facebook"></i><span></span></a>
+                                                <a href="https://twitter.com/share" class="share-body ot-twitter"><i class="fa fa-twitter"></i><span></span></a>
+                                                <a href="https://plusone.google.com/_/+1/confirm?<?php echo "http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]; ?>" class="share-body ot-google"><i class="fa fa-google-plus"></i><span></span></a>
+                                                <a href="http://www.linkedin.com/shareArticle?mini=true&url=<?php echo "http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]; ?>" class="share-body ot-linkedin"><i class="fa fa-linkedin"></i><span></span></a>
+                                                <a href="http://pinterest.com/pin/create/button/?<?php echo "http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]; ?>" class="share-body ot-pinterest"><i class="fa fa-pinterest"></i><span></span></a>
+                                        </div>
+                                </div>
+                                </div><!-- POST CONTENT END -->
+                                
+			
+                        </div>
+                </article>
+
+        </div>
+</section>
+<?php /*
+  
+  
+<div class="main-title cat-<?php echo $news['Category']['slug']; ?>-main-title">
+        <h2><?php echo $news['Translation'][$this->language]['title']; ?></h2>
+        <!--<span>News from all over the world</span>-->
+</div>
+<div class="article-content">
+
+        <div class="article-header">
+            <?php if(strlen($this->videoUrl)): ?>
+                <div id="video"></div>
+            <?php else: ?>
+                <img src="/media/photos/<?php echo $news['PhotoRoot']['offset']?>/829x528/<?php echo $news['PhotoRoot']['filename'] ?>" data-original="/media/photos/<?php echo $news['PhotoRoot']?>/<?php echo $news['PhotoRoot']['filename'] ?>" alt="<?php echo $news['Translation'][$this->language]['title']; ?>">
+            <?php endif; ?>
+                
+                <div class="content-category">
+                    <?php if($news['Category']['slug']): ?>
+                        <a href="<?php echo $this->url(array('slug' => $news['Category']['slug']),'domain-news-category'); ?>" class="cat-<?php echo $news['Category']['slug']; ?>-title"><?php echo $news['Category']['title']; ?></a>
+                    <?php endif; ?>
+                </div>
+                <h1><?php echo $news['Translation'][$this->language]['title']; ?></h1>
+                <span>
+                        <span> <a href="#"><?php echo $news['UserCreated']['first_name']." ".$news['UserCreated']['last_name']; ?></a></span>
+                        <span><a href="#"><?php //echo MF_Text::polishTimeFormat($news['publish_date'],'j M Y H:i'); ?></a></span>
+                        <span><a href="#"><?php echo (int)$this->comment_count;?> <?php //  echo MF_Text::sufixCheck('komentarz',$this->comment_count) ;?></a></span>
+                        <?php /* if($news->show_views): ?>
+                        <span><a href="#"><?php echo (int)$news['views'];?> <?php echo MF_Text::sufixCheck2('wyświetle',$news['views']) ;?></a></span>
+                        <?php endif;  ?>
+                </span>
+        </div>
+    <div class="article-main-content">
+        <?php if(strlen($news['Translation'][$this->language]['content']) != strlen(strip_tags($news['Translation'][$this->language]['content']))): ?>
+            <?php echo $news['Translation'][$this->language]['content']; ?>
+        <?php else: ?>
+            <p><?php echo $news['Translation'][$this->language]['content']; ?></p>
+        <?php endif; ?>
+       
+        <div class="gallery-shortcode">
+                <div class="gallery-shortcode-photos">
+
+                       <?php foreach($news['Photos'] as $photo): ?>
+                    
+                        <a class="lightview image-hover" href="/media/photos/<?php echo $photo['offset']?>/<?php echo $photo['filename'] ?>"  data-lightview-type="image" data-lightview-group="<?php echo $news['Translation'][$this->language]['slug']; ?>" data-lightview-options="
+                               width: 800,
+                               height: 600,
+                             " data-lightbox="lightbox" class="image-hover" data-path-hover="M 34,56 45,34 63,41 64,66 47,76 z">
+                                <figure>
+                                         <img src="/media/photos/<?php echo $photo['offset']?>/263x188/<?php echo $photo['filename'] ?>" alt="<?php echo $news['Translation'][$this->language]['title']; ?>">
+                                          <svg viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M 20,100 60,100 50,100 80,100 z" fill="<?php echo MF_Text::getCatColor($news['Category']['slug']); ?>" /></svg>
+                                        <figcaption>
+                                                <span class="hover-text"><i class="fa fa-search"></i></span>
+                                        </figcaption>
+                                </figure>
+                        </a>
+                        <?php endforeach; ?>
+                </div>
+                <div class="gallery-shortcode-content cat-<?php echo $news['Category']['slug']; ?>">
+                        <strong><a href="#"><?php echo $news['Translation'][$this->language]['title']; ?></a></strong>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="tag-cloud-body">
+    <?php foreach($news['Tags'] as $tag): ?>
+        <a href="<?php echo $this->url(array('slug' => $tag['slug']),'domain-news-tag'); ?>"><?php echo $tag['title']; ?></a>
+    <?php endforeach; ?>   
+</div>
+
+
+
+       <?php echo $this->action('banner-under-news', 'index', 'banner'); ?>
+       
+
+<div class="similar-articles-list  cat-<?php echo $news['Category']['slug']; ?>">
+        <div class="main-title" style="border-left: 4px solid #fff;">
+                <h2>Powiązane artykuły</h2>
+                <span>Ostatnie wpisy z kategorii <?php echo $news['Category']['title']; ?></span>
+        </div>
+
+        <div class="similar-articles">
+
+                <?php foreach($this->lastCategoryOtherArticles as $categoryArticle): ?>
+
+                <div class="item">
+                        <div class="item-header">
+                                <a href="<?php echo $this->url(array('slug' => $categoryArticle['Translation'][$this->language]['slug']),'domain-news-article'); ?>" class="image-hover" style="position:relative">
+                                    <img src="/media/photos/<?php echo $categoryArticle['PhotoRoot']['offset']; ?>/173x130/<?php echo $categoryArticle['PhotoRoot']['filename']; ?>" alt="<?php echo $categoryArticle['Translation'][$this->language]['title'] ?>" />
+                                    <?php if($categoryArticle['videos_count']>1): ?>
+                                <img class="playBtn" src="/images/icon_play.png" />
+                            <?php endif; ?>
+                                </a>
+                            
+                        </div>
+                        <div class="item-content">
+                                <h4><a href="<?php echo $this->url(array('slug' => $categoryArticle['Translation'][$this->language]['slug']),'domain-news-article'); ?>">
+                                       <?php echo $categoryArticle['Translation'][$this->language]['title'] ?>
+                                    </a></h4>
+                                <span><a href="<?php echo $this->url(array('slug' => $categoryArticle['Translation'][$this->language]['slug']),'domain-news-article'); ?>"> <?php //echo MF_Text::polishTimeFormat($categoryArticle['publish_date'],'j M Y'); ?></a></span>
+                        </div>
+                </div>
+                <?php endforeach; ?>
+        </div>
+</div>
+
+<div class="comment-list">
+        <div class="main-title3 Comment">
+                <h2><?php echo (int)$this->comment_count;?> <?php echo MF_Text::sufixCheck('komentarz',$this->comment_count) ;?></h2>
+                <span>Dołącz do dyskusji</span>
+        </div>
+
+        <div class="block-comments">
+
+                <ol id="comments">
+
+                       
+                        <li>
+                            <?php foreach($this->comments as $key => $comment): ?>
+                                <div class="comment-block">
+                                        <div class="image-avatar">
+                                                
+                                        </div>
+                                        <div class="comment-text">
+                                                <a href="#" class="reply-id">#<?php echo $key+1; ?></a>
+                                                <strong class="user-nick"><?php echo $comment['name']; ?><span class="user-author">Autor</span></strong>
+                                                <span class="time-stamp"><?php echo MF_Text::polishTimeFormat($comment['created_at'],'j M Y, H:i'); ?></span>
+                                                <p><?php echo $comment['content']; ?></p>
+                                                <a href="#writecomment" class="reply-button"><i class="fa fa-reply left"></i>Odpowiedz</a>
+                                        </div>
+                                        <div class="clear-float"></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </li>
+
+                </ol>
+        </div>
+
+        <div id="writecomment" class="writecomment">
+
+                <form action="" method="POST">
+
+                        <p class="comment-info">
+                                <i class="fa fa-info"></i>
+                                <strong>Dodaj komentarz</strong>
+                                <span>Zabronione jest obrażanie innych użytkowników dyskusji.</span>
+                        </p>
+
+<!--                        <div class="coloralert" style="background: #CA2E1A;">
+                                <i class="fa fa-warning"></i>
+                                <p>Oh noooes!<br>Something gone wrong!</p>
+                                <a href="#close-alert"><i class="fa fa-times-circle"></i></a>
+                        </div>
+                        <div class="coloralert" style="background: #68a117;">
+                                <i class="fa fa-check"></i>
+                                <p>Great Success<br>Your comment went through!</p>
+                                <a href="#close-alert"><i class="fa fa-times-circle"></i></a>
+                        </div>-->
+                    <?php echo $this->messages()->render(); ?>
+                        <p class="contact-form-user">
+                                <input type="text" class="error" placeholder="Nick" name="name" id="c_name" />
+                        </p>
+                        <p class="contact-form-message">
+                                <textarea name="content" placeholder="Treść komentarza" id="c_message"></textarea>
+                        </p>
+                        
+                        <div class="contact-form-captcha">
+                                <?php echo $this->form->captcha; ?>
+                        </div>
+                        <p><input type="submit" name="submit_comment" class="button" value="Dodaj komentarz" /></p>
+                </form>
+
+        </div>
+
+</div>

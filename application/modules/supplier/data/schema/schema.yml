@@ -1,0 +1,217 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Supplier:
+  tableName: supplier_supplier
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    supplier:
+      type: string(255)
+    link:
+      type: string(255)
+    rank:
+      type: integer(4)
+    address:
+      type: string(255)
+    district:
+      type: string(255)
+    town:
+      type: string(255)
+    county:
+      type: string(255)
+    postcode:
+      type: string(255)
+    email:
+      type: string(255)
+    tel:
+      type: string(255)
+    fax:
+      type: string(255)
+    mob:
+      type: string(255)
+    url:
+      type: string(255)
+    twitter:
+      type: string(255)
+    facebook:
+      type: string(255)
+    brief_description:
+      type: clob
+    full_description:
+      type: clob
+    logo:
+      type: string(255)
+  relations:
+    Category:
+      refClass: SupplierCategory
+      local: supplier_id
+      foreign: category_id
+      foreignType: many
+      foreignAlias: Suppliers 
+      alias: Categories  
+Contact:
+  tableName: supplier_contact
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    supplier_id:
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    position:
+      type: string(255)
+    email:
+      type: string(255)
+    tel:
+      type: string(255)
+  relations:
+    Supplier:
+      local: supplier_id
+      foreign: id
+      foreignAlias: Contacts
+      type: one
+      foreignType: many
+Category:
+  tableName: supplier_category
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    category:
+      type: string(255)
+    link:
+      type: string(255)
+    view:
+      type: boolean
+SupplierCategory:
+  tableName: supplier_supplier_category
+  columns:
+    supplier_id:
+      primary: true
+      type: integer(4)
+    category_id:
+      primary: true
+      type: integer(4)
+Review:
+  tableName: supplier_review
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    supplier_id:
+      type: integer(4)
+    name:
+      type: string(255)
+    heading:
+      type: string(255)
+    review:
+      type: clob
+    overall_rating:
+      type: integer(4)
+    value:
+      type: integer(4)
+    service:
+      type: integer(4)
+    quality:
+      type: integer(4)
+    will_return:
+      type: boolean
+      default: 0
+    what_supplier_did:
+      type: string(255)
+    view:
+      type: boolean
+      default: 0
+    email:
+      type: string(255)
+    activation_link:
+      type: string(255)
+    approved:
+      type: boolean
+      default: 0
+    ip:
+      type: string(255)
+    hostname:
+      type: string(255)
+    email_confirmed:
+      type: boolean
+      default: 0
+    reminder:
+      type: boolean
+      default: 0
+    activation_ip:
+      type: string(255)
+    activation_hostname:
+      type: string(255)
+    position:
+      type: string(255)
+    company:
+      type: string(255)
+    letorsale:
+      type: string(255)
+    sale:
+      type: string(255)
+    staff1:
+      type: string(255)
+    staff2:
+      type: string(255)
+  relations:
+    Supplier:
+      local: supplier_id
+      foreign: id
+      foreignAlias: Reviews
+      type: one
+      foreignType: many
+Comment:
+  tableName: supplier_comment
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    review_id:
+      type: integer(4)
+    name:
+      type: string(255)
+    email:
+      type: string(255)
+    comment:
+      type: clob
+    ip:
+      type: string(255)
+    hostname:
+      type: string(255)
+    view:
+      type: boolean
+      default: 0
+    approve:
+      type: boolean
+      default: 0
+    activation_ip:
+      type: string(255)
+    activation_hostname:
+      type: string(255)
+  relations:
+    Review:
+      local: review_id
+      foreign: id
+      foreignAlias: Comments
+      type: one
+      foreignType: many

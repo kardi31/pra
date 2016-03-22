@@ -1,0 +1,26 @@
+<div class="widget">
+        <h3>NAJNOWSZE INFORMACJE</h3>
+        <div class="article-block">
+            <?php foreach($this->lastAdvertismentSidebar as $advertisment): ?>
+                <div class="item">
+                        <div class="item-header">
+                                <a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>" class="image-hover">
+                                    <img src="/media/photos/<?php echo $advertisment['PhotoRoot']['offset'];?>/74x74/<?php echo $advertisment['PhotoRoot']['filename'];?>" alt="">
+                                </a>
+                        </div>
+                        <div class="item-content">
+                                <div class="content-category">
+                    <?php if($advertisment['Category']['slug']): ?>
+                                        <a href="<?php echo $this->url(array('slug' => $advertisment['Category']['slug']),'domain-advertisment-category'); ?>" class="cat-<?php echo $advertisment['Category']['slug']; ?>-title"><?php echo $advertisment['Category']['title']; ?></a>
+                   <?php endif; ?>
+                                </div>
+                                <span><?php echo MF_Text::timeFormat($advertisment['publish_date'], 'Y-m-d H:i'); ?></span>
+                                <h4><a href="<?php echo $this->url(array('slug' => $advertisment['Translation'][$this->language]['slug']),'domain-advertisment-article'); ?>"><?php echo $advertisment['Translation'][$this->language]['title']; ?></a></h4>
+                                
+                        </div>
+                </div>
+            <?php endforeach; ?>
+                
+                
+        </div>
+</div>

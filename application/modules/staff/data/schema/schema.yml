@@ -1,0 +1,271 @@
+options:
+  type: MyISAM
+  collate: utf8_general_ci
+  charset: utf8
+Staff:
+  tableName: staff_staff
+  actAs:
+    I18n:
+      fields: [description]
+      tableName: staff_staff_translation
+      className: StaffTranslation
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    link:
+      type: string(255)
+    position:
+      type: string(255)
+    branch_id:
+      type: integer(4)
+    description:
+      type: clob
+    agent_id:
+      type: integer(4)
+    phone:
+      type: string(255)
+    approved:
+      type: boolean
+      default: 0
+    view:
+      type: boolean
+      default: 0
+    rank:
+      type: integer(4)
+    customer_satisfaction:
+      type: float(5,2)
+    rating:
+      type: float(5,2)
+    claimed:
+      type: boolean
+      default: 0
+    active_reviews:
+      type: integer(4)
+    photo_root_id:
+      type: string(255)
+    email:
+      type: string(255)
+    sex:
+      type: string(255)
+    twitter:
+      type: string(255)
+    facebook:
+      type: string(255)
+    linkedin:
+      type: string(255)
+StaffTranslation:
+  tableName: staff_staff_translation
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    lang:
+      primary: true
+      type: string(64)
+    description:
+      type: clob
+  relations:
+    Staff:
+      local: id
+      foreign: id
+      foreignAlias: Translation
+      alias: Staff
+      type: one
+      foreignType: many
+AreaCovered:
+  tableName: staff_area_covered
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    staff_id:
+      type: integer(4)
+    area:
+      type: string(255)
+  relations:
+    Staff:
+      local: staff_id
+      foreign: id
+      foreignAlias: AreasCovered
+      alias: Staff
+      type: one
+      foreignType: many
+PhotoClaim:
+  tableName: staff_photo_claim
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    staff_id:
+      type: integer(4)
+    photo_name:
+      type: string(255)
+    activation_code:
+      type: string(255)
+    expiration_date:
+      type: string(255)
+    activated:
+      type: boolean
+      default: 0
+  relations:
+    Staff:
+      local: staff_id
+      foreign: id
+      foreignAlias: PhotoClaims
+      alias: Staff
+      type: one
+      foreignType: many
+Claim:
+  tableName: staff_claim
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    staff_id:
+      type: integer(4)
+    title:
+      type: string(255)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    tel:
+      type: string(255)
+    mob:
+      type: string(255)
+    email:
+      type: string(255)
+    sex:
+      type: string(255)
+    comment:
+      type: clob
+    dob:
+      type: date
+    birthplace:
+      type: string(255)
+    sport:
+      type: string(255)
+    team:
+      type: string(255)
+    twitter:
+      type: string(255)
+    facebook:
+      type: string(255)
+    linkedin:
+      type: string(255)
+    activation_code:
+      type: string(255)
+  relations:
+    Staff:
+      local: staff_id
+      foreign: id
+      foreignAlias: Claims
+      alias: Staff
+      type: one
+      foreignType: many
+Update:
+  tableName: staff_update
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    staff_id:
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    email:
+      type: string(255)
+    position:
+      type: string(255)
+    description:
+      type: clob
+  relations:
+    Staff:
+      local: staff_id
+      foreign: id
+      foreignAlias: Updates
+      alias: Staff
+      type: one
+      foreignType: many
+Award:
+  tableName: staff_award
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    staff_id:
+      type: integer(4)
+    agent_id:
+      type: integer(4)
+    year:
+      type: string(255)
+    rank:
+      type: string(255)
+    staff:
+      type: string(255)
+    agent:
+      type: string(255)
+    position:
+      type: string(255)
+    agent_url:
+      type: string(255)
+    branch:
+      type: string(255)
+    branch_url:
+      type: string(255)
+    town:
+      type: string(255)
+    postcode:
+      type: string(255)
+    reviews:
+      type: integer(4)
+    stars:
+      type: integer(4)
+    rating:
+      type: float(5,2)
+    capacity:
+      type: string(255)
+    sex:
+      type: string(255)
+  relations:
+    Staff:
+      local: staff_id
+      foreign: id
+      foreignAlias: Awards
+      alias: Staff
+      type: one
+      foreignType: many
+StaffBranch:
+  tableName: staff_staff_branch
+  columns:
+    staff_id:
+      primary: true
+      type: integer(4)
+    branch_id:
+      primary: true
+      type: integer(4)

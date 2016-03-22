@@ -1,0 +1,68 @@
+<?php $review = $this->review; ?>
+<div class="line2"></div>
+
+        <div class="hpadding20" data-id='<?= $review['id']; ?>'>					
+            <div class="col-md-4 offset-0 center">
+                <div class="padding20">
+                    <div class="bordertype5">
+                        <div class='col-md-6'>
+                            <?php if (isset($review['Staff'])) { ?>
+                                <div class="circlewrap">
+                                    <a href='<?= $this->url(array('slug' => $review['Staff']['link']), 'domain-staff-profile'); ?>'>
+
+                                        <?php if (strlen($review['Staff']['picture']) && file_exists(APPLICATION_PATH . "/../public_html/" . MF_Text::getStaffPhotoPath($review['Staff']['picture'], '80x80'))): ?>
+                                            <img class="circleimg staffPhotoMini" src="<?= MF_Text::getStaffPhotoPath($review['Staff']['picture'], '80x80'); ?>" alt="<?= $review['Staff']['firstname'] . " " . $review['Staff']['lastname']; ?>"/>
+                                        <?php else: ?>
+                                            <img src="/assets/images/user-avatar-small.jpg" class="circleimg staffPhotoMini" alt="<?= $review['Staff']['firstname'] . " " . $review['Staff']['lastname']; ?>"/>
+                                        <?php endif; ?>
+                                        <span><?= $review['Staff']['rating']; ?></span>
+                                    </a>
+                                </div>
+                                <?= $review['Staff']['firstname'] . " " . $review['Staff']['lastname']; ?>
+                            <?php } ?>
+                        </div>
+                        <div class='col-md-6'>
+                            <?php if (isset($review['Staff2'])) { ?>
+                                <div class="circlewrap">
+                                    <a href='<?= $this->url(array('slug' => $review['Staff2']['link']), 'domain-staff-profile'); ?>'>
+                                        <?php if (strlen($review['Staff2']['picture']) && file_exists(APPLICATION_PATH . "/../public_html/" . MF_Text::getStaffPhotoPath($review['Staff2']['picture'], '80x80'))): ?>
+                                            <img class="circleimg staffPhotoMini" src="<?= MF_Text::getStaffPhotoPath($review['Staff2']['picture'], '80x80'); ?>" alt="<?= $review['Staff2']['firstname'] . " " . $review['Staff2']['lastname']; ?>"/>
+                                        <?php else: ?>
+                                            <img src="/assets/images/user-avatar-small.jpg" class="circleimg staffPhotoMini" alt="<?= $review['Staff2']['firstname'] . " " . $review['Staff2']['lastname']; ?>"/>
+                                        <?php endif; ?>
+                                        <span><?= $review['Staff2']['rating']; ?></span>
+                                    </a>
+                                </div>
+                                <?= $review['Staff2']['firstname'] . " " . $review['Staff2']['lastname']; ?>
+                            <?php } ?>
+                        </div>
+                        <div class='clearfix'></div>
+                        <br /><br />
+                        <span class="dark"><?= $this->translate('author'); ?>: <?= $review['display_name']; ?></span><br/>
+                        <?php if ($review['recommend']) { ?>
+                            <img src="/assets/images/check.png" alt="Recommended"/>
+                            <span class="green"><?= $this->translate('Recommended'); ?></span>
+                        <?php } else { ?>
+                            <img src="/assets/images/delete_old.png" alt="Not recommended"/>
+                            <span class="red"><?= $this->translate('Not recommended'); ?></span>
+                        <?php } ?>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8 offset-0">
+                <div class="padding20">
+
+                    <span class="stars">
+                        <?= str_repeat('<img src="/images/star.png">', round($review['rating'])); ?>
+                    </span><br />
+                    <span class="opensans size13 lgrey"><i class='fa fa-calendar'></i> <?= $this->translate('Posted'); ?> - <?= MF_Text::timeFormat($review['created_at'], 'd/m/Y'); ?></span><br/>
+                    <span class="opensans size13 lgrey"><i class='fa fa-home'></i> <?= $this->translate('Branch'); ?> - <?= $review['Branch']['town']; ?></span><br/>
+                    <p><?= MF_Text::truncate($review['Translation'][$this->language]['review'], 300); ?></p>
+                    <div class='reviewButtons'>
+                        <a href='#'><?= $this->translate('See full review'); ?></a> | <a href='#'><?= $this->translate('Report abuse'); ?></a> | <a href='#'><?= $this->translate('Comments'); ?></a>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
