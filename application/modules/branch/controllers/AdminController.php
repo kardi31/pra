@@ -54,7 +54,7 @@ class Branch_AdminController extends MF_Controller_Action {
             }
             
             if($result['approved'] == 1){ 
-                $row[] = '<a href="' . $this->view->adminUrl('approve-branch', 'branch', array('id' => $result->id)) . '" title=""><span class="icon16 icomoon-icon-checkbox-2"></span></a>';
+                $row[] = '<span class="icon16 icomoon-icon-checkbox-2"></span>';
             }
             else{
                 $row[] = '<a href="' . $this->view->adminUrl('approve-branch', 'branch', array('id' => $result->id)) . '" title=""><span class="icon16 icomoon-icon-checkbox-unchecked-2"></span></a>';
@@ -89,6 +89,67 @@ class Branch_AdminController extends MF_Controller_Action {
         
     }
     
+    public function editBranchAction() {
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        $i18nService = $this->_service->getService('Default_Service_I18n');
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $photoService = $this->_service->getService('Media_Service_Photo');
+        $authService = $this->_service->getService('User_Service_Auth');
+        
+        
+        $user = $authService->getAuthenticatedUser();
+        $translator = $this->_service->get('translate');
+        
+        if(!$branch = $branchService->getBranch($this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Branch not found');
+        }
+        
+        $adminLanguage = $i18nService->getAdminLanguage();
+        
+        $form = $branchService->getBranchAdminForm($branch);
+                
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getParams())) {
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    
+                    $values = $form->getValues();
+                    
+                    
+                    $branch = $branchService->saveBranchAdminFromArray($values);
+                    $this->view->messages()->add($translator->translate('Item has been updated'), 'success');
+                    
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                    
+
+                    $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-branch', 'branch'));
+                } catch(Exception $e) {
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+        }
+        
+        $languages = $i18nService->getLanguageList();
+        
+        $this->view->assign('adminLanguage', $adminLanguage);
+        $this->view->assign('branch', $branch);
+        $this->view->assign('languages', $languages);
+        $this->view->assign('form', $form);
+    }
+    
+    public function removeBranchAction() {
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        
+        if(!$branch = $branchService->getBranch((int) $this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Banner not found');
+        }
+        
+        $branch->delete();
+        
+        $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-branch', 'branch'));
+        $this->_helper->viewRenderer->setNoRender();
+    }
     
     public function toggleBranchAction() {
         $branchService = $this->_service->getService('Branch_Service_Branch');
@@ -162,14 +223,12 @@ class Branch_AdminController extends MF_Controller_Action {
             $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
             $mail = new Zend_Mail('UTF-8');
             $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
-//            $mail->addTo($branch['email'], $branch['office_name']." ".$branch['office_name']);
+            $mail->addTo($branch['email'], $branch['office_name']." ".$branch['office_name']);
             $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
-                    $mail->addTo('kardi31@o2.pl');
+//                    $mail->addTo('kardi31@o2.pl');
 
             $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
             
-            
-        die('172');    
         }
         $branch->save();
         

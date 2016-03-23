@@ -64,15 +64,20 @@ class Admin_IndexController extends MF_Controller_Action
     protected function _prepareLayout() {
         $this->view->navigation()->setRole('admin');
         
-        $newsService = $this->_service->getService('News_Service_News');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $updateService = $this->_service->getService('Agent_Service_Update');
         $userService = $this->_service->getService('User_Service_User');
         
-
+        $notApprovedBranches = $branchService->getNotApprovedBranches(true);
+        $this->view->assign('notApprovedBranches', $notApprovedBranches);
+        
+        $notApprovedUpdates = $updateService->getAllUpdates(true);
+        $this->view->assign('notApprovedUpdates', $notApprovedUpdates);
         
         
-        
-        $articleCount = $newsService->getAllArticles(true);
-        $this->view->assign('articleCount', $articleCount);
+        $notApprovedAgents = $agentService->getNotApprovedAgents(true);
+        $this->view->assign('notApprovedAgents', $notApprovedAgents);
         
         if(!$this->view->adminTitle && $current = $this->view->navigation()->findOneBy('active', true)) {
             $this->view->adminTitle = $this->view->translate($current->getLabel());

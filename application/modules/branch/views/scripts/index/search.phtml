@@ -10,7 +10,11 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
         <!-- LEFT CONTENT -->
         <div class="col-md-8 pagecontainer2 offset-0">
             <div class="padding30 grey">
-            <h1 class="h2 mt0"><?= $this->translate('Find company'); ?></h1>
+                <div class="hpadding50c defaultheader">
+                    <h1 class="h2 mt0"><?= $this->translate('Find company'); ?></h1>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
             <br />
 				<div class="bs-example bs-example-tabs">
 				
@@ -42,7 +46,13 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 				</div>
             
                                 <hr />
-                                <h2><?= $this->translate('Find company by category'); ?></h2>
+                                
+                <div class="hpadding50c defaultheader">
+                    <h2><?= $this->translate('Find company by category'); ?></h2>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
+                                
                                 <?php foreach($this->agentCategories as $key=> $category): ?>
                                 <div class="col-md-4">
                                 <h3 class="black h4"><?= $category['Translation'][$this->language]['title']; ?></h3>

@@ -9,7 +9,7 @@
             $queryData['page'] = $this->previous;
             ?>
             <li>
-                <a href="<?= $this->url(array('page' => $this->previous),'domain-area-search')."?".urldecode(http_build_query($queryData)); ?>">«</a>
+                <a href="<?= $this->url(array('page' => $this->previous),'domain-area-search-result')."?".urldecode(http_build_query($queryData)); ?>">«</a>
             </li>
         <?php else: ?>
             <li class="disabled">
@@ -27,7 +27,7 @@
                 $queryData['page'] = $page;
                if ($page != $this->current): ?>
                 <li>
-                    <a href="<?= $this->url(array('page' => $page),'domain-area-search')."?".urldecode(http_build_query($queryData)); ?>"><?= $page; ?></a>
+                    <a href="<?= $this->url(array('page' => $page),'domain-area-search-result')."?".urldecode(http_build_query($queryData)); ?>"><?= $page; ?></a>
                 </li>
             <?php else: ?>
                 <li class="active">
@@ -41,7 +41,7 @@
                 $queryData['page'] = $this->next;
             ?>
            <li>
-               <a href="<?= $this->url(array('page' => $this->next),'domain-area-search')."?".urldecode(http_build_query($queryData)); ?>">»</a>
+               <a href="<?= $this->url(array('page' => $this->next),'domain-area-search-result')."?".urldecode(http_build_query($queryData)); ?>">»</a>
            </li>
        <?php else: ?>
            <li class="disabled">

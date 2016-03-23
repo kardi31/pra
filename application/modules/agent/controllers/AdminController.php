@@ -404,7 +404,7 @@ class Agent_AdminController extends MF_Controller_Action {
         $dataTables = Default_DataTables_Factory::factory(array(
             'request' => $this->getRequest(), 
             'table' => $table, 
-            'class' => 'Agent_DataTables_', 
+            'class' => 'Agent_DataTables_Agent', 
             'columns' => array('x.id','x.name', 'x.town','x.address'),
             'searchFields' => array('x.id','x.name', 'x.town','x.address')
         ));
@@ -419,14 +419,14 @@ class Agent_AdminController extends MF_Controller_Action {
             $row[] = $result->id;
             $row[] = $result->name;
             if($result->view)
-                $row[] = '<a href="' . $this->view->adminUrl('set-agent-visible', 'review', array('id' => $result->id)) . '" title="' . $this->view->translate('Set inactive') . '"><span class="icon16 icomoon-icon-checkbox-2"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $row[] = '<a href="' . $this->view->adminUrl('set-agent-active', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set inactive') . '"><span class="icon16 icomoon-icon-checkbox-2"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             else
-                $row[] = '<a href="' . $this->view->adminUrl('set-agent-visible', 'review', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '"><span class="icon16 icomoon-icon-checkbox-unchecked"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $row[] = '<a href="' . $this->view->adminUrl('set-agent-active', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '"><span class="icon16 icomoon-icon-checkbox-unchecked"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             
             if($result->approved)
                 $row[] = '<span class="icon16 icomoon-icon-checkbox-2"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             else
-                $row[] = '<a href="' . $this->view->adminUrl('approve-agent', 'review', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '"><span class="icon16 icomoon-icon-checkbox-unchecked"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $row[] = '<a href="' . $this->view->adminUrl('approve-agent', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '"><span class="icon16 icomoon-icon-checkbox-unchecked"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             
             
             $row[] = count($result['Branches']);
@@ -486,28 +486,19 @@ class Agent_AdminController extends MF_Controller_Action {
                 }
                 else{
                     $agent->set('approved',1);
+                    $agent->set('view',1);
                     
-                    $passwordEncoder = new User_PasswordEncoder();
-                    $values['salt'] = MF_Text::createUniqueToken();
-                    $values['token'] = MF_Text::createUniqueToken();
-                    $values['role'] = 'agent';
                     
-                    $values['email'] = $agent['Branches'][0]['email'];
-                    
-                    $newPassword = MF_Text::createUniqueToken();
-
-                    $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
-                    
-                    $user = $userService->saveClientFromArray($values);
-                    
-                    $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
-                    $mail = new Zend_Mail('UTF-8');
-                    $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole.'));
-                    $mail->addTo($comment['email'], $comment['name']);
-                    $mail->setReplyTo($comment,$options['reply_email'], 'Oceń Fachowca');
-//                    $mail->addTo('kardi31@o2.pl');
-                    
-                    $mailService->sendCommentApprovedEmail($comment,$mail, $this->view);
+                    $isAgentUser = $userService->getUser($agent['id'],'agent_id');
+                    if(!$isAgentUser){
+                        $branch = $agent['Branches'][0];
+                        $branchUser = $userService->getUser($branch['id'],'branch_id');
+                        if($branchUser){
+                            $branchUser->set('agent_id',$agent['id']);
+                            $branchUser->set('branch_id',null);
+                            $branchUser->save();
+                        }
+                    }
                 }
                 
                 $agent->save();
@@ -515,10 +506,52 @@ class Agent_AdminController extends MF_Controller_Action {
                 $this->_service->get('doctrine')->getCurrentConnection()->commit();
                 $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));
             } catch(Exception $e) {
+                var_dump($e->getMessage());exit;
                 $this->_service->get('Logger')->log($e->getMessage(), 4);
             }
         }
         $this->_helper->viewRenderer->setNoRender();
+    }
+    
+    public function editAgentAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        $hoursService = $this->_service->getService('Branch_Service_OpeningHours');
+        $i18nService = $this->_service->getService('Default_Service_I18n');
+        
+        
+        if(!$agent = $agentService->getAgent($this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Ad not found');
+        }
+        
+        $form = $agentService->getAgentAdminForm($agent);
+       
+        $this->view->assign('form',$form);
+        
+       
+        $languages = $i18nService->getLanguageList();
+        $adminLanguage = $i18nService->getAdminLanguage();
+        $this->view->assign('languages', $languages);
+        $this->view->assign('adminLanguage', $adminLanguage);
+        
+        
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getPost())) {
+                try {                                   
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    $values = $form->getValues();  
+                    $values['id'] = $agent['id'];
+                    $agent = $agentService->saveAgentFromCms($values);
+                    
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                    $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));
+                } catch(Exception $e) {
+                    var_dump($e->getMessage());exit;
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+        }    
     }
 }
 

@@ -60,6 +60,12 @@ class Branch_Form_Branch extends Admin_Form {
         $twitter->setDecorators(self::$textAdminDecorators);
         $twitter->setAttrib('class', 'form-control');
         
+        $description = $this->createElement('textarea', 'description');
+        $description->setLabel('Description');
+        $description->setDecorators(self::$textAdminDecorators);
+        $description->setAttrib('class', 'form-control');
+        $description->setAttrib('rows', 5);
+        
         $lat = $this->createElement('text', 'lat');
         $lat->setLabel('Lat');
         $lat->setDecorators(self::$textAdminDecorators);
@@ -83,6 +89,7 @@ class Branch_Form_Branch extends Admin_Form {
             $town,
             $county,
             $postcode,
+            $description,
             $agent_id,
             $phone,
             $url,

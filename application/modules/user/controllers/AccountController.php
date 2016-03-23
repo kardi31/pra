@@ -5,11 +5,26 @@ class User_AccountController extends MF_Controller_Action {
 
     public function init(){
         
-        $authService = $this->_service->getService('User_Service_Auth');
+        parent::init();
+        $authService = MF_Service_ServiceBroker::getInstance()->getService('User_Service_Auth');
         
         $user = $authService->getAuthenticatedUser();
-        
-        $this->view->assign('user',$user);
+        if($user->role=='agent'){
+            
+            $agentService = MF_Service_ServiceBroker::getInstance()->getService('Agent_Service_Agent');
+            
+            $branch = $agentService->getBranch($user['agent_id']);
+            
+            Zend_Layout::getMvcInstance()->assign('agent', $agent);
+        }
+        elseif($user->role=='branch'){
+            
+            $branchService = MF_Service_ServiceBroker::getInstance()->getService('Branch_Service_Branch');
+            
+            $branch = $branchService->getBranch($user['branch_id']);
+            
+            Zend_Layout::getMvcInstance()->assign('branch', $branch);
+        }
     }
     
     public function indexAction()
@@ -17,14 +32,26 @@ class User_AccountController extends MF_Controller_Action {
          $this->_helper->layout->setLayout('account');
          
         
+        $authService = $this->_service->getService('User_Service_Auth');
+        
+        $user = $authService->getAuthenticatedUser();
         
         
-        $rankingService = $this->_service->getService('Agent_Service_Ranking');
+        $this->view->assign('user',$user);
         
-        $monthlyRankings = $rankingService->getAgentMonthlyRankings($user['agent_id'],10);
-        $this->view->assign('monthlyRankings',$monthlyRankings);
+        if($user->role=='agent'){
         
-        $this->_helper->actionStack('sidebar');
+            $rankingService = $this->_service->getService('Agent_Service_Ranking');
+
+            $monthlyRankings = $rankingService->getAgentMonthlyRankings($this->_user['agent_id'],10);
+            $this->view->assign('monthlyRankings',$monthlyRankings);
+            $this->_helper->actionStack('sidebar');
+        }
+        elseif($user->role=='branch'){
+            
+            $this->_helper->viewRenderer('account/branch-index', null, true);
+            $this->_helper->actionStack('sidebar');
+        }
     }
     public function accountDataAction()
     {
@@ -88,6 +115,18 @@ class User_AccountController extends MF_Controller_Action {
        $this->_helper->viewRenderer->setResponseSegment('sidebar');
     }
     
+    public function branchSidebarAction()
+    {
+        
+        $authService = $this->_service->getService('User_Service_Auth');
+        
+        $user = $authService->getAuthenticatedUser();
+        
+        $this->view->assign('user',$user);
+        
+       $this->_helper->viewRenderer->setResponseSegment('sidebar');
+    }
+    
     public function listBranchAction()
     {
         $this->_helper->layout->setLayout('account');
@@ -99,9 +138,15 @@ class User_AccountController extends MF_Controller_Action {
         
         $this->view->assign('user',$user);
         
-        $branches = $user->get('Agent')->get('Branches');
-        $this->view->assign('branches',$branches);
-        
+        if($user->role=='agent'){
+            $branches = $user->get('Agent')->get('Branches');
+            $this->view->assign('branches',$branches);
+        }
+        elseif($user->role=='branch'){
+
+            $branches[] = $user->get('Branch');
+            $this->view->assign('branches',$branches);
+        }
         $this->_helper->actionStack('sidebar');
     }
     
@@ -159,24 +204,40 @@ class User_AccountController extends MF_Controller_Action {
         $this->view->assign('user',$user);
         
         $branchService = $this->_service->getService('Branch_Service_Branch');
+        $hoursService = $this->_service->getService('Branch_Service_OpeningHours');
 
         if(!$branch = $branchService->getBranch($this->getRequest()->getParam('id'))){
             die('noBranch');
         }
 
         $form = new Branch_Form_Branch();
-        $form->populate($branch->toArray());
+        
+        $branchArray = $branch->toArray();
+        $branchArray['description'] = $branch['Translation'][$this->view->language]['description'];
+        
+        $form->populate($branchArray);
+        
+        $hoursForm = new Branch_Form_OpeningHours();
+        $hoursForm->populateForm($branch['OpeningHours']->toArray());
+        $form->addSubForm($hoursForm,'hoursForm');
 
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getPost())) {
                 try {
                     $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
                     $data = $form->getValues();
+                    
+                    
+                    $data['Translation']['pl']['description'] = $data['description'];
+                    $data['Translation']['en']['description'] = $data['description'];
                     unset($data['id']);
                     $branch->fromArray($data);
 //                        Zend_Debug::dump($branch->toArray());exit;
                     $branch->save();
 
+                    $data['hoursForm']['branch_id'] = $branch['id'];
+                    $hoursService->saveOpeningHoursFromArray($data['hoursForm']);
+                    
                     $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Your branch has been successfully edited.'));
 
 
@@ -235,7 +296,12 @@ class User_AccountController extends MF_Controller_Action {
         
         $this->view->assign('user',$user);
         
-        $staffMembers = $user->get('Agent')->get('StaffMembers');
+        if($user->role=='agent'){
+            $staffMembers = $user->get('Agent')->get('StaffMembers');
+        }
+        elseif($user->role=='branch'){
+            $staffMembers = $user->get('Branch')->get('StaffMembers');
+        }
         $this->view->assign('staffMembers',$staffMembers);
         $this->_helper->actionStack('sidebar');
     }
@@ -252,8 +318,6 @@ class User_AccountController extends MF_Controller_Action {
         
         $this->view->assign('user',$user);
         
-        $staffMembers = $user->get('Agent')->get('StaffMembers');
-        $this->view->assign('staffMembers',$staffMembers);
         
         if($this->getRequest()->getParam('id')){
             $staffService = $this->_service->getService('Staff_Service_Staff');
@@ -330,8 +394,12 @@ class User_AccountController extends MF_Controller_Action {
         $branchService = $this->_service->getService('Branch_Service_Branch');
 
         $form = new Staff_Form_Staff();
-
-        $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($user['agent_id']));
+        if($user['role']=='agent'){
+            $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($user['agent_id']));
+        }
+        elseif($user['role']=='branch'){
+            $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($user['branch_id'],false,'branch'));
+        }
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getPost())) {
@@ -341,7 +409,12 @@ class User_AccountController extends MF_Controller_Action {
                     unset($data['id']);
 
                     $data['Translation'][$this->view->language]['description'] = $data['description'];
-                    $data['agent_id'] = $user['agent_id'];
+                    if($user['role']=='agent'){
+                        $data['agent_id'] = $user['agent_id'];
+                    }
+                    elseif($user['role']=='branch'){
+                        $data['agent_id'] = $user['Branch']['agent_id'];
+                    }
                     $staff = $staffService->saveStaffFromArray($data,$this->view->language);
 
                     if(isset($_POST['photoUrl'])){

@@ -253,7 +253,7 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
                         }
                     }
                 }
-
+                
                 $result = $this->_stmt->execute();
 
                 $this->_conn->incrementQueryCount();

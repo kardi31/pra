@@ -78,6 +78,12 @@ class Agent_Form_AgentAdmin extends Admin_Form {
 
         $this->addSubForm($translations, 'translations');
         
+        $category = $this->createElement('select', 'category_id');
+        $category->setLabel('Categories');
+        $category->setIsArray(true);
+        $category->setDecorators(self::$selectDecorators);
+        $category->setAttrib('class', 'form-control');
+        
         $town = $this->createElement('text', 'town');
         $town->setLabel('Town');
         $town->setDecorators(self::$textDecorators);
@@ -130,6 +136,7 @@ class Agent_Form_AgentAdmin extends Admin_Form {
             $lastname,
             $email,
             $name,
+            $category,
             $branch_email,
             $agent_email,
             $description,

@@ -12,7 +12,6 @@ class Branch_IndexController extends MF_Controller_Action {
         $this->_helper->layout->setLayout('page');
         $this->_helper->actionStack('layout', 'index', 'default');
         
-        $agentService = $this->_service->getService('Agent_Service_Agent');
         $branchService = $this->_service->getService('Branch_Service_Branch');
         $reviewService = $this->_service->getService('Review_Service_Review');
         
@@ -22,6 +21,19 @@ class Branch_IndexController extends MF_Controller_Action {
         }
         
         $agent = $branch['Agent'];
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => $agent['name'].' '.$branch['office_name'].' - Opinie o firmie',
+                'description' => 'Przeczytaj opinie klientów o firmie '.$agent['name'].' '.$branch['office_name']
+            ),
+            'en' => array(
+                'title' => $agent['name'].' '.$branch['office_name'].' - customer reviews',
+                'description' => 'Read customer reviews of '.$agent['name'].' '.$branch['office_name']
+            )
+        ),$this->view);
+        
         
         if($agent['premium_support']){
             $advertisingService = $this->_service->getService('Advertising_Service_Advertising');
@@ -57,7 +69,7 @@ class Branch_IndexController extends MF_Controller_Action {
         $agentService = $this->_service->getService('Agent_Service_Agent');
         
         $filters = $this->getRequest()->getParams();
-        if(!(strlen($filters['area'])||strlen($filters['name'])||strlen($filters['category'])||!empty($filters['category']))){
+        if(!(strlen($filters['area'])||strlen($filters['search'])||strlen($filters['name'])||strlen($filters['category'])||!empty($filters['category']))){
             $metatagService = $this->_service->getService('Default_Service_Metatag');
             $metatagService->setCustomViewMetatags(array(
                 'pl' => array(
@@ -71,7 +83,7 @@ class Branch_IndexController extends MF_Controller_Action {
             ),$this->view);
 
             $agentService = $this->_service->getService('Agent_Service_Agent');
-             $form = new Branch_Form_RankingSearch();
+            $form = new Branch_Form_RankingSearch();
 
             $form->getElement('category_id')->addMultiOption('','');
             $form->getElement('category_id')->addMultiOptions($agentService->prependMainCategories($this->view->language,false));
@@ -87,6 +99,9 @@ class Branch_IndexController extends MF_Controller_Action {
         else{
         
             $searchString = $this->getRequest()->getParam('search');
+            if(!strlen($searchString)){
+                $searchString = $this->getRequest()->getParam('area');
+            }
             $searchName = $this->getRequest()->getParam('name');
     //        
             $sort = $this->getRequest()->getParam('sort');
@@ -104,6 +119,24 @@ class Branch_IndexController extends MF_Controller_Action {
 
             $areas = MF_Text::getAreas();
             $categories = $agentService->getMainCategories();
+            
+            $searchCategories = $_GET['category'];
+            
+            $fullSearchCategories = array();
+            foreach($searchCategories as $searchCategory):
+                $searchCategory = $agentService->getCategory($searchCategory,'id');
+                if($searchCategory)
+                    $fullSearchCategories[] = $searchCategory;
+            endforeach;
+            
+            if($this->getRequest()->getParam('categoryslug')){
+                $searchCategory = $agentService->getFullCategory($this->getRequest()->getParam('categoryslug'),'slug',$this->view->language);
+                if($searchCategory){
+                    $searchCategories[] = $searchCategory['id'];
+                    $fullSearchCategories[] = $searchCategory;
+                }
+                        
+            }
 
 
             $metatagService = $this->_service->getService('Default_Service_Metatag');
@@ -117,8 +150,16 @@ class Branch_IndexController extends MF_Controller_Action {
                     'description' => 'Search for best Polish companies in'.ucwords($searchString)
                 )
             ),$this->view);
-
-
+            
+            $this->view->headLink(array('rel' => 'canonical', 'href' => $this->view->url(array('area' => $searchString),'domain-area-search-result')));
+            if ($paginator->getPages()->previous){
+                $this->view->headLink(array('rel' => 'prev', 'href' => $this->view->url(array('area' => $searchString),'domain-area-search-result')."?page=".$paginator->getPages()->previous));
+            }
+            if ($paginator->getPages()->next){
+                $this->view->headLink(array('rel' => 'next', 'href' => $this->view->url(array('area' => $searchString),'domain-area-search-result')."?page=".$paginator->getPages()->next));
+            }
+            
+            
             $this->view->assign('categories', $categories);
             $this->view->assign('paginator', $paginator);
 
@@ -127,7 +168,10 @@ class Branch_IndexController extends MF_Controller_Action {
             $this->view->assign('page',$page);
             $this->view->assign('filterCount',$filterCount);
             $this->view->assign('searchString',$searchString);
+            $this->view->assign('searchCategories',$searchCategories);
             $this->view->assign('searchName',$searchName);
+            $this->view->assign('fullSearchCategories',$fullSearchCategories);
+            
         }
     }
     

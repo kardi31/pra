@@ -28,12 +28,14 @@
             </div>
             <div class="portlet-body">
                 <div class="form-actions top">
+                    <?php if($this->user->role=='agent'){ ?>
                     <div class="btn-set pull-left">
                         <a href="<?= $this->url(array('action' => 'add-branch'),'domain-account');?>" class="btn btn-success">
                             <i class="fa fa-plus"></i>
                             <?= $this->translate('Add branch'); ?>
                         </a>
                     </div>
+                    <?php } ?>
                     <br /><br />
                 </div>
                 <div class="table-scrollable">
@@ -61,10 +63,13 @@
                                     <?= $this->translate('Edit this branch'); ?>
                                 </a>
                                 &nbsp;
+                                
+                    <?php if($this->user->role=='agent'){ ?>
                                 <a href="<?= $this->url(array('id' => $branch['id']), 'domain-delete-branch'); ?>" data-text="<?= $this->translate('Are you sure you want to delete')." ".$staff['firstname']." ".$staff['lastname']; ?>?" class="confirm btn btn-danger">
                                     <i class="fa fa-times"></i>
                                     <?= $this->translate('Delete branch'); ?>
                                 </a>
+                    <?php } ?>
                             </td>
                         </tr>
                         <?php } ?>

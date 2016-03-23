@@ -13,6 +13,16 @@ class User_AuthController extends MF_Controller_Action
 //        }
         $this->view->messages()->clean();
         
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Logowanie do Oceń Fachowca'
+            ),
+            'en' => array(
+                'title' => 'Login to Rate Pole'
+            )
+        ),$this->view);
+        
 	$translator = $this->getFrontController()->getParam('bootstrap')->getContainer()->get('translate');
 	$form = new User_Form_Login();
         $form->setElementDecorators(User_BootstrapForm::$bootstrapElementDecorators);
@@ -55,6 +65,7 @@ class User_AuthController extends MF_Controller_Action
                     if($result->isValid()) {
                         switch($user->role):
                             case 'admin':
+                            case 'branch':
                                 $this->_helper->redirector->gotoUrl('/account');
                                 break;
                         endswitch;

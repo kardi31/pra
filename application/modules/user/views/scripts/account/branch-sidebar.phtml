@@ -1,0 +1,23 @@
+
+<ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+    <li class="nav-item start active open">
+        <a href="<?= $this->url(array(), 'domain-account'); ?>" class="nav-link nav-toggle">
+            <i class="icon-home"></i>
+            <span class="title"><?= $this->translate('User panel'); ?></span>
+            <span class="selected"></span>
+            <span class="arrow open"></span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= $this->url(array('id' => $this->user['branch_id']), 'domain-edit-branch'); ?>">
+            <i class="fa fa-building"></i>
+            <span class="title"><?= $this->translate('My branch'); ?></span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?= $this->url(array('action' => 'list-staff'), 'domain-account'); ?>">
+            <i class="icon-users"></i>
+            <span class="title"><?= $this->translate('My staff members'); ?></span>
+        </a>
+    </li>
+</ul>

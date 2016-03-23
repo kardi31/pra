@@ -73,6 +73,11 @@ class Branch_Form_BranchAdmin extends Admin_Form {
         $twitter->setDecorators(self::$textDecorators);
         $twitter->setAttrib('class', 'form-control');
         
+        $email = $this->createElement('text', 'email');
+        $email->setLabel('Email');
+        $email->setDecorators(self::$textDecorators);
+        $email->setAttrib('class', 'form-control');
+        
         $lat = $this->createElement('text', 'lat');
         $lat->setLabel('Lat');
         $lat->setDecorators(self::$textDecorators);
@@ -132,6 +137,7 @@ class Branch_Form_BranchAdmin extends Admin_Form {
             $view,
             $county,
             $postcode,
+            $email,
             $approved,
             $agent_id,
             $phone,

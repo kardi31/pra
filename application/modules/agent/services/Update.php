@@ -19,7 +19,16 @@ class Agent_Service_Update extends MF_Service_ServiceAbstract {
    public function getAllAgents(){
        return $this->updateTable->findAll();
    }
+   
+   
+   public function getAllUpdates($countOnly = false){
+       if($countOnly)
+           return $this->updateTable->count();
+       return $this->updateTable->findAll();
+   }
     
+   
+   
     public function saveUpdateFromArray($values) {
         foreach($values as $key => $value) {
             if(!is_array($value) && strlen($value) == 0) {

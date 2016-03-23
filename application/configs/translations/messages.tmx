@@ -51,6 +51,15 @@
        <tu tuid='Kind regards'>
            <tuv xml:lang="pl"><seg>Pozdrawiamy</seg></tuv>
        </tu>
+       <tu tuid='The best'>
+           <tuv xml:lang="pl"><seg>Najlepsi</seg></tuv>
+       </tu>
+       <tu tuid='and'>
+           <tuv xml:lang="pl"><seg>i</seg></tuv>
+       </tu>
+       <tu tuid='The best companies'>
+           <tuv xml:lang="pl"><seg>Najlepsze firmy</seg></tuv>
+       </tu>
        
        
        <tu tuid='Your company has been added to Rate Pole. From now on, customers have an opportunity to review your company.'>
@@ -1772,6 +1781,21 @@
        </tu>
        <tu tuid='before you publish a review.'>
            <tuv xml:lang="pl"><seg>zanim opublikujesz opinie</seg></tuv>
+       </tu>
+       <tu tuid='Branch Panel'>
+           <tuv xml:lang="pl"><seg>Panel Oddziału</seg></tuv>
+       </tu>
+       <tu tuid='Agent Panel'>
+           <tuv xml:lang="pl"><seg>Panel Firmowy</seg></tuv>
+       </tu>
+       <tu tuid='User panel'>
+           <tuv xml:lang="pl"><seg>Panel użytkownika</seg></tuv>
+       </tu>
+       <tu tuid='My branch'>
+           <tuv xml:lang="pl"><seg>Mój oddział</seg></tuv>
+       </tu>
+       <tu tuid='No data'>
+           <tuv xml:lang="pl"><seg>Brak danych</seg></tuv>
        </tu>
        <tu tuid='Read our'>
            <tuv xml:lang="pl"><seg>Przeczytaj</seg></tuv>

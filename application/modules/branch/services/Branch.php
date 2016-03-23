@@ -86,6 +86,17 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
        return $q->execute(array(),$hydrationMode);
    }
    
+   public function getNotApprovedBranches($countOnly = false,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->branchTable->createQuery('b');
+       $q->addWhere('b.approved = 0');
+       $q->orderBy('b.created_at DESC');
+       if($countOnly){
+           return $q->count();
+       }
+       
+       return $q->execute(array(),$hydrationMode);
+   }
+   
    public function getNewestBranches($limit = 6,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
        $q = $this->branchTable->createQuery('b');
        $q->addWhere('b.view = 1');
@@ -162,13 +173,13 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
             $q->addWhere('(LOWER(b.town) like ? OR LOWER(b.county) like ? OR LOWER(b.postcode) like ? OR LOWER(b.address) like ?)',array("%".strtolower($search)."%","%".strtolower($search)."%","%".strtolower($search)."%","%".strtolower($search)."%"));
        }
        if($searchName){
+           
            $q->addWhere('a.name like "%'.strtolower($searchName).'%"');
        }
-       
        if(isset($filters['category'])&&!empty($filters['category'])){
+           
            $q->andWhereIn('c.id',$filters['category']);
        }
-       
        
        if(isset($filters['rating'])){
            $q->andWhereIn('round(a.rating)',$filters['rating']);
@@ -191,11 +202,17 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
        }
        
        $q->select('b.*,a.id,a.logo,a.name,a.link,bt.*');
+//       echo $q;exit;
        return $q;
    }
    
-    public function prependBranchesValues($agent_id,$prependEmptyValue = false){
-       $branches = $this->searchAgentBranches($agent_id);
+    public function prependBranchesValues($agent_id,$prependEmptyValue = false,$type='agent'){
+        if($type=='agent'){
+            $branches = $this->searchAgentBranches($agent_id);
+        }
+        else{
+            $branches[] = $this->getBranch($agent_id);
+        }
        $options = array();
        
        if($prependEmptyValue){

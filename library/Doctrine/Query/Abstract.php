@@ -1429,7 +1429,7 @@ abstract class Doctrine_Query_Abstract
         }
 
         $this->_params['where'] = array_merge($this->_params['where'], $params);
-
+        
         return $expr . ($not === true ? ' NOT' : '') . ' IN (' . implode(', ', $a) . ')';
     }
 

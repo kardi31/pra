@@ -114,5 +114,8 @@ class User_Model_Doctrine_User extends User_Model_Doctrine_BaseUser implements U
              'local' => 'agent_id',
              'foreign' => 'id'));
         
+        $this->hasOne('Branch_Model_Doctrine_Branch as Branch', array(
+             'local' => 'branch_id',
+             'foreign' => 'id'));
     }
 }

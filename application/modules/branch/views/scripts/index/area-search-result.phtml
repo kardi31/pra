@@ -22,13 +22,15 @@
 			console.debug(this);
 		}
 	});
-        
+        function cutUrl(url,n){
+            return url.split('/').slice(0,n).join('/');
+        }
         $('#areaSearch').on('submit',function(){
             var searchParam = $('#searchParam');
             var searchParamVal = searchParam.val().toLowerCase();
-            var pathname = window.location.pathname;
-            var beforeLastSlash = pathname.substr(0, pathname.lastIndexOf("/"));
-            $(this).attr('action',beforeLastSlash+'/'+searchParamVal); 
+            var afterSecondSlash = cutUrl(window.location.pathname,2);
+            
+            $(this).attr('action',afterSecondSlash+'/'+searchParamVal); 
 //            searchParam.val('');
         });
         
@@ -41,7 +43,7 @@
     })
     </script>
 	<!-- CONTENT -->
-	<div class="container">
+	<div class="container areaSearchResult">
 		<div class="container pagecontainer offset-0">	
 
                     <form method="GET" id="areaSearch">
@@ -147,14 +149,14 @@
                                                     <div class="radio">
                                                       <label>
                                                             <input type="checkbox" name="category[]" id="" value="<?= $subcategory['id']; ?>" <?php  
-                                                            if(isset($_GET['category'])){
-                                                                if(is_array($_GET['category'])){
-                                                                    if(in_array($subcategory['id'],$_GET['category'])){
+                                                            if(isset($this->searchCategories)){
+                                                                if(is_array($this->searchCategories)){
+                                                                    if(in_array($subcategory['id'],$this->searchCategories)){
                                                                         echo 'checked';
                                                                     }
                                                                 }
                                                                 else{
-                                                                    if($subcategory['id']==$_GET['category'])
+                                                                    if($subcategory['id']==$this->searchCategories)
                                                                         echo 'checked';
                                                                 }
                                                             }
@@ -173,7 +175,7 @@
                                 <div class="line2"></div>
 				
 				<!-- Acomodations -->		
-				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse3">
+<!--				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse3">
 				  Region <span class="collapsearrow"></span>
 				</button>
 				
@@ -195,10 +197,10 @@
 						
 					</div>	
 					<div class="clearfix"></div>					
-				</div>
+				</div>-->
 				<!-- End of Acomodations -->
 				
-				<div class="line2"></div>
+				<!--<div class="line2"></div>-->
 				
 				
 				<div class="line2"></div>
@@ -216,7 +218,40 @@
 			
 				<div class="hpadding20">
 					<!-- Top filters -->
-					<div class="topsortby">
+					<div class="hpadding50c">
+                                            
+                                            <h1 class="lato size30 slim">
+                                                <?php 
+                                                if(count($this->fullSearchCategories)>1){
+                                                    echo $this->translate('The best');
+                                                    foreach($this->fullSearchCategories as $key => $fullSearchCategory){
+                                                        if($key!=0){
+                                                            echo " ".$this->translate('and')." ".$fullSearchCategory['Translation'][$this->language]['title'];
+                                                        }
+                                                        else{
+                                                            echo " ".$fullSearchCategory['Translation'][$this->language]['title'];
+                                                        }
+                                                    }
+                                                }
+                                                elseif(count($this->fullSearchCategories)==1){
+                                                    echo $this->translate('The best');
+                                                    echo " ".$this->fullSearchCategories[0]['Translation'][$this->language]['title'];
+                                                }
+                                                else{
+                                                    echo $this->translate('');
+                                                    echo " ".$this->translate('The best companies');
+                                                }
+                                                echo " - ".ucwords($this->searchString);
+                                            
+                                            ?>
+                                              
+                                            </h1>
+					<p class="aboutarrow"></p>
+<!--                                            <div class="clearfix"></div>
+                                            
+						<div class="col-md-6 offset-0">
+							
+						</div>
 						<div class="col-md-4 offset-0">
 								
 								<div class="left mt7"><b><?= $this->translate('Sort by:'); ?></b></div>
@@ -233,19 +268,17 @@
 								</div>
 
 						</div>			
-						<div class="col-md-4">
+						<div class="col-md-2">
 										
 							<button type="submit" name="submit" class="btn-search4"><?= $this->translate('Search'); ?></button>
-						</div>
-						<div class="col-md-4 offset-0">
-							
-						</div>
+						</div>-->
 					</div>
+                                    <div class="line3"></div>
 					<!-- End of topfilters-->
 				</div>
 				<!-- End of padding -->
 				
-				<br/><br/>
+				<br/>
 				<div class="clearfix"></div>
 				
 
@@ -253,8 +286,12 @@
 			
 	
                                     <?php foreach($this->paginator as $branch): 
+                                        try{
                                             $url = $this->url(array('slug' => $branch['office_link'],'agent' => $branch['Agent']['link']),'domain-branch-details');
                                             $reviewUrl = $this->url(array('branch' => $branch['office_link'],'agent' => $branch['Agent']['link']),'domain-add-review-branch');
+                                        } catch (Exception $ex) {
+                                            continue;
+                                        }
                                         
                                         ?>
 					<div class="offset-2">

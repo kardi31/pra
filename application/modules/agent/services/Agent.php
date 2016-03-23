@@ -36,6 +36,18 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
         return $q->fetchOne(array(), $hydrationMode);
     }
     
+    
+   public function getNotApprovedAgents($countOnly = false,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->agentTable->createQuery('b');
+       $q->addWhere('b.approved = 0');
+       $q->orderBy('b.created_at DESC');
+       if($countOnly){
+           return $q->count();
+       }
+       
+       return $q->execute(array(),$hydrationMode);
+   }
+    
    public function getAllAgents(){
        return $this->agentTable->findAll();
    }
@@ -246,27 +258,6 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
         return $q->execute(array(),$hydrationMode);
     }
    
-    public function getAdForm(Banner_Model_Doctrine_Ad $ad = null) {
-        $form = new News_Form_Video();
-        
-        if(null != $ad) {
-            $bannerArray = $ad->toArray();
-            $bannerArray['date_from'] = MF_Text::timeFormat($bannerArray['date_from'], 'd/m/Y H:i');
-            $bannerArray['date_to'] = MF_Text::timeFormat($bannerArray['date_to'], 'd/m/Y H:i');
-            $bannerArray['url'] = $ad['VideoRoot']['url'];
-            $form->populate($bannerArray);
-            
-            $i18nService = MF_Service_ServiceBroker::getInstance()->getService('Default_Service_I18n');
-            $languages = $i18nService->getLanguageList();
-            foreach($languages as $language) {
-                $i18nSubform = $form->translations->getSubForm($language);
-                if($i18nSubform) {
-                    $i18nSubform->getElement('name')->setValue($ad->Translation[$language]->title);
-                }
-            }
-        }   
-        return $form;
-    }
     
     public function saveAgentFromArray($values) {
         foreach($values as $key => $value) {
@@ -281,6 +272,56 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
         $agent->fromArray($values);
         $agent->save();
         
+        return $agent;
+    }
+    
+    public function getAgentAdminForm(Agent_Model_Doctrine_Agent $agent = null) {
+        $form = new Agent_Form_AgentAdmin();
+        
+        if(null != $agent) {
+            $bannerArray = $agent->toArray();
+            $form->populate($bannerArray);
+//            
+            $i18nService = MF_Service_ServiceBroker::getInstance()->getService('Default_Service_I18n');
+            $languages = $i18nService->getLanguageList();
+            foreach($languages as $language) {
+                $i18nSubform = $form->translations->getSubForm($language);
+                if($i18nSubform) {
+                    $i18nSubform->getElement('description')->setValue($agent->Translation[$language]->description);
+                }
+            }
+        }   
+        return $form;
+    }
+    
+    public function saveAgentFromCms($values) {
+
+        foreach($values as $key => $value) {
+            if(!is_array($value) && strlen($value) == 0) {
+                $values[$key] = NULL;
+            }
+        }
+        
+        if(!$agent = $this->agentTable->getProxy($values['id'])) {
+            $agent = $this->agentTable->getRecord();
+        }
+        $values['link'] = MF_Text::createUniqueTableField('Agent_Model_Doctrine_Agent','link', $values['name'],$values['id']);;
+
+        $agent->fromArray($values);
+ 
+         $i18nService = MF_Service_ServiceBroker::getInstance()->getService('Default_Service_I18n');
+        
+ 
+        $languages = $i18nService->getLanguageList();
+        foreach($languages as $language) {
+            if(is_array($values['translations'][$language]) && strlen($values['translations'][$language]['description'])) {
+                $agent->Translation[$language]->description = $values['translations'][$language]['description'];
+              
+            }
+        }
+        
+        $agent->save();
+         
         return $agent;
     }
     
