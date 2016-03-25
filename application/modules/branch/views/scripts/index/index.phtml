@@ -1,6 +1,12 @@
 <?php
 $branch = $this->branch;
 $agent = $this->agent;
+if(count($agent['Branches'])>1){
+    $branchName = $agent['name']." ".$branch['office_name'];
+}
+else{
+    $branchName = $agent['name'];
+}
 ?>
 
 <?php
@@ -12,8 +18,9 @@ $agent = $this->agent;
 
 
 <div class="container companyBranchDetails">
-    <div class="container pagecontainer offset-0">	
+    <div class="container pagecontainer offset-0">
 
+    <?= MF_Text::showFormMessages(); ?>
         <!-- SLIDER -->
         <div class="col-md-8 details-slider">
             <div class="company-ad">
@@ -28,13 +35,13 @@ $agent = $this->agent;
         
         <div class="col-md-4 detailsright detailsright2 offset-0">
             <div class="padding20">
-                <h1 class="h2"><?php
+                <h1 class="h2 mt0 lato"><?php
                 
                 if(count($agent['Branches'])>1){
                     echo "<a href='".$this->url(array('slug' => $agent['link']),'domain-agent-details')."'>".$agent['name']."</a><br /> ".$branch['office_name']; 
                 }
                 else{
-                    echo $agent['name']." ".$branch['office_name']; 
+                    echo $agent['name']; 
                 }
                 ?></h1>
                 <span class="stars">
@@ -43,7 +50,7 @@ $agent = $this->agent;
             </div>
         </div>
         <div class="clearfix"></div>
-            <div class="line3"></div>
+        <div class="line3"></div>
         
             
             
@@ -53,8 +60,8 @@ $agent = $this->agent;
             <div class="company-description">
                 <?php 
                 
-                if(strlen($branch['Translation'][$this->language]['description'])){
-                    echo $branch['Translation'][$this->language]['description']; 
+                if(strlen($branch['Agent']['Translation'][$this->language]['description'])){
+                    echo $branch['Agent']['Translation'][$this->language]['description']; 
                 } 
                 else{
                     echo $this->translate('This company has no description available');
@@ -68,7 +75,7 @@ $agent = $this->agent;
             
             <div class="hpadding20">
                 <div class=" col-md-6">
-                    <a href="#" class="add2fav margtop20"><?= $this->translate('Contact company'); ?></a>
+                    <a href="<?= $this->url(array('agent' => $agent['link'],'slug' => $branch['office_link']),'domain-branch-contact'); ?>" class="add2fav margtop20"><?= $this->translate('Contact company'); ?></a>
                 </div>
                 <div class=" col-md-6">
                     <a href="<?= $this->url(array('agent' => $agent['link'],'branch' => $branch['office_link']),'domain-add-review-branch'); ?>" class="booknow btnmarg margtop20"><?= $this->translate('Add review'); ?></a>
@@ -82,7 +89,7 @@ $agent = $this->agent;
 
 
         <div class="col-md-4 detailsright offset-0">
-
+            
             <div class="col-md-6 bordertype1 padding20">
                 <span class="opensans size30 bold grey2"><?= ($branch['customer_satisfaction']*100); ?>%</span><br/>
                 <?= $this->translate('of customers'); ?><br/><?= $this->translate('recommends'); ?>
@@ -96,9 +103,9 @@ $agent = $this->agent;
                 <?= $branch['votes']; ?> <?= $this->translate('reviews'); ?>
             </div>
             <div class="col-md-6 bordertype3">
-                <a href="#" class="grey underline"><?= $this->translate('Edit details'); ?></a>
+                <a href="<?= $this->url(array(),'domain-login'); ?>" class="grey underline"><?= $this->translate('Edit details'); ?></a>
             </div>
-            <div class="clearfix"></div><br/>
+            <div class="clearfix"></div>
 
         </div>
         <!-- END OF RIGHT INFO -->
@@ -113,7 +120,7 @@ $agent = $this->agent;
 
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext"><?= $this->translate('Reviews'); ?></span>&nbsp;</a></li>
-               <li class=""><a data-toggle="tab" href="#staff-members"><span class="summary"></span><span class="hidetext"><?= $this->translate('Staff members'); ?></span>&nbsp;</a></li>
+                <li><a data-toggle="tab" href="#staff-members"><span class="summary"></span><span class="hidetext"><?= $this->translate('Staff members'); ?></span>&nbsp;</a></li>
 
             </ul>			
             <div class="tab-content4" >
@@ -127,6 +134,12 @@ $agent = $this->agent;
 
         <div class="col-md-4" >
 
+            
+            <?php if($agent['premium_support']){ ?>
+                <img src="<?= $agent->getLogoUrl('225x90'); ?>" alt="<?= $agent['name'];?> logo" class="agentMainLogo" />
+                <div class="line3"></div>
+            <?php } ?>
+            
             <div class="pagecontainer2 needassistancebox">
                 <div class="cpadding1">
                     <span class="icon-help"></span>
@@ -142,7 +155,30 @@ $agent = $this->agent;
                         <?php } ?>
                 </div>
             </div><br/>
-
+            <style>
+      #map {
+        width: 355px;
+        height: 190px;
+      }
+    </style>
+  </head>
+            <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+            <div class="needassistancebox" id="map"></div>
+            <script>
+              function initMap() {
+                var mapDiv = document.getElementById('map');
+                var map = new google.maps.Map(mapDiv, {
+                  center: {lat: <?= $branch['lat']; ?>, lng: <?= $branch['lng']; ?>},
+                  zoom: 9
+                });
+                var marker = new google.maps.Marker({
+                    position: {lat: <?= $branch['lat']; ?>, lng: <?= $branch['lng']; ?>},
+                    map: map,
+                    title: '<?= $branchName; ?>'
+                  });
+              }
+            </script>
+            
             <div class="pagecontainer2 mt20 alsolikebox">
                 <div class="cpadding1">
                     <span class="icon-location"></span>

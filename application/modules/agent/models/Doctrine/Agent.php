@@ -24,7 +24,10 @@ class Agent_Model_Doctrine_Agent extends Agent_Model_Doctrine_BaseAgent
         return self::$agentPhotoDimensions;
     }
     
-    
+    public function increaseView(){
+        $this->views++;
+        $this->save();
+    }
     
     public function setUp()
     {
@@ -44,6 +47,11 @@ class Agent_Model_Doctrine_Agent extends Agent_Model_Doctrine_BaseAgent
          $this->hasOne('Branch_Model_Doctrine_Branch as HeadOffice', array(
              'local' => 'head_office_id',
              'foreign' => 'id'));
+         
+         
+         $this->hasOne('User_Model_Doctrine_User as User', array(
+             'local' => 'id',
+             'foreign' => 'agent_id'));
     }
     
      public function getLogoUrl($dimensions = '200x150'){

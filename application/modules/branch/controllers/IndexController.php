@@ -57,10 +57,91 @@ class Branch_IndexController extends MF_Controller_Action {
         $this->_helper->actionStack('layout', 'index', 'default');
         
         $this->_helper->layout->setLayout('page');
-        
-       
-        
     }
+    
+    
+    public function contactAction(){
+        $this->_helper->actionStack('layout', 'index', 'default');
+        $this->_helper->layout->setLayout('page');
+        
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        $mailService = $this->_service->getService('User_Service_Mail');
+        
+        if(!$branch = $branchService->getAgentBranch($this->getRequest()->getParam('agent'),'link',$this->getRequest()->getParam('slug'),'office_link')) {
+            throw new Zend_Controller_Action_Exception('Branch not found');
+        }
+        
+        $agent = $branch['Agent'];
+        
+        $form = new Agent_Form_Contact();
+        
+        $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($branch['id']));
+        
+        if(count($agent['Branches'])==1){
+            $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['Branches'][0]['office_link'],'agent' => $agent['link']),'domain-branch-details'));
+        }
+        
+        $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+        $apikeys = $config->getOption('apikeys');
+        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+            'siteKey' => $apikeys['google']['siteKey'],
+            'secretKey' => $apikeys['google']['secretKey']
+        ]);
+        
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Skontaktuj się z firmą'.$agent['name']." ".$branch['office_name'],
+                'description' => 'Napisz wiadomość do firmy '.$agent['name']
+            ),
+            'en' => array(
+                'title' => 'Contact '.$agent['name'].' '.$branch['office_name'],
+                'description' => 'Write a message to '.$agent['name'].' '.$branch['office_name']
+            )
+        ),$this->view);
+        
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getParams())) {
+                
+                $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                $values = $form->getValues();
+                
+                if(!$branch = $branchService->getBranch($values['branch_id'],'id')) {
+                    throw new Zend_Controller_Action_Exception('Branch not found');
+                }
+                
+                if(isset($_SESSION['contact_agent'][$branch['id']])){
+                    $lastMessageTime = $_SESSION['contact_agent'][$branch['id']];
+                    if(time() - $_SESSION['contact_agent'][$branch['id']] < 300){
+                         $this->_helper->getHelper('FlashMessenger')->setNamespace('error')->addMessage($this->view->translate('You can send a message to certain branch only once every 5 minutes.'));
+                         $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['link']),'domain-agent-details'));
+                    }
+                }
+                
+                $mail = new Zend_Mail('UTF-8');
+                $mail->setSubject($this->view->translate('You have new customer enquiry from Rate Pole'));
+                $mail->addTo($branch['email'], $branch['office_name']." ".$branch['office_name']);
+                $mail->setReplyTo($values['mail'], $values['firstname']." ".$values['lastname']);
+
+                $mailService->sendBranchContactMail($values,$branch,$mail, $this->view);
+                
+                $_SESSION['contact_agent'][$branch['id']] = time();
+                
+                $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Thank you. Your message has been sent to ').$agent['name'].$this->view->translate('. They will contact you soon.'));
+
+                $this->_service->get('doctrine')->getCurrentConnection()->commit();
+
+                $this->_helper->redirector->gotoUrl($this->view->url(array('agent' => $agent['link'],'branch' => $branch['office_link']),'domain-agent-details'));
+                
+            }
+        }
+        
+        $this->view->assign('form',$form);
+        $this->view->assign('agent',$agent);
+        $this->view->assign('branch',$branch);
+    }
+    
     
     public function areaSearchResultAction() {
         $this->_helper->actionStack('layout', 'index', 'default');

@@ -15,64 +15,61 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                     <p class="aboutarrow"></p>
                 </div>
                 <div class="line3"></div>
-            <br />
-				<div class="bs-example bs-example-tabs">
-				
-					
-					<div class="tab-content3" id="myTabContent">
-						<div id="air" class="tab-pane fade active in">
-                                                    
-                                                    <form method='GET' action='<?= $this->url(array(),'domain-search-company');?>'>
-                                                        <?= $this->form->area; ?>
-                                                    <br />
-							<?= $this->form->category_id; ?>
-                                                    <br />
-                                                        <?= $this->form->name; ?>
-                                                    </form>
-							
-						</div>
-						<!--End of 1st tab -->
-						
-						
-						<!--End of 2nd tab -->
-						
-						<div class="" style='background:none;'>
-                                                    <button type="submit" id='searchHomepage' class="btn-search"><?= $this->translate('Search'); ?></button>
-						</div>
-					</div>
-                                            <div class='clearfix'></div>
-					
-						
-				</div>
-            
-                                <hr />
-                                
+                <br />
+                <div class="bs-example bs-example-tabs">
+
+
+                    <div class="tab-content3" id="myTabContent">
+                        <div id="air" class="tab-pane fade active in">
+
+                            <form method='GET' action='<?= $this->url(array(), 'domain-search-company'); ?>'>
+                                <?= $this->form->area; ?>
+                                <br />
+                                <?= $this->form->category_id; ?>
+                                <br />
+                                <?= $this->form->name; ?>
+                            </form>
+
+                        </div>
+
+                        <div class="" style='background:none;'>
+                            <button type="submit" id='searchHomepage' class="btn-search"><?= $this->translate('Search'); ?></button>
+                        </div>
+                    </div>
+                    <div class='clearfix'></div>
+
+
+                </div>
+
+                <hr />
+
                 <div class="hpadding50c defaultheader">
                     <h2><?= $this->translate('Find company by category'); ?></h2>
                     <p class="aboutarrow"></p>
                 </div>
                 <div class="line3"></div>
-                                
-                                <?php foreach($this->agentCategories as $key=> $category): ?>
-                                <div class="col-md-4">
-                                <h3 class="black h4"><?= $category['Translation'][$this->language]['title']; ?></h3>
-                                <ul class="small-padding">
-                                    <?php foreach($category->getNode()->getChildren() as $subcategory):  ?>
-                                    <li>
-                                        <a href="<?= $this->url(array(),'domain-area-search'); ?>?category[]=<?= $subcategory['id']; ?>">
-                                            <?= $subcategory['Translation'][$this->language]['title']; ?>
-                                        </a>
-                                    </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                                </div>
-                                <?php 
-                                if($key%3==2){
-                                    echo '<div class="clearfix"></div>';
-                                }
-                                
-                                endforeach; ?>
-                                <div class="clearfix"></div>
+
+                <?php foreach ($this->agentCategories as $key => $category): ?>
+                    <div class="col-md-4">
+                        <h3 class="black h4"><?= $category['Translation'][$this->language]['title']; ?></h3>
+                        <ul class="small-padding">
+                            <?php foreach ($category->getNode()->getChildren() as $subcategory): ?>
+                                <li>
+                                    <a href="<?= $this->url(array(), 'domain-area-search'); ?>?category[]=<?= $subcategory['id']; ?>">
+                                        <?= $subcategory['Translation'][$this->language]['title']; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <?php
+                    if ($key % 3 == 2) {
+                        echo '<div class="clearfix"></div>';
+                    }
+
+                endforeach;
+                ?>
+                <div class="clearfix"></div>
             </div>
         </div>
         <!-- END OF LEFT CONTENT -->
@@ -81,10 +78,10 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
         <div class="col-md-4" >
 
 
-            
-<?php echo $this->action('banner-sidebar2','index','banner'); ?>
-            
-            
+
+<?php echo $this->action('banner-sidebar2', 'index', 'banner'); ?>
+
+
         </div>
         <!-- END OF RIGHT CONTENT -->
 
@@ -94,21 +91,20 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
 </div>
 
-        <script>
-            
-    $(function(){
-        $('#searchHomepage').on('click',function(){
+<script>
+
+    $(function () {
+        $('#searchHomepage').on('click', function () {
             $('.tab-pane.active form').submit();
         });
-        
-           $('#air form').on('submit',function(){
-               var form = $(this);
-               var area = $('#area').val().toLowerCase();
-               
-               form.attr('action',form.attr('action')+'/'+area);
-               $('#area').val('');
-           }) ;
-           
+
+        $('#air form').on('submit', function () {
+            var form = $(this);
+            var area = $('#area').val().toLowerCase();
+
+            form.attr('action', form.attr('action') + '/' + area);
+            $('#area').val('');
+        });
+
     });
-        </script>
-        
+</script>

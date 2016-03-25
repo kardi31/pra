@@ -20,11 +20,62 @@
        <tu tuid='This company has no description available'>
            <tuv xml:lang="pl"><seg>Ta firma nie posiada swojego opisu</seg></tuv>
        </tu>
+       <tu tuid='Your current password is not correct.'>
+           <tuv xml:lang="pl"><seg>Twoje obecne hasło nie jest poprawne.</seg></tuv>
+       </tu>
+       <tu tuid='Your password has been successfully edited.'>
+           <tuv xml:lang="pl"><seg>Twoje hasło zostało pomyślnie edytowane.</seg></tuv>
+       </tu>
+       
+       <tu tuid='Send message'>
+           <tuv xml:lang="pl"><seg>Wyślij wiadomość</seg></tuv>
+       </tu>
        <tu tuid='customers ratings'>
            <tuv xml:lang="pl"><seg>ocena klientów</seg></tuv>
        </tu>
+       <tu tuid='Edit password'>
+           <tuv xml:lang="pl"><seg>Edytuj hasło</seg></tuv>
+       </tu>
+       <tu tuid='Your current password'>
+           <tuv xml:lang="pl"><seg>Twoje obecne hasło</seg></tuv>
+       </tu>
+       <tu tuid='New password'>
+           <tuv xml:lang="pl"><seg>Nowe hasło</seg></tuv>
+       </tu>
+       <tu tuid='Confirm new password'>
+           <tuv xml:lang="pl"><seg>Potwierdź nowe hasło</seg></tuv>
+       </tu>
+       <tu tuid='Your company details has been successfully edited.'>
+           <tuv xml:lang="pl"><seg>Dane Twojej firmy zostały zmienione.</seg></tuv>
+       </tu>
+       <tu tuid='New branch has been successfully added.'>
+           <tuv xml:lang="pl"><seg>Nowy oddział został dodany</seg></tuv>
+       </tu>
+       <tu tuid='Go to previous page'>
+           <tuv xml:lang="pl"><seg>Powrót do poprzedniej strony</seg></tuv>
+       </tu>
+       <tu tuid='Edit company'>
+           <tuv xml:lang="pl"><seg>Edytuj firmę</seg></tuv>
+       </tu>
+       <tu tuid='You have new customer enquiry through Rate Pole. Please see the details below:'>
+           <tuv xml:lang="pl"><seg>Masz nowe zapytanie od klienta ze strony Oceń Fachowca. Szczegóły znajdują się poniżej:</seg></tuv>
+       </tu>
+       
+       
+       <tu tuid='Important!'>
+           <tuv xml:lang="pl"><seg>Ważne!</seg></tuv>
+       </tu>
+       <tu tuid='To edit other company details, please go to your branch list, select head office and edit its details.'>
+           <tuv xml:lang="pl"><seg>Aby edytować pozostałe dane wyświetlane na stronie Twojej firmy, przejdź do Twoich oddziałów, wybierz główny oddział i edytuj jego dane.</seg></tuv>
+       </tu>
        <tu tuid='reviews'>
            <tuv xml:lang="pl"><seg>opinii</seg></tuv>
+       </tu>
+       <tu tuid='Head Office'>
+           <tuv xml:lang="pl"><seg>Główny Oddział</seg></tuv>
+       </tu>
+       <tu tuid='Company Panel'>
+           <tuv xml:lang="pl"><seg>Panel Firmowy</seg></tuv>
        </tu>
        <tu tuid='Search results'>
            <tuv xml:lang="pl"><seg>Wyniki wyszukiwania</seg></tuv>
@@ -37,6 +88,9 @@
        </tu>
        <tu tuid='Contact company'>
            <tuv xml:lang="pl"><seg>Napisz do firmy</seg></tuv>
+       </tu>
+       <tu tuid='Contact with'>
+           <tuv xml:lang="pl"><seg>Skontaktuj się z firmą</seg></tuv>
        </tu>
        <tu tuid='Edit details'>
            <tuv xml:lang="pl"><seg>Edytuj informacje</seg></tuv>
@@ -670,9 +724,34 @@
        <tu tuid='Extension'>
            <tuv xml:lang="pl"><seg>Rozszerzenie</seg></tuv>
        </tu>
+       <tu tuid='You can send a message to certain branch only once every 5 minutes.'>
+           <tuv xml:lang="pl"><seg>Możesz wysłać tylko jedną wiadomość w ciągu 5 minut do danego oddziału. Odczekaj chwilę lub skontaktuj się z innym oddziałem.</seg></tuv>
+       </tu>
+       
        <tu tuid='Finish date'>
            <tuv xml:lang="pl"><seg>Data końca</seg></tuv>
        </tu>
+       <tu tuid='You have new customer enquiry from Rate Pole'>
+           <tuv xml:lang="pl"><seg>Nowe zapytanie od klienta - Oceń Fachowca</seg></tuv>
+       </tu>
+       
+       <tu tuid='First and last name'>
+           <tuv xml:lang="pl"><seg>Imię i nazwisko</seg></tuv>
+       </tu>
+       <tu tuid='Please do not hesitate to contact this customer as it may be new business opportunity for you.'>
+           <tuv xml:lang="pl"><seg>Nie czekaj! Skontaktuj się z nadawcą już dziś. Ta osoba może zostać Twoim kolejnym klientem. </seg></tuv>
+       </tu>
+       
+       
+       <tu tuid='Thank you. Your message has been sent to '>
+           <tuv xml:lang="pl"><seg>Dziękujemy. Twoja wiadomość została wysłana do firmy </seg></tuv>
+       </tu>
+       
+       <tu tuid='. They will contact you soon.'>
+           <tuv xml:lang="pl"><seg>. Firma skontaktuje się z Tobą wkrótce.</seg></tuv>
+       </tu>
+       
+       
        <tu tuid='First name'>
            <tuv xml:lang="pl"><seg>Imię</seg></tuv>
        </tu>

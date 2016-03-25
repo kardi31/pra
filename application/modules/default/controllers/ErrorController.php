@@ -8,6 +8,7 @@ class Default_ErrorController extends MF_Controller_Action
     
     public function errorAction()
     {
+         $this->_helper->layout->setLayout('page');
         $errors = $this->_getParam('error_handler');
 
         if (!$errors || !$errors instanceof ArrayObject) {
@@ -30,7 +31,6 @@ class Default_ErrorController extends MF_Controller_Action
                 $this->view->message = 'Application error';
                 break;
         }
-        
         // Log exception, if logger available
         if ($log = $this->getLog()) {
             $log->log($this->view->message, $priority, $errors->exception->getTraceAsString());
@@ -43,6 +43,8 @@ class Default_ErrorController extends MF_Controller_Action
         }
         
         $this->view->request = $errors->request;
+        
+        $this->view->message = $errors->exception->getMessage();
         
         if('admin' == $this->getFrontController()->getRouter()->getCurrentRouteName()) {
             $this->_forward('error', 'error', 'admin');

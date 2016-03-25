@@ -405,14 +405,13 @@ class Agent_AdminController extends MF_Controller_Action {
             'request' => $this->getRequest(), 
             'table' => $table, 
             'class' => 'Agent_DataTables_Agent', 
-            'columns' => array('x.id','x.name', 'x.town','x.address'),
-            'searchFields' => array('x.id','x.name', 'x.town','x.address')
+            'columns' => array('x.id','x.name', 'x.active','x.approved','x.premium_support','b.id','u.id','x.created_at','x.updated_at'),
+            'searchFields' => array('x.id','x.name', 'x.active','x.approved','x.premium_support','b.id','u.id','x.created_at','x.updated_at')
         ));
         
         $language = $i18nService->getAdminLanguage();
         
         $results = $dataTables->getResult();
-        
         $rows = array();
         foreach($results as $result) {
             $row = array();
@@ -427,10 +426,22 @@ class Agent_AdminController extends MF_Controller_Action {
                 $row[] = '<span class="icon16 icomoon-icon-checkbox-2"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             else
                 $row[] = '<a href="' . $this->view->adminUrl('approve-agent', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '"><span class="icon16 icomoon-icon-checkbox-unchecked"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+             
+            if($result->premium_support)
+                $row[] = '<a href="' . $this->view->adminUrl('set-agent-premium', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set inactive') . '"><span class="icon16 icomoon-icon-checkbox-2"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            else
+                $row[] = '<a href="' . $this->view->adminUrl('set-agent-premium', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '"><span class="icon16 icomoon-icon-checkbox-unchecked"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             
             
             $row[] = count($result['Branches']);
+            if($result['User']){
+                $row[] = $result['User']['email'];
+            }
+            else{
+                $row[] = '<a href="' . $this->view->adminUrl('create-agent-user', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '">Stwórz użytkownika</a>';
+            }
             $row[] = MF_Text::timeFormat($result['created_at'],'d/m/Y H:i');
+            $row[] = MF_Text::timeFormat($result['updated_at'],'d/m/Y H:i');
             $options = '<a href="' . $this->view->adminUrl('edit-agent', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Edit') . '"><span class="icon24 entypo-icon-settings"></span></a>&nbsp;&nbsp;&nbsp;';
             $options .= '<a href="' . $this->view->adminUrl('remove-agent', 'agent', array('id' => $result->id)) . '" class="remove" title="' . $this->view->translate('Remove') . '"><span class="icon16 icon-remove"></span></a>';
             $row[] = $options;
@@ -459,6 +470,31 @@ class Agent_AdminController extends MF_Controller_Action {
                 }
                 else{
                     $agent->set('view',1);
+                }
+                    
+                $agent->save();
+
+                $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));
+            } catch(Exception $e) {
+                $this->_service->get('Logger')->log($e->getMessage(), 4);
+            }
+        }
+        $this->_helper->viewRenderer->setNoRender();
+    }
+    
+    public function setAgentPremiumAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        
+        if($agent = $agentService->getAgent($this->getRequest()->getParam('id'))) {
+            try {
+                $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+
+                if($agent->premium_support){
+                    $agent->set('premium_support',0);
+                }
+                else{
+                    $agent->set('premium_support',1);
                 }
                     
                 $agent->save();
@@ -552,6 +588,48 @@ class Agent_AdminController extends MF_Controller_Action {
                 }
             }
         }    
+    }
+    
+    public function createAgentUserAction(){
+        $userService = $this->_service->getService('User_Service_User');
+        $mailService = $this->_service->getService('User_Service_Mail');
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        
+        if($agent = $agentService->getAgent($this->getRequest()->getParam('id'))) {
+            $isAgentUser = $userService->getUser($agent['id'],'agent_id');
+            if(!$isAgentUser){
+                $branch = $agent['Branches'][0];
+                $branchUser = $userService->getUser($branch['id'],'branch_id');
+                if($branchUser){
+                    $branchUser->set('agent_id',$agent['id']);
+                    $branchUser->set('branch_id',null);
+                    $branchUser->save();
+                }
+                else{
+                    $passwordEncoder = new User_PasswordEncoder();
+                    $values['salt'] = MF_Text::createUniqueToken();
+                    $values['token'] = MF_Text::createUniqueToken();
+                    $values['role'] = 'agent';
+
+                    $values['email'] = $branch['email'];
+                    $values['agent_id'] = $agent['id'];
+
+                    $newPassword = MF_Text::createRandomString();
+
+                    $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
+                    $user = $userService->saveUserFromArray($values);
+
+                    $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+                    $mail = new Zend_Mail('UTF-8');
+                    $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
+                    $mail->addTo($branch['email'], $agent['name']);
+                    $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
+
+                    $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
+                }
+            }
+            $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));
+        }
     }
 }
 

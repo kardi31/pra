@@ -284,8 +284,10 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
             $branch = $this->branchTable->getRecord();
         }
         
+        $branch->office_link = MF_Text::createUniqueTableField('Branch_Model_Doctrine_Branch','office_link', $values['office_name'], $branch->get('id'));
+      
+        
         $branch->fromArray($values);
-//        Zend_Debug::dump($branch->toArray());exit;
         $branch->save();
         
         return $branch;

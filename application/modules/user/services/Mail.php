@@ -13,13 +13,21 @@ class User_Service_Mail extends MF_Service_ServiceAbstract {
         parent::init();
     }
     
-   
-    
     public function sendBranchAddedMail($user,$branch,$password, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/branch-added.phtml') {
         
         $view->addScriptPath(APPLICATION_PATH.'/modules/user/views/scripts/');
         $mail->setBodyHtml(
             $view->partial($this->template, array('content' => $view->partial($partial, array('user' => $user,'branch' => $branch,'password' => $password))))
+        );
+        
+        $mail->send();
+    }
+    
+    public function sendBranchContactMail($values,$branch, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/contact-branch.phtml') {
+        
+        $view->addScriptPath(APPLICATION_PATH.'/modules/user/views/scripts/');
+        $mail->setBodyHtml(
+            $view->partial($this->template, array('content' => $view->partial($partial, array('values' => $values,'branch' => $branch))))
         );
         
         $mail->send();

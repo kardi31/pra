@@ -80,7 +80,8 @@ if(isset($this->showFull)){
                 <a href='#'><?= $this->translate('Report abuse'); ?></a>
                 
                 <?php if(!$showFull){ ?>
-                <a href='<?= $this->url(array('id' => $review['id']), 'domain-review'); ?>'>| <?= $this->translate('Comments'); ?></a>
+                | 
+                <a href='<?= $this->url(array('id' => $review['id']), 'domain-review'); ?>'><?= $this->translate('Comments'); ?> (<?php echo (int)count($review['Comments']); ?>)</a>
                 <?php } ?>
                 
             </div>

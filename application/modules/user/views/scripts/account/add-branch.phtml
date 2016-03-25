@@ -20,7 +20,7 @@
     </ul>
 </div>
 <div class="row awardRace">
-    <div class="col-md-6">
+    <div class="col-md-12">
     <?= MF_Text::showFormMessages(); ?>
         <!-- BEGIN SAMPLE TABLE PORTLET-->
         <div class="portlet box green form form-horizontal">
@@ -37,20 +37,58 @@
                         <?= $this->form->agent_id; ?>
                         <div class="clearfix"></div><br />
 
-                        <?= $this->form->office_name; ?>
-                        <?= $this->form->address; ?>
-                        <?= $this->form->town; ?>
-                        <?= $this->form->postcode; ?>
-                        <?= $this->form->county; ?>
-                        <?= $this->form->phone; ?>
-                        <?= $this->form->url; ?>
-                        <?= $this->form->facebook; ?>
-                        <?= $this->form->twitter; ?>
-                        <?= $this->form->lat; ?>
-                        <?= $this->form->lng; ?>
-                        <br />
+                            <div class="col-md-6">
+                                <?= $this->form->office_name; ?>
+                                <?= $this->form->address; ?>
+                                <?= $this->form->town; ?>
+                                <?= $this->form->postcode; ?>
+                                <?= $this->form->county; ?>
+                                <?= $this->form->email; ?>
+                                <?= $this->form->phone; ?>
+                                <?= $this->form->url; ?>
+                                <?= $this->form->facebook; ?>
+                                <?= $this->form->twitter; ?>
+                                <br />
 
-                        <?= $this->form->submit; ?>
+                            </div>
+                            <div class="col-md-6">
+                                
+                                    <h4><?= $this->translate('Opening hours'); ?></h4>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th><?= $this->translate('Opening hour'); ?></th>
+                                                <th><?= $this->translate('Closing hour'); ?></th>
+                                                <th><?= $this->translate('Closed'); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php for($i=1;$i<=7;$i++): ?>
+                                                <tr>
+                                                    <td>
+                                                        <label>
+                                                            <?php
+                                                                if($this->language=='pl')
+                                                                    echo MF_Text::polishDayOfWeek($i); 
+                                                                else
+                                                                    echo MF_Text::dayOfWeek($i); 
+                                                            ?>
+                                                        </label>
+                                                    </td>
+                                                    <td><?= $this->form->hoursForm->getElement('start_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                                    <td><?= $this->form->hoursForm->getElement('end_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                                    <td><?= $this->form->hoursForm->getElement('closed_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                                </tr>
+                                            <?php endfor; ?>
+
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div style="text-align:center">
+                                <?= $this->form->submit; ?>
+                            </div>
                     </div>
                 </form>
             </div>

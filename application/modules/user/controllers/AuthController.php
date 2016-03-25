@@ -61,15 +61,14 @@ class User_AuthController extends MF_Controller_Action
                     } else {
                         $auth->setRememberMeCookie(false);
                     }
-                    
                     if($result->isValid()) {
                         switch($user->role):
-                            case 'admin':
+                            case 'agent':
                             case 'branch':
                                 $this->_helper->redirector->gotoUrl('/account');
                                 break;
                         endswitch;
-                    } 
+                    }
                     // error handling
                         switch($result->getCode()) {
                             case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND:

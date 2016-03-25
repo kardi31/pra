@@ -1,0 +1,111 @@
+<?php
+$agent = $this->agent;
+$agentPsp = (int) $agent['premium_support'];
+?>
+
+<?php
+    //        Tomasz_Breadcrumb::getInstance()->addLink('/house-prices/','House prices'); 
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('slug' => $agent['link']),'domain-agent-details'), $agent['name']);
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Contact'), true);
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+
+
+
+<div class="container companyDetails">
+    <div class="col-md-8">
+        <div class="container pagecontainer offset-0">
+            <div class="padding30">
+                <div class="hpadding50c defaultheader">
+                    <h1 class="h2 mt0"><?= $this->translate('Contact with')." ".$agent['name']; ?></h1>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
+                <br />
+                <form method="POST">
+                    <?= $this->form->firstname; ?>
+                    <?= $this->form->lastname; ?>
+                    <?= $this->form->email; ?>
+                    <?= $this->form->phone; ?>
+                    <?= $this->form->branch_id; ?>
+                    <?= $this->form->message; ?>
+                    <div class="text-center">
+                        <?= $this->form->getElement('g-recaptcha-response'); ?>
+                        <br />
+                        <?= $this->form->submit; ?>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- END OF container-->
+
+
+        <div class="col-md-4" >
+            
+            <div class="pagecontainer2">
+                <div class="padding20">
+                    <h2 class="mt0 lato"><?= $agent['name']; ?></h2>
+                    <span class="stars">
+                        <?= MF_Text::showStars($agent['rating']); ?>
+                    </span>
+                </div>
+                <div class="line3"></div>
+                <div class="detailsright offset-0">
+                    <div class="col-md-6 bordertype1 padding20">
+                        <span class="opensans size30 bold grey2"><?= ($agent['customer_satisfaction']*100); ?>%</span><br/>
+                        <?= $this->translate('of customers'); ?><br/><?= $this->translate('recommends'); ?>
+                    </div>
+                    <div class="col-md-6 bordertype2 padding20">
+                        <span class="opensans size30 bold grey2"><?= (int)$agent['rating']; ?></span>/5<br/>
+                        <?= $this->translate('customers ratings'); ?>
+                    </div>
+
+                    <div class="col-md-6 bordertype3">
+                        <?= (int)$agent['votes']; ?> <?= $this->translate('reviews'); ?>
+                    </div>
+                    <div class="col-md-6 bordertype3">
+                        
+                    </div>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+            <br />
+            <?php if($agent['premium_support']){ ?>
+                <img src="<?= $agent->getLogoUrl('225x90'); ?>" alt="<?= $agent['name'];?> logo" class="agentMainLogo" />
+                <div class="line3"></div>
+            <?php } ?>
+            <div class="pagecontainer2 needassistancebox">
+                <div class="cpadding1">
+                    <span class="icon-help"></span>
+                    <h3 class="opensans"><?= $this->translate('Contact'); ?></h3>
+                    <?php 
+                    if($agent['HeadOffice']){
+                        $headOffice = $agent['HeadOffice'];
+                    }
+                    else{
+                        $headOffice = $agent['Branches'][0];
+                    }
+                         if(strlen($headOffice['phone'])){ ?>
+                            <p class="opensans size30 lblue xslim"><?= $headOffice['phone']; ?></p>
+                        <?php } ?>
+                        <?php if(strlen($agent['HeadOffice']['url'])){ 
+                            $url = $headOffice['url'];
+                            if (strpos($url, 'http://')==false) {
+                                $url = 'http://'.$url;
+                             }
+                            ?>
+                            <p class="size14 grey">WWW: <a target="_blank" href='<?= $url; ?>'><?= $headOffice['url']; ?></a></p>
+                        <?php } ?>
+                    
+                </div>
+            </div>
+			
+
+        </div>
+
+
+
+</div>

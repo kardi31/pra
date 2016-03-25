@@ -12,6 +12,13 @@ class MF_Text
         return hash($algo, $tmp);
     }
     
+    
+    public static function createRandomString($length = 7){
+        $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+
+        return $randomString;
+    }
+    
     public static function dodanoFormat($date1,$language){
         $datetime1 = new DateTime($date1);
         $datetime2 = new DateTime('now');
@@ -569,8 +576,7 @@ public static function createUniqueTableField($table,$field, $string, $id = 0, $
 
             if ($flashMessenger->setNamespace('error')->hasMessages()):
                 $html = '<div class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span>';
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>';
                      foreach ($flashMessenger->getMessages() as $msg):
                          $html .= $msg;
                      endforeach; 

@@ -11,6 +11,8 @@ class Branch_DataTables_Adapter_Branch extends Default_DataTables_Adapter_Adapte
         $q = $this->table->createQuery('x');
         $q->leftJoin('x.Translation xt');
         $q->leftJoin('x.Agent a');
+        $q->leftJoin('x.User u1');
+        $q->leftJoin('a.User u2');
         return $q;
     }
 }

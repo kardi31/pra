@@ -96,7 +96,6 @@ class Agent_Form_Agent extends Admin_Form {
         $submit = $this->createElement('button', 'submit');
         $submit->setLabel('Save');
         $submit->setDecorators(self::$submitDecorators);
-//        $submit->setDecorators(array('ViewHelper'));
         $submit->setAttribs(array('class' => 'btn btn-info', 'type' => 'submit'));
 
         $this->setElements(array(

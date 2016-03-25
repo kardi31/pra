@@ -4,7 +4,7 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="icon-home"></i>
-            <a href="<?= $this->url(array(),'domain-account'); ?>">
+            <a href="<?= $this->url(array('action' => ''),'domain-account'); ?>">
                 <?= $this->translate('User panel'); ?>
             </a>
             <i class="fa fa-angle-right"></i>
@@ -44,6 +44,9 @@
                             <th><?= $this->translate('Office name'); ?></th>
                             <th><?= $this->translate('Address'); ?></th>
                             <th><?= $this->translate('Phone'); ?></th>
+                            <?php if($this->user->role=='agent'){ ?>
+                                <th><?= $this->translate('Head Office'); ?></th>
+                            <?php } ?>
                             <th></th>
                         </tr>
                         <?php foreach($this->branches as $branch){ ?>
@@ -58,18 +61,31 @@
                                 <?= $branch['phone']; ?>
                             </td>
                             <td>
+                                <?php
+                                    if($this->user->role=='agent'){
+                                        if($this->agent['head_office_id'] == $branch['id']){ 
+                                            echo '<i class="fa fa-check-square-o"></i>';
+                                        }
+                                        else{
+                                            echo '<a href="' . $this->url(array('id' => $branch['id']), 'domain-headoffice-branch') . '" title=""><i class="fa fa-square-o"></i></a>';
+                                        }
+                                    }
+                                ?>
+                            </td>
+                            
+                            <td>
                                 <a href="<?= $this->url(array('id' => $branch['id']), 'domain-edit-branch'); ?>" class="btn btn-primary">
                                     <i class="fa fa-pencil"></i>
                                     <?= $this->translate('Edit this branch'); ?>
                                 </a>
                                 &nbsp;
                                 
-                    <?php if($this->user->role=='agent'){ ?>
-                                <a href="<?= $this->url(array('id' => $branch['id']), 'domain-delete-branch'); ?>" data-text="<?= $this->translate('Are you sure you want to delete')." ".$staff['firstname']." ".$staff['lastname']; ?>?" class="confirm btn btn-danger">
-                                    <i class="fa fa-times"></i>
-                                    <?= $this->translate('Delete branch'); ?>
-                                </a>
-                    <?php } ?>
+                                <?php if($this->user->role=='agent'){ ?>
+                                            <a href="<?= $this->url(array('id' => $branch['id']), 'domain-delete-branch'); ?>" data-text="<?= $this->translate('Are you sure you want to delete')." ".$staff['firstname']." ".$staff['lastname']; ?>?" class="confirm btn btn-danger">
+                                                <i class="fa fa-times"></i>
+                                                <?= $this->translate('Delete branch'); ?>
+                                            </a>
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php } ?>

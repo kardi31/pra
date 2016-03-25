@@ -21,6 +21,9 @@
        <tu tuid='banners'>
            <tuv xml:lang="pl"><seg>bannery</seg></tuv>
        </tu>
+       <tu tuid='company'>
+           <tuv xml:lang="pl"><seg>firma</seg></tuv>
+       </tu>
        <tu tuid='banners-edit'>
            <tuv xml:lang="pl"><seg>bannery-edycja</seg></tuv>
        </tu>

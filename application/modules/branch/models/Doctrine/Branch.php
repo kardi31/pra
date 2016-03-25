@@ -27,5 +27,8 @@ class Branch_Model_Doctrine_Branch extends Branch_Model_Doctrine_BaseBranch
              'local' => 'agent_id',
              'foreign' => 'id'));
 
+        $this->hasOne('User_Model_Doctrine_User as User', array(
+             'local' => 'id',
+             'foreign' => 'branch_id'));
     }
 }

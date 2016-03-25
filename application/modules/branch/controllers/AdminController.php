@@ -30,8 +30,8 @@ class Branch_AdminController extends MF_Controller_Action {
             'request' => $this->getRequest(), 
             'table' => $table, 
             'class' => 'Branch_DataTables_Branch', 
-            'columns' => array('x.id','a.name','x.office_name','x.town','x.view','x.approved','x.premium_support', 'x.created_at','x.updated_at'),
-            'searchFields' => array('x.id','a.name','x.office_name','x.town','x.view','x.approved','x.premium_support', 'x.created_at','x.updated_at')
+            'columns' => array('x.id','a.name','x.office_name','x.town','x.view','x.approved','x.premium_support','u1.id', 'x.created_at','x.updated_at'),
+            'searchFields' => array('x.id','a.name','x.office_name','x.town','x.view','x.approved','x.premium_support', 'u1.id','x.created_at','x.updated_at')
         ));
         
         $results = $dataTables->getResult();
@@ -57,7 +57,13 @@ class Branch_AdminController extends MF_Controller_Action {
                 $row[] = '<span class="icon16 icomoon-icon-checkbox-2"></span>';
             }
             else{
-                $row[] = '<a href="' . $this->view->adminUrl('approve-branch', 'branch', array('id' => $result->id)) . '" title=""><span class="icon16 icomoon-icon-checkbox-unchecked-2"></span></a>';
+                $approve = '<a href="' . $this->view->adminUrl('approve-branch', 'branch', array('id' => $result->id)) . '" title=""><span class="icon16 icomoon-icon-checkbox-unchecked-2"></span></a>';
+            
+                $approve .= 'Approve with no account';
+                
+                $approve .= '<a href="' . $this->view->adminUrl('approve-branch', 'branch', array('id' => $result->id,'noaccount' => true)) . '" title=""><span class="icon16 icomoon-icon-checkbox-unchecked-2"></span></a>';
+                
+                $row[] = $approve;
             }
             
             
@@ -66,6 +72,18 @@ class Branch_AdminController extends MF_Controller_Action {
             }
             else{
                 $row[] = '<a href="' . $this->view->adminUrl('toggle-branch-premium', 'branch', array('id' => $result->id)) . '" title=""><span class="icon16 icomoon-icon-checkbox-unchecked-2"></span></a>';
+            }
+            
+            if($result['User']){
+                $row[] = $result['User']['email'];
+            }
+            else{
+                if($result['Agent']['User']&&$result['Agent']['User']['email']==$result['email']){
+                    $row[] = 'Email wykorzystany jako konto agenta';
+                }
+                else{
+                    $row[] = '<a href="' . $this->view->adminUrl('create-branch-user', 'branch', array('id' => $result->id)) . '" title="' . $this->view->translate('Set active') . '">Stwórz użytkownika</a>';
+                }
             }
             
             $row[] = $result['created_at'];
@@ -207,28 +225,28 @@ class Branch_AdminController extends MF_Controller_Action {
             $branch->set('approved',1);
             
             
-            $passwordEncoder = new User_PasswordEncoder();
-            $values['salt'] = MF_Text::createUniqueToken();
-            $values['token'] = MF_Text::createUniqueToken();
-            $values['role'] = 'branch';
+            if(!$this->getRequest()->getParam('noaccount')){
+                $passwordEncoder = new User_PasswordEncoder();
+                $values['salt'] = MF_Text::createUniqueToken();
+                $values['token'] = MF_Text::createUniqueToken();
+                $values['role'] = 'branch';
 
-            $values['email'] = $branch['email'];
-            $values['branch_id'] = $branch['id'];
+                $values['email'] = $branch['email'];
+                $values['branch_id'] = $branch['id'];
 
-            $newPassword = MF_Text::createUniqueToken();
+                $newPassword = MF_Text::createRandomString();
 
-            $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
-            $user = $userService->saveUserFromArray($values);
-            
-            $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
-            $mail = new Zend_Mail('UTF-8');
-            $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
-            $mail->addTo($branch['email'], $branch['office_name']." ".$branch['office_name']);
-            $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
-//                    $mail->addTo('kardi31@o2.pl');
+                $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
+                $user = $userService->saveUserFromArray($values);
 
-            $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
-            
+                $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+                $mail = new Zend_Mail('UTF-8');
+                $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
+                $mail->addTo($branch['email'], $branch['Agent']['name']." ".$branch['office_name']);
+                $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
+
+                $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
+            }
         }
         $branch->save();
         
@@ -1352,6 +1370,40 @@ class Branch_AdminController extends MF_Controller_Action {
             'body' => $list,
             'id' => $event->getId()
         ));
+    }
+    
+    public function createBranchUserAction(){
+        $userService = $this->_service->getService('User_Service_User');
+        $mailService = $this->_service->getService('User_Service_Mail');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        
+        if($branch = $branchService->getBranch($this->getRequest()->getParam('id'))) {
+            $isAgentUser = $userService->getUser($branch['id'],'branch_id');
+            if(!$isAgentUser){
+                $passwordEncoder = new User_PasswordEncoder();
+                $values['salt'] = MF_Text::createUniqueToken();
+                $values['token'] = MF_Text::createUniqueToken();
+                $values['role'] = 'branch';
+
+                $values['email'] = $branch['email'];
+                $values['branch_id'] = $branch['id'];
+
+                $newPassword = MF_Text::createRandomString();
+
+                $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
+                $user = $userService->saveUserFromArray($values);
+
+                $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+                $mail = new Zend_Mail('UTF-8');
+                $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
+                $mail->addTo($branch['email'], $branch['Agent']['name']." ".$branch['office_name']);
+                $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
+
+                $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
+            }
+            
+            $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-branch', 'branch'));
+        }
     }
 }
 

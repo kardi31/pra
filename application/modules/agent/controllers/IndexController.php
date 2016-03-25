@@ -27,7 +27,10 @@ class Agent_IndexController extends MF_Controller_Action {
             throw new Zend_Controller_Action_Exception('Agent not found');
         }
         
-        
+        $pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
+        if(!$pageWasRefreshed ) {
+           $agent->increaseView();
+        }
         
         if(count($agent['Branches'])==1){
             $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['Branches'][0]['office_link'],'agent' => $agent['link']),'domain-branch-details'));
@@ -66,6 +69,86 @@ class Agent_IndexController extends MF_Controller_Action {
     
     public function reviewsAction(){
         
+    }
+    
+    public function contactAction(){
+        $this->_helper->actionStack('layout', 'index', 'default');
+        $this->_helper->layout->setLayout('page');
+        
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        $mailService = $this->_service->getService('User_Service_Mail');
+        
+        if(!$agent = $agentService->getAgent($this->getRequest()->getParam('slug'),'link')) {
+            throw new Zend_Controller_Action_Exception('Agent not found');
+        }
+        
+        $form = new Agent_Form_Contact();
+        
+        $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($agent['id']));
+        
+        if(count($agent['Branches'])==1){
+            $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['Branches'][0]['office_link'],'agent' => $agent['link']),'domain-branch-details'));
+        }
+        
+        $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+        $apikeys = $config->getOption('apikeys');
+        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+            'siteKey' => $apikeys['google']['siteKey'],
+            'secretKey' => $apikeys['google']['secretKey']
+        ]);
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Skontaktuj się z firmą'.$agent['name'],
+                'description' => 'Napisz wiadomość do firmy '.$agent['name']
+            ),
+            'en' => array(
+                'title' => 'Contact '.$agent['name'],
+                'description' => 'Write a message to '.$agent['name']
+            )
+        ),$this->view);
+        
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getParams())) {
+                
+                $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                $values = $form->getValues();
+                
+                if(!$branch = $branchService->getBranch($values['branch_id'],'id')) {
+                    throw new Zend_Controller_Action_Exception('Branch not found');
+                }
+                
+                if(isset($_SESSION['contact_agent'][$branch['id']])){
+                    $lastMessageTime = $_SESSION['contact_agent'][$branch['id']];
+                    if(time() - $_SESSION['contact_agent'][$branch['id']] < 300){
+                         $this->_helper->getHelper('FlashMessenger')->setNamespace('error')->addMessage($this->view->translate('You can send a message to certain branch only once every 5 minutes.'));
+                         $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['link']),'domain-agent-details'));
+                    }
+                }
+                
+                $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+                $mail = new Zend_Mail('UTF-8');
+                $mail->setSubject($this->view->translate('You have new customer enquiry from Rate Pole'));
+                $mail->addTo($branch['email'], $branch['office_name']." ".$branch['office_name']);
+                $mail->setReplyTo($values['mail'], $values['firstname']." ".$values['lastname']);
+
+                $mailService->sendBranchContactMail($values,$branch,$mail, $this->view);
+                
+                $_SESSION['contact_agent'][$branch['id']] = time();
+                
+                $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Thank you. Your message has been sent to ').$agent['name'].$this->view->translate('. They will contact you soon.'));
+
+                $this->_service->get('doctrine')->getCurrentConnection()->commit();
+
+                $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['link']),'domain-agent-details'));
+                
+            }
+        }
+        
+        $this->view->assign('form',$form);
+        $this->view->assign('agent',$agent);
     }
     
     
@@ -133,7 +216,7 @@ class Agent_IndexController extends MF_Controller_Action {
                     'description' => 'Register your company on Rate Pole'
                 )
             ),$this->view);
-        
+            
             $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
             $apikeys = $config->getOption('apikeys');
             $form->addElement('Recaptcha', 'g-recaptcha-response', [
@@ -156,16 +239,12 @@ class Agent_IndexController extends MF_Controller_Action {
                 $update = $updateService->saveUpdateFromArray($values);
                 $values['hoursForm']['update_id'] = $update['id'];
                 $updateService->saveOpeningHoursFromArray($values['hoursForm']);
-//                saveOpeningHoursFromArray
                 $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Thank you. Your update has been passed to the moderator. We will notify you when your changes has been approved.'));
 
                 $this->_service->get('doctrine')->getCurrentConnection()->commit();
 
                 $this->_helper->redirector->gotoUrl($this->view->url(array('id' => $update['id']),'domain-agent-update-thank-you'));
                 
-            }
-            else{
-                var_dump($form->getMessages());exit;
             }
         }
         

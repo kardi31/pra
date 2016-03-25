@@ -1,1 +1,1 @@
-RequestedURL|a:1:{s:3:"url";s:6:"/admin";}Messages|a:1:{s:8:"messages";a:0:{}}USER|a:0:{}Zend_Auth|a:1:{s:7:"storage";s:5:"admin";}
+RequestedURL|a:1:{s:3:"url";s:6:"/admin";}Messages|a:1:{s:8:"messages";a:0:{}}USER|a:1:{s:14:"dashboard_time";a:1:{s:12:"new_articles";i:1458922938;}}contact_agent|a:4:{i:1874;i:1458897123;i:44481;i:1458897458;i:1871;i:1458897663;i:4902;i:1458922787;}__ZF|a:1:{s:4:"USER";a:1:{s:4:"ENVT";a:1:{s:14:"dashboard_time";i:1458927500;}}}Zend_Auth|a:1:{s:7:"storage";s:5:"admin";}

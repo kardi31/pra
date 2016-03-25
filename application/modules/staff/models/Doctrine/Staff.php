@@ -29,7 +29,7 @@ class Staff_Model_Doctrine_Staff extends Staff_Model_Doctrine_BaseStaff
     
     public function getPictureUrl($dimensions = '80x80'){
 //        var_dump($this->get('PhotoRoot')->toArray());exit;
-        if($this->get('PhotoRoot')&&strlen($this->get('PhotoRoot')->filename)){
+        if($this->get('PhotoRoot')&&strlen($this->get('PhotoRoot')->filename)&&file_exists(APPLICATION_PATH.DIRECTORY_SEPARATOR.'public_html/'.MF_Text::getPhotoPath($this->get('PhotoRoot'),$dimensions))){
             return MF_Text::getPhotoPath($this->get('PhotoRoot'),$dimensions);
         }
         else{

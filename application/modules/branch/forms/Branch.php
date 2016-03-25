@@ -17,26 +17,31 @@ class Branch_Form_Branch extends Admin_Form {
         $office_name = $this->createElement('text', 'office_name');
         $office_name->setLabel('Office name');
         $office_name->setDecorators(self::$textAdminDecorators);
+        $office_name->setRequired();
         $office_name->setAttrib('class', 'form-control');
         
         $address = $this->createElement('text', 'address');
         $address->setLabel('Address');
+        $address->setRequired();
         $address->setDecorators(self::$textAdminDecorators);
         $address->setAttrib('class', 'form-control');
         
         
         $town = $this->createElement('text', 'town');
         $town->setLabel('Town');
+        $town->setRequired();
         $town->setDecorators(self::$textAdminDecorators);
         $town->setAttrib('class', 'form-control');
         
         $county = $this->createElement('text', 'county');
         $county->setLabel('County');
+        $county->setRequired();
         $county->setDecorators(self::$textAdminDecorators);
         $county->setAttrib('class', 'form-control');
         
         $postcode = $this->createElement('text', 'postcode');
         $postcode->setLabel('Postcode');
+        $postcode->setRequired();
         $postcode->setDecorators(self::$textAdminDecorators);
         $postcode->setAttrib('class', 'form-control');
         
@@ -49,6 +54,12 @@ class Branch_Form_Branch extends Admin_Form {
         $url->setLabel('Website');
         $url->setDecorators(self::$textAdminDecorators);
         $url->setAttrib('class', 'form-control');
+        
+        $email = $this->createElement('text', 'email');
+        $email->setLabel('Email');
+        $email->setRequired();
+        $email->setDecorators(self::$textAdminDecorators);
+        $email->setAttrib('class', 'form-control');
         
         $facebook = $this->createElement('text', 'facebook');
         $facebook->setLabel('Facebook');
@@ -86,6 +97,7 @@ class Branch_Form_Branch extends Admin_Form {
             $id,
             $address,
             $office_name,
+            $email,
             $town,
             $county,
             $postcode,

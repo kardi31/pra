@@ -35,8 +35,7 @@ and open the template in the editor.
 }
 
 .company-ad{
-    margin-top:20px;
-    margin-bottom:10px;
+    margin-top:10px;
 }
 
 .stars{
@@ -557,7 +556,7 @@ ul.bcrumbs{
     }
 }
 
-h1{
+h1,h2{
     a,a:hover{
        color: inherit;
     }
@@ -651,5 +650,27 @@ h1{
     h1,h2{
         font-family: "Lato";
         font-weight:300;
+    }
+}
+
+
+#grecaptcharesponse-label{
+    display:none;
+}
+#grecaptcharesponse-element{
+    text-align:center;
+    .g-recaptcha{
+        > div{
+            > div{
+                margin:0 auto;
+                display:block;
+            }
+        }
+    }
+}
+
+#staff-members{
+    .staffListRow{
+        margin-bottom:15px;
     }
 }

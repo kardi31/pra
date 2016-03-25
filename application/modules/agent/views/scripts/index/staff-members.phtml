@@ -1,0 +1,27 @@
+<div id="staff-members" class="tab-pane fade">
+    <div class="tab-pane1">
+        <?php 
+            foreach($this->agent['StaffMembers'] as $key=>$staff):
+            ?>
+            <div class="col-md-4 col-xs-6 col-sm-4 staffListRow">
+                <div class="col-md-5">
+                <img class="img-responsive" src="<?= $staff->getPictureUrl('215x215'); ?>" alt="<?= $staff->getFullName(); ?>" title="<?= $staff->getFullName(); ?>"/>
+                </div>
+                <div class="col-md-7">
+                    <a href="<?php echo $this->url(array('slug' => $staff['link']), 'domain-staff-profile'); ?>">
+                        
+                            <strong><?= $staff->getFullName(); ?></strong><br />
+                            <?php if(strlen($staff['position'])) echo $staff['position']."<br />" ; ?>
+                            
+                            <span class="gold stars stars-small">
+                                <?= MF_Text::showStars($staff['rating']); ?>
+                            </span>
+                            <br />
+                            <?= $staff['active_reviews']." ".$this->translate('reviews'); ?>
+                    </a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <div class="clearfix mt20"></div>
+    </div>
+</div>

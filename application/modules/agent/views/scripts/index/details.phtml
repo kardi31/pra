@@ -13,7 +13,8 @@ $agentPsp = (int) $agent['premium_support'];
 
 <div class="container companyDetails">
     <div class="container pagecontainer offset-0">	
-
+        
+    <?= MF_Text::showFormMessages(); ?>
         <!-- SLIDER -->
         <div class="col-md-8 details-slider">
             <div class="company-ad">
@@ -27,13 +28,12 @@ $agentPsp = (int) $agent['premium_support'];
         
         <div class="col-md-4 detailsright detailsright2 offset-0">
             <div class="padding20">
-                <h1 class="h2"><?= $agent['name']; ?></h1>
+                <h1 class="h2 mt0 lato"><?= $agent['name']; ?></h1>
                 <span class="stars">
                     <?= MF_Text::showStars($agent['rating']); ?>
                 </span>
             </div>
 
-            <div class="line3"></div>
 
         </div>
         <div class="clearfix"></div>
@@ -56,7 +56,7 @@ $agentPsp = (int) $agent['premium_support'];
             
             <div class="hpadding20">
                 <div class=" col-md-6">
-                    <a href="#" class="add2fav margtop20"><?= $this->translate('Contact company'); ?></a>
+                    <a href="<?= $this->url(array('slug' => $agent['link']),'domain-agent-contact'); ?>" class="add2fav margtop20"><?= $this->translate('Contact company'); ?></a>
                 </div>
                 <div class=" col-md-6">
                     <a href="<?= $this->url(array('agent' => $agent['link']),'domain-add-review'); ?>" class="booknow btnmarg margtop20"><?= $this->translate('Add review'); ?></a>
@@ -81,7 +81,7 @@ $agentPsp = (int) $agent['premium_support'];
                 <?= (int)$agent['votes']; ?> <?= $this->translate('reviews'); ?>
             </div>
             <div class="col-md-6 bordertype3">
-                <a href="#" class="grey underline"><?= $this->translate('Edit details'); ?></a>
+                <a href="<?= $this->url(array(),'domain-login'); ?>" class="grey underline"><?= $this->translate('Edit details'); ?></a>
             </div>
             <div class="clearfix"></div>
 
@@ -97,35 +97,18 @@ $agentPsp = (int) $agent['premium_support'];
             <div class="cstyle10"></div>
 
             <ul class="nav nav-tabs" id="myTab">
-                <li onclick="mySelectUpdate();
-                        trigerJslider();
-                        trigerJslider2();
-                        trigerJslider3();
-                        trigerJslider4();
-                        trigerJslider5();
-                        trigerJslider6();" class="active"><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext"><?= $this->translate('Reviews'); ?></span>&nbsp;</a></li>
-<!--                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#summary"><span class="summary"></span><span class="hidetext">Summary</span>&nbsp;</a></li>
-                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#roomrates"><span class="rates"></span><span class="hidetext">Room rates</span>&nbsp;</a></li>
-                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#preferences"><span class="preferences"></span><span class="hidetext">Preferences</span>&nbsp;</a></li>
-                <li onclick="loadScript()" class=""><a data-toggle="tab" href="#maps"><span class="maps"></span><span class="hidetext">Maps</span>&nbsp;</a></li>
-                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#thingstodo"><span class="thingstodo"></span><span class="hidetext">Things to do</span>&nbsp;</a></li>-->
+                <li class="active"><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext"><?= $this->translate('Reviews'); ?></span>&nbsp;</a></li>
+                <li><a data-toggle="tab" href="#staff-members"><span class="summary"></span><span class="hidetext"><?= $this->translate('Staff members'); ?></span>&nbsp;</a></li>
 
             </ul>			
             <div class="tab-content4" >
                 <?= $this->render('index/reviews.phtml'); ?>
+                <?= $this->partial('index/staff-members.phtml',array('agent' => $agent)); ?>
 
             </div>
         </div>
 
         <div class="col-md-4" >
-
-<!--            <div class="pagecontainer2 testimonialbox">
-                <div class="cpadding0 mt-10">
-                    <span class="icon-quote"></span>
-                    <p class="opensans size16 grey2">It was very comfortable to stay and staff were pleasant and welcoming.<br/>
-                        <span class="lato lblue bold size13"><i>by Ellison from United Kingdom</i></span></p> 
-                </div>
-            </div>-->
 
             <?php if($agent['premium_support']){ ?>
                 <img src="<?= $agent->getLogoUrl('225x90'); ?>" alt="<?= $agent['name'];?> logo" class="agentMainLogo" />
@@ -135,16 +118,27 @@ $agentPsp = (int) $agent['premium_support'];
                 <div class="cpadding1">
                     <span class="icon-help"></span>
                     <h3 class="opensans"><?= $this->translate('Contact'); ?></h3>
-                    <?php if($agent['HeadOffice']){ ?>
-                        <?php if(strlen($agent['HeadOffice']['phone'])){ ?>
-                            <p class="opensans size30 lblue xslim"><?= $agent['HeadOffice']['phone']; ?></p>
+                    <?php 
+                    if($agent['HeadOffice']){
+                        $headOffice = $agent['HeadOffice'];
+                    }
+                    else{
+                        $headOffice = $agent['Branches'][0];
+                    }
+                         if(strlen($headOffice['phone'])){ ?>
+                            <p class="opensans size30 lblue xslim"><?= $headOffice['phone']; ?></p>
                         <?php } ?>
-                        <?php if(strlen($agent['HeadOffice']['url'])){ ?>
-                            <p class="size14 grey">WWW: <a href='<?= $agent['HeadOffice']['url']; ?>'><?= substr($agent['HeadOffice']['url'],7); ?></a></p>
+                        <?php if(strlen($agent['HeadOffice']['url'])){ 
+                            $url = $headOffice['url'];
+                            if (strpos($url, 'http://')==false) {
+                                $url = 'http://'.$url;
+                             }
+                            ?>
+                            <p class="size14 grey">WWW: <a target="_blank" href='<?= $url; ?>'><?= $headOffice['url']; ?></a></p>
                         <?php } ?>
-                    <?php } ?>
+                    
                 </div>
-            </div><br/>
+            </div>
 
             <div class="pagecontainer2 mt20 alsolikebox">
                 <div class="cpadding1">
@@ -152,15 +146,16 @@ $agentPsp = (int) $agent['premium_support'];
                     <h3 class="opensans"><?= $this->translate('Branches'); ?></h3>
                     <div class="clearfix"></div>
                 </div>
-                <?php foreach($agent['Branches'] as $branch){ ?>
+                <?php foreach($agent->get('Branches') as $branch){ ?>
                     <div class="cpadding1 ">
                         <div class='col-md-6'>
-                            <a href="<?= $this->url(array('agent' => $agent['link'],'slug' => $branch['office_link']),'domain-branch-details'); ?>"><img src="/assets/images/smallthumb-1.jpg" class="left mr20" alt="<?= $agent['name']." ".$branch['town']; ?>"/></a>
+                            <a href="<?= $this->url(array('agent' => $agent['link'],'slug' => $branch['office_link']),'domain-branch-details'); ?>">
+                                <img src="<?= $branch->getOfficeImage(); ?>" class="left mr20 img-responsive" alt="<?= $agent['name']." ".$branch['town']; ?>"/></a>
                         </div>
                         <div class='col-md-6'>
                         <a href="<?= $this->url(array('agent' => $agent['link'],'slug' => $branch['office_link']),'domain-branch-details'); ?>" class="dark"><b><?= $branch['office_name']; ?></b></a><br/>
-                        
-                        <?= str_repeat('<img src="/images/star.png">',round($branch['rating'])); ?><br />
+                        <?php MF_Text::showStars($branch['rating']); ?>
+                        <br />
                         
                         <?php echo $branch['address']." <br />";
                             echo $branch['postcode']." ".$branch['town'];

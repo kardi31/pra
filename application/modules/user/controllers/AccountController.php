@@ -2,6 +2,7 @@
 
 class User_AccountController extends MF_Controller_Action {
     
+    protected $_user;
 
     public function init(){
         
@@ -9,11 +10,12 @@ class User_AccountController extends MF_Controller_Action {
         $authService = MF_Service_ServiceBroker::getInstance()->getService('User_Service_Auth');
         
         $user = $authService->getAuthenticatedUser();
+        $this->_user = $user;
         if($user->role=='agent'){
             
             $agentService = MF_Service_ServiceBroker::getInstance()->getService('Agent_Service_Agent');
             
-            $branch = $agentService->getBranch($user['agent_id']);
+            $agent = $agentService->getAgent($user['agent_id']);
             
             Zend_Layout::getMvcInstance()->assign('agent', $agent);
         }
@@ -140,7 +142,9 @@ class User_AccountController extends MF_Controller_Action {
         
         if($user->role=='agent'){
             $branches = $user->get('Agent')->get('Branches');
+            $agent = $user->get('Agent');
             $this->view->assign('branches',$branches);
+            $this->view->assign('agent',$agent);
         }
         elseif($user->role=='branch'){
 
@@ -150,35 +154,67 @@ class User_AccountController extends MF_Controller_Action {
         $this->_helper->actionStack('sidebar');
     }
     
+    public function setHeadOfficeAction(){
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+
+        if(!$branch = $branchService->getBranch($this->getRequest()->getParam('id'))){
+            throw new Zend_Controller_Action_Exception('Branch not found');
+        }
+        
+        if($this->user->role=='agent'){
+            if($this->user->agent_id!=$branch['agent_id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        elseif($this->user->role=='branch'){
+            if($this->user->branch_id!=$branch['id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        
+        $agent = $branch->get('Agent');
+        
+        $agent->set('head_office_id',$branch['id']);
+        $agent->save();
+                    
+        $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'list-branch'),'domain-account'));
+    }
+    
     public function addBranchAction()
     {
         $this->_helper->layout->setLayout('account');
-         
-         
+        
         $authService = $this->_service->getService('User_Service_Auth');
+        $hoursService = $this->_service->getService('Branch_Service_OpeningHours');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
         
         $user = $authService->getAuthenticatedUser();
         
         $this->view->assign('user',$user);
         
-        $branchService = $this->_service->getService('Branch_Service_Branch');
-
-
         $form = new Branch_Form_Branch();
         $form->getElement('agent_id')->setValue($user['agent_id']);
+        
+        $hoursForm = new Branch_Form_OpeningHours();
+        $form->addSubForm($hoursForm,'hoursForm');
+        
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getPost())) {
                 try {
                     $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
                     $data = $form->getValues();
                     unset($data['id']);
-                    $branchService->saveBranchFromArray($data);
+                    $branch = $branchService->saveBranchFromArray($data);
+                    
+                    $data['hoursForm']['branch_id'] = $branch['id'];
+                    $hoursService->saveOpeningHoursFromArray($data['hoursForm']);
 
                     $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('New branch has been successfully added.'));
 
 
                     $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'list-branch'),'domain-account'));
                 } catch(Exception $e) {
+                    
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->_service->get('log')->log($e->getMessage(), 4);
                 }
@@ -195,19 +231,23 @@ class User_AccountController extends MF_Controller_Action {
     public function editBranchAction()
     {
         $this->_helper->layout->setLayout('account');
-         
-         
-        $authService = $this->_service->getService('User_Service_Auth');
-        
-        $user = $authService->getAuthenticatedUser();
-        
-        $this->view->assign('user',$user);
-        
+                 
         $branchService = $this->_service->getService('Branch_Service_Branch');
         $hoursService = $this->_service->getService('Branch_Service_OpeningHours');
 
         if(!$branch = $branchService->getBranch($this->getRequest()->getParam('id'))){
-            die('noBranch');
+            throw new Zend_Controller_Action_Exception('Branch not found');
+        }
+        
+        if($this->user->role=='agent'){
+            if($this->user->agent_id!=$branch['agent_id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        elseif($this->user->role=='branch'){
+            if($this->user->branch_id!=$branch['id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
         }
 
         $form = new Branch_Form_Branch();
@@ -227,12 +267,9 @@ class User_AccountController extends MF_Controller_Action {
                     $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
                     $data = $form->getValues();
                     
-                    
-                    $data['Translation']['pl']['description'] = $data['description'];
-                    $data['Translation']['en']['description'] = $data['description'];
                     unset($data['id']);
                     $branch->fromArray($data);
-//                        Zend_Debug::dump($branch->toArray());exit;
+                    
                     $branch->save();
 
                     $data['hoursForm']['branch_id'] = $branch['id'];
@@ -246,7 +283,6 @@ class User_AccountController extends MF_Controller_Action {
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->_service->get('log')->log($e->getMessage(), 4);
                 }
-             //   
             }
         }
 
@@ -260,29 +296,29 @@ class User_AccountController extends MF_Controller_Action {
     {
         $this->_helper->layout->setLayout('account');
          
-         
-        $authService = $this->_service->getService('User_Service_Auth');
-        
-        $user = $authService->getAuthenticatedUser();
-        
-        $this->view->assign('user',$user);
-        
         $branchService = $this->_service->getService('Branch_Service_Branch');
 
         if(!$branch = $branchService->getBranch($this->getRequest()->getParam('id'))){
-            die('noBranch');
+            throw new Zend_Controller_Action_Exception('Branch not found');
         }
 
+        if($this->user->role=='agent'){
+            if($this->user->agent_id!=$branch['agent_id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        elseif($this->user->role=='branch'){
+            if($this->user->branch_id!=$branch['id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        
         $branch->delete();
         
         $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Your branch has been successfully edited.'));
 
-
-                    $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'list-branch'),'domain-account'));
+        $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'list-branch'),'domain-account'));
               
-        
-
-        
         $this->_helper->actionStack('sidebar');
     }
     
@@ -323,13 +359,30 @@ class User_AccountController extends MF_Controller_Action {
             $staffService = $this->_service->getService('Staff_Service_Staff');
             
             if(!$staff = $staffService->getStaff($this->getRequest()->getParam('id'))){
-                die('noStaff');
+                    throw new Zend_Controller_Action_Exception('No staff member found');
+            }
+            
+            
+            if($this->user->role=='agent'){
+                if($this->user->agent_id!=$staff['agent_id']){
+                    throw new Zend_Controller_Action_Exception('Hacking attempt');
+                }
+            }
+            elseif($this->user->role=='branch'){
+                if($this->user->branch_id!=$staff['branch_id']){
+                    throw new Zend_Controller_Action_Exception('Hacking attempt');
+                }
             }
             
             $form = new Staff_Form_Staff();
             $staffData = $staff->toArray();
             $staffData['description'] = $staff['Translation'][$this->view->language]['description'];
-            $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($user['agent_id']));
+            if($user['role']=='agent'){
+                $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($user['agent_id']));
+            }
+            elseif($user['role']=='branch'){
+                $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($user['branch_id'],false,'branch'));
+            }
         
             $form->populate($staffData);
             
@@ -367,7 +420,6 @@ class User_AccountController extends MF_Controller_Action {
                         $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                         $this->_service->get('log')->log($e->getMessage(), 4);
                     }
-                 //   
                 }
             }
             
@@ -427,8 +479,6 @@ class User_AccountController extends MF_Controller_Action {
                         unlink(APPLICATION_PATH."/../public_html/media/photos/temp/".$filePath);
 
                     }
-
-
                     $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Staff member has been successfully edited.'));
 
                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
@@ -439,7 +489,6 @@ class User_AccountController extends MF_Controller_Action {
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->_service->get('log')->log($e->getMessage(), 4);
                 }
-             //   
             }
         }
 
@@ -461,12 +510,128 @@ class User_AccountController extends MF_Controller_Action {
         $staffService = $this->_service->getService('Staff_Service_Staff');
 
         if(!$staff = $staffService->getStaff($this->getRequest()->getParam('id'))){
-            die('noStaff');
+            throw new Zend_Controller_Action_Exception('No staff member found');
         }
 
+        
+        if($this->user->role=='agent'){
+            if($this->user->agent_id!=$staff['agent_id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        elseif($this->user->role=='branch'){
+            if($this->user->branch_id!=$staff['branch_id']){
+                throw new Zend_Controller_Action_Exception('Hacking attempt');
+            }
+        }
+        
         $staff->delete();
         $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'list-staff'),'domain-account'));
                    
+    }
+    
+    
+    public function companyDetailsAction()
+    {
+        $this->_helper->layout->setLayout('account');
+                 
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+
+        if(!$agent = $agentService->getAgent($this->_user->agent_id)){
+            throw new Zend_Controller_Action_Exception('Branch not found');
+        }
+        if($this->user->role=='branch'){
+            throw new Zend_Controller_Action_Exception('Hacking attempt');
+        }
+
+        $form = new Branch_Form_Branch();
+        $form->removeElement('address');
+        $form->removeElement('office_name');
+        $form->removeElement('email');
+        $form->removeElement('town');
+        $form->removeElement('county');
+        $form->removeElement('postcode');
+        
+        $agentArray = $agent->toArray();
+        $agentArray['description'] = $agent['Translation'][$this->view->language]['description'];
+        
+        $form->populate($agentArray);
+
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getPost())) {
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    $data = $form->getValues();
+                    
+                    unset($data['id']);
+                    $agent->fromArray($data);
+                    
+                    $agent->save();
+                    
+                    $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Your company details has been successfully edited.'));
+
+                   $this->_service->get('doctrine')->getCurrentConnection()->commit();
+
+                    $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'company-details'),'domain-account'));
+                } catch(Exception $e) {
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+        }
+
+        $this->view->assign('form',$form);
+        $this->view->assign('agent',$agent);
+        
+        $this->_helper->actionStack('sidebar');
+    }
+    
+    public function editPasswordAction()
+    {
+        $this->_helper->layout->setLayout('account');
+        
+        $form = new User_Form_UpdatePassword();
+        
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getPost())) {
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    $data = $form->getValues();
+                    
+                    
+                    $passwordEncoder = new User_PasswordEncoder();
+                    $enteredPassword = $passwordEncoder->encode($data['old_password'], $this->_user['salt']);
+                    
+                    if($enteredPassword!=$this->_user['password']){
+                        
+                        $this->_helper->getHelper('FlashMessenger')->setNamespace('error')->addMessage($this->view->translate('Your current password is not correct.'));
+                        $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'edit-password'),'domain-account'));
+                    }
+                    
+                    $salt = MF_Text::createUniqueToken();
+                    $newPassword = $passwordEncoder->encode($data['password'], $salt);
+                    
+                    $this->_user->set('salt',$salt);
+                    $this->_user->set('password',$newPassword);
+                    $this->_user->save();
+                    
+                    $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Your password has been successfully edited.'));
+
+                   $this->_service->get('doctrine')->getCurrentConnection()->commit();
+
+                    $this->_helper->redirector->gotoUrl($this->view->url(array('action'=> 'edit-password'),'domain-account'));
+                } catch(Exception $e) {
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+            else{
+                var_dump($form->getMessages());exit;
+            }
+        }
+        
+        $this->view->assign('form',$form);
+        $this->_helper->actionStack('sidebar');
     }
 }
 
