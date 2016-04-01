@@ -11,7 +11,7 @@
 			<!-- CONTENT -->
 			<div class="col-md-12 pagecontainer2 offset-0">
 				<div class="hpadding50c">
-                                    <p class="lato size30 slim"><h1><?= $this->translate('Ranking of best Polish companies'); ?></h1></p>
+                                   <h1 class="lato size30 slim"><?= $this->translate('Ranking of best Polish companies'); ?></h1>
 					<p class="aboutarrow"></p>
 				</div>
 				<div class="line3"></div>
@@ -88,3 +88,30 @@
 		
 		
 	</div>
+
+<?php
+
+$headers = array('APIKEY: 40fc46d06e72'); //Example API Key which must be changed.
+
+$url = "https://www.allagents.co.uk/api/v1/firms/bradleys-estate-agents/"; //example-agent must be changed
+
+$curl = curl_init(); // Initialize cURL
+
+// Set the options for cURL
+curl_setopt($curl,CURLOPT_URL, $url); //Use the request url defined
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); //We want the result variable to contain the output
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers); //send custom header that has the API Key
+
+$result = curl_exec($curl); //Make request via curl and store in $result
+curl_close($curl);//close the connection
+
+$decodedResult = (json_decode($result, true)); //Transform JSON output into associative array.
+$rating = $decodedResult['rating']; //Store Rating in its own variable
+$reviewCount = $decodedResult['votes']; //Store Review Count in its own variable
+
+?>
+
+<!-- Normal HTML content begins -->
+
+<p> We are rated <?= $rating ?> based on <?= $reviewCount ?></p>
+                    

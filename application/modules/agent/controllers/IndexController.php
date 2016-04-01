@@ -174,6 +174,7 @@ class Agent_IndexController extends MF_Controller_Action {
         $this->_helper->actionStack('layout', 'index', 'default');
         
         $updateService = $this->_service->getService('Agent_Service_Update');
+        $agentService = $this->_service->getService('Agent_Service_Agent');
         
         
         $metatagService = $this->_service->getService('Default_Service_Metatag');
@@ -184,6 +185,11 @@ class Agent_IndexController extends MF_Controller_Action {
         $hoursForm = new Branch_Form_OpeningHours();
         
         $form->addSubForm($hoursForm, 'hoursForm');
+        
+        $agentCategories = $agentService->getMainCategories();
+
+        $this->view->assign('agentCategories',$agentCategories);
+        
         
         if($this->getRequest()->getParam('id')){
             if(!$update = $updateService->getUpdate($this->getRequest()->getParam('id'))) {
@@ -274,8 +280,7 @@ class Agent_IndexController extends MF_Controller_Action {
             )
         ),$this->view);
         
-        $this->view->headMeta()
-            ->appendName('robots', 'noindex, nofollow');
+        $this->view->headMeta()->appendName('robots', 'noindex, nofollow');
         
         if(!$update = $updateService->getUpdate($this->getRequest()->getParam('id'))) {
             throw new Zend_Controller_Action_Exception('Update not found');

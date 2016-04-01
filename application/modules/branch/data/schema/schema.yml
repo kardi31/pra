@@ -46,6 +46,8 @@ Branch:
       type: float(5,2)
     rating:
       type: float(5,2)
+    points:
+      type: float(5,2)
     votes:
       type: integer(4)
     rank:

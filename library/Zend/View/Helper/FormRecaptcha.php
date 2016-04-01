@@ -26,7 +26,7 @@ class Zend_View_Helper_FormRecaptcha extends Zend_View_Helper_FormElement
         if (!isset($attribs['siteKey']) || !isset($attribs['secretKey'])) {
             throw new Zend_Exception('Site key is not set in the view helper');
         }
-        return '<script src="https://www.google.com/recaptcha/api.js"></script><div class="g-recaptcha" data-sitekey="' . $attribs['siteKey'] . '"></div>';
+        return '<script src="https://www.google.com/recaptcha/api.js"></script><div class="g-recaptcha" data-sitekey="' . $attribs['siteKey'] . '" ></div>';
     }
 
 }

@@ -11,6 +11,7 @@
  * @property clob $description
  * @property float $rating
  * @property float $customer_satisfaction
+ * @property float $points
  * @property integer $votes
  * @property integer $rank
  * @property integer $view
@@ -24,7 +25,6 @@
  * @property integer $head_office_id
  * @property Doctrine_Collection $Translation
  * @property Doctrine_Collection $Contacts
- * @property Agent_Model_Doctrine_UpdateMember $Member
  * @property Agent_Model_Doctrine_HistoricRanking $HistoricRanking
  * @property Doctrine_Collection $HistoricRankingWeekly
  * @property Doctrine_Collection $Awards
@@ -63,6 +63,11 @@ abstract class Agent_Model_Doctrine_BaseAgent extends Doctrine_Record
              'scale' => '2',
              ));
         $this->hasColumn('customer_satisfaction', 'float', 5, array(
+             'type' => 'float',
+             'length' => '5',
+             'scale' => '2',
+             ));
+        $this->hasColumn('points', 'float', 5, array(
              'type' => 'float',
              'length' => '5',
              'scale' => '2',
@@ -127,10 +132,6 @@ abstract class Agent_Model_Doctrine_BaseAgent extends Doctrine_Record
         $this->hasMany('Agent_Model_Doctrine_Contact as Contacts', array(
              'local' => 'id',
              'foreign' => 'agent_id'));
-
-        $this->hasOne('Agent_Model_Doctrine_UpdateMember as Member', array(
-             'local' => 'id',
-             'foreign' => 'agent_update_id'));
 
         $this->hasOne('Agent_Model_Doctrine_HistoricRanking as HistoricRanking', array(
              'local' => 'id',

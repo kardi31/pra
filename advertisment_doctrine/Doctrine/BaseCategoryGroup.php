@@ -66,6 +66,11 @@ abstract class Advertisment_Model_Doctrine_BaseCategoryGroup extends Doctrine_Re
              'local' => 'id',
              'foreign' => 'group_id'));
 
+        
+        $this->hasMany('Advertisment_Model_Doctrine_GroupTranslation as Translation', array(
+             'local' => 'id',
+             'foreign' => 'id'));
+        
         $i18n0 = new Doctrine_Template_I18n(array(
              'fields' => 
              array(
@@ -74,7 +79,7 @@ abstract class Advertisment_Model_Doctrine_BaseCategoryGroup extends Doctrine_Re
               2 => 'content',
              ),
              'tableName' => 'advertisment_category_group_translation',
-             'className' => 'CategoryGroupTranslation',
+             'className' => 'GroupTranslation',
              ));
         $this->actAs($i18n0);
     }

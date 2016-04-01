@@ -219,7 +219,6 @@ class Branch_IndexController extends MF_Controller_Action {
                         
             }
 
-
             $metatagService = $this->_service->getService('Default_Service_Metatag');
             $metatagService->setCustomViewMetatags(array(
                 'pl' => array(
@@ -265,6 +264,18 @@ class Branch_IndexController extends MF_Controller_Action {
         $form = new Branch_Form_RankingSearch();
         $form->getElement('category_id')->addMultiOptions($agentService->prependMainCategories($this->view->language));
         
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Znajdź najlepsze firmy w Twoim regionie',
+                'description' => 'Sprawdź ranking najlepszych firm w Twoim regionie'
+            ),
+            'en' => array(
+                'title' => 'Find best Polish companies in your area ',
+                'description' => 'Browse rankings for best Polish companies in your area'
+            )
+        ),$this->view);
+        
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getParams())) {
@@ -273,26 +284,19 @@ class Branch_IndexController extends MF_Controller_Action {
                     
                     
                     $data = $form->getValues();
-                    
                     if(isset($data['category_id'])){
                         if(isset($data['area'])){
-                            
-                            $this->_helper->redirector->gotoUrl($this->view->url(array('region' => $data['area'],'category' => $data['category_id']),'domain-ranking-region-category'));
+                            $this->_helper->redirector->gotoUrl($this->view->url(array('region' => strtolower($data['area']),'category' => $data['category_id']),'domain-ranking-region-category'));
                         }
                         else{
                             $this->_helper->redirector->gotoUrl($this->view->url(array('category' => $data['category_id']),'domain-ranking-category'));
-                            
                         }
                     }
 
                 } catch(Exception $e) {
-                    var_dump($e->getMessage());exit;
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->_service->get('log')->log($e->getMessage(), 4);
                 }
-            }
-            else{
-                $form->getMessages();exit;
             }
         }
         
@@ -308,21 +312,44 @@ class Branch_IndexController extends MF_Controller_Action {
         $branchService = $this->_service->getService('Branch_Service_Branch');
         $agentService = $this->_service->getService('Agent_Service_Agent');
         
-        
         $route = Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName();
         
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+            
         // town ranking
         if($route=='domain-ranking-region-category'){
             $region = $this->getRequest()->getParam('region');
             $categoryParam = $this->getRequest()->getParam('category');
             $branches = $branchService->rankBranchesByRegionAndCategory($region,$categoryParam,$this->view->language,Doctrine_Core::HYDRATE_RECORD);
             $category = $agentService->getFullCategory($categoryParam,'slug',$this->view->language);
+            
+            $metatagService->setCustomViewMetatags(array(
+                'pl' => array(
+                    'title' => 'Najlepsi '.$category['Translation'][$this->language]['title'].' w '.ucwords($region),
+                    'description' => 'Sprawdź najlepsze firmy w kategorii '.$category['Translation'][$this->language]['title'].' - '.ucwords($region)
+                ),
+                'en' => array(
+                    'title' => 'Best '.$category['Translation'][$this->language]['title'].' companies in '.ucwords($region),
+                    'description' => 'Find best '.$category['Translation'][$this->language]['title'].' companies in '.ucwords($region)
+                )
+            ),$this->view);
         }
         elseif($route=='domain-ranking-category'){
             $categoryParam = $this->getRequest()->getParam('category');
             $branches = $branchService->rankBranchesByCategory($categoryParam,$this->view->language,Doctrine_Core::HYDRATE_RECORD);
             $category = $agentService->getFullCategory($categoryParam,'slug',$this->view->language);
             $region = false;
+            
+            $metatagService->setCustomViewMetatags(array(
+                'pl' => array(
+                    'title' => 'Najlepsi '.$category['Translation'][$this->language]['title'],
+                    'description' => 'Sprawdź najlepsze firmy w kategorii '.$category['Translation'][$this->language]['title']
+                ),
+                'en' => array(
+                    'title' => 'Best '.$category['Translation'][$this->language]['title'].' companies ',
+                    'description' => 'Find best '.$category['Translation'][$this->language]['title'].' companies'
+                )
+            ),$this->view);
         }
         
         

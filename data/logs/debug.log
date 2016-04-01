@@ -700,3 +700,6 @@
 2016-03-25T17:26:54+01:00 CRIT (2): Application error
 2016-03-25T17:27:10+01:00 CRIT (2): Application error
 2016-03-25T17:27:23+01:00 CRIT (2): Application error
+2016-03-28T18:28:53+02:00 WARN (4): Unknown record property / related component "office_link" on "Staff_Model_Doctrine_Staff"
+2016-03-28T18:29:25+02:00 WARN (4): Unknown record property / related component "office_link" on "Staff_Model_Doctrine_Staff"
+2016-04-01T10:51:45+02:00 WARN (4): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'mojaaa@mail.pl' for key 'email'

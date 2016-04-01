@@ -12,23 +12,5 @@
  */
 class Advertisment_Model_Doctrine_Category extends Advertisment_Model_Doctrine_BaseCategory
 {
-     public function getId(){
-        return $this->_get('id');
-    }
-    
-    public function getMetatagId(){
-        return $this->_get('metatag_id');
-    }
-    
-    public function setUp() {
-        parent::setUp();
-        
-        
-        $this->hasOne('Default_Model_Doctrine_Metatag as Metatags', array(
-            'local' => 'metatag_id',
-            'foregin' => 'id'
-        ));
-        
-        
-    }
+
 }

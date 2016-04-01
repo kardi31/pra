@@ -28,6 +28,19 @@ class Staff_IndexController extends MF_Controller_Action {
         $paginator->setItemCountPerPage(30);
         $this->view->assign('paginator', $paginator);
         $this->view->assign('staff',$staff);
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => $staff['firstname'].' '.$staff['lastname'].' - Opinie o pracowniku',
+                'description' => 'Opinie klientów o '.$staff['firstname'].' '.$staff['lastname']
+            ),
+            'en' => array(
+                'title' => $staff['firstname'].' '.$staff['lastname'].' - customer reviews',
+                'description' => 'Read customer reviews of '.$staff['firstname'].' '.$staff['lastname']
+            )
+        ),$this->view);
+        
     }
     
     
@@ -75,19 +88,6 @@ class Staff_IndexController extends MF_Controller_Action {
                     $this->view->assign('staff_name',$staff_name);     
                 
                     $this->renderScript('index/staff-search-result.phtml');
-//                    die('55');
-//                    $data = $form->getValues();
-//                    
-//                    if(isset($data['category_id'])){
-//                        if(isset($data['area'])){
-//                            
-//                            $this->_helper->redirector->gotoUrl($this->view->url(array('region' => $data['area'],'category' => $data['category_id']),'domain-ranking-region-category'));
-//                        }
-//                        else{
-//                            $this->_helper->redirector->gotoUrl($this->view->url(array('category' => $data['category_id']),'domain-ranking-category'));
-//                            
-//                        }
-//                    }
 
                 } catch(Exception $e) {
                     var_dump($e->getMessage());exit;
@@ -134,10 +134,6 @@ class Staff_IndexController extends MF_Controller_Action {
         $this->view->assign('searchString',$searchString);
     }
     
-    public function articlesAction() {
-    
-    
-    }
     
     public function updateStaffAction(){
         
@@ -163,6 +159,17 @@ class Staff_IndexController extends MF_Controller_Action {
         ]);
         
         $this->view->assign('form',$form);
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => $staff['firstname'].' '.$staff['lastname'].' - edytuj dane'
+            ),
+            'en' => array(
+                'title' => $staff['firstname'].' '.$staff['lastname'].' - edit details'
+            )
+        ),$this->view);
+        
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getParams())) {

@@ -50,7 +50,7 @@ $(document).ready(function() {
                     <div class="tab-pane<?php if($language == $this->adminLanguage->getId()): ?> in active<?php endif; ?>" id="dropdown<?php echo $key + 1 ?>">
                         <span class="section contentSection">
                             <?php  if($this->form->translations->getSubForm($language)): ?>
-                                <?php echo $this->form->translations->getSubForm($language)->description->setAttrib('class', 'tinymce') ?>
+                                <?php echo $this->form->translations->getSubForm($language)->description->setAttrib('class', '') ?>
                             <?php endif; ?>
                         </span>
                     </div>

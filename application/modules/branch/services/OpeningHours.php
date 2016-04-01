@@ -31,7 +31,6 @@ class Branch_Service_OpeningHours extends MF_Service_ServiceAbstract {
                 $values[$key] = NULL;
             }
         }
-        
         for($i=1;$i<=7;$i++):
             $field_name = strtolower(jddayofweek($i-1, 2));
             if(isset($values['closed_'.$field_name])&&$values['closed_'.$field_name]){

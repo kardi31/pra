@@ -59,13 +59,16 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
     }
     
     public function saveNewAgentBranchFromUpdate($agent_id,$data){
-        $values = array();
+        $values = $data;
         
-        
-        $values['town'] = $data['town'];
-        $values['office_name'] = $data['town'];
+        $address = $data['town']." ".$data['address']." ".$data['postcode']; // Google HQ
+        $prepAddr = str_replace(' ','+',$address);
+        $geocode=file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+        $output= json_decode($geocode);
+        $values['lat'] = $output->results[0]->geometry->location->lat;
+        $values['lng'] = $output->results[0]->geometry->location->lng;
         $values['agent_id'] = $agent_id;
-//        $values['deleted_at'] = date('Y-m-d H:i:s');
+        
         $values['view'] = 1;
         $values['approved'] = 1;
         $values['office_link'] = MF_Text::createUniqueTableField('Branch_Model_Doctrine_Branch','office_link', $data['town']);;
@@ -83,6 +86,12 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
        $q->addWhere('b.view = 1');
        $q->orderBy('rand()');
        $q->limit($limit);
+       return $q->execute(array(),$hydrationMode);
+   }
+   
+   public function getAllBranchesOrder($order = 'id',$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->branchTable->createQuery('b');
+       $q->orderBy('b.'.$order);
        return $q->execute(array(),$hydrationMode);
    }
    
@@ -145,7 +154,7 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
    public function rankBranchesByCategory($category,$lang = 'pl', $hydrationMode = Doctrine_Core::HYDRATE_RECORD,$limit = 30){
        $q = $this->branchTable->createQuery('b');
        $q->addWhere('ct.slug = ? and ct.lang = ?',array($category,$lang));
-       $q->orderBy('b.rating DESC');
+       $q->orderBy('ISNULL(b.points),b.points DESC');
        $q->limit($limit);
        $q->leftJoin('b.Agent a');
        $q->leftJoin('a.Categories c');
@@ -156,9 +165,9 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
    
    public function rankBranchesByRegionAndCategory($region,$category,$lang = 'pl', $hydrationMode = Doctrine_Core::HYDRATE_RECORD){
        $q = $this->branchTable->createQuery('b');
-       $q->addWhere('LOWER(b.town) like ? or LOWER(b.county) like ? or LOWER(b.country) like ? or LOWER(b.postcode) like ?',array('%'.strtolower($region).'%','%'.strtolower($region).'%','%'.strtolower($region).'%',strtolower($town).'%'));
+       $q->addWhere('LOWER(b.town) like ? or LOWER(b.county) like ? or LOWER(b.country) like ? or LOWER(b.postcode) like ?',array('%'.strtolower($region).'%','%'.strtolower($region).'%','%'.strtolower($region).'%',strtolower($region).'%'));
        $q->addWhere('ct.slug = ? and ct.lang = ?',array($category,$lang));
-       $q->orderBy('b.rating DESC');
+       $q->orderBy('ISNULL(b.points),b.points DESC');
        $q->limit(40);
        $q->leftJoin('b.Agent a');
        $q->leftJoin('a.Categories c');
@@ -317,6 +326,15 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
         $branch->save();
         
         return $branch;
+    }
+    
+    public function calculateBranchesRank(){
+        $branches = $this->getAllBranchesOrder('points DESC');
+        
+        foreach($branches as $key => $branch){
+            $branch->set('rank',($key+1));
+            $branch->save();
+        }
     }
 }
 

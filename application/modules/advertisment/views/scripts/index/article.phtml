@@ -2,7 +2,7 @@
 $news = $this->article;
     MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-advertisment'), $this->translate('Advertisments'));
     MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('category' => $news['Category']['Translation'][$this->language]['slug']),'domain-advertisment-category'), $news['Category']['Group']['Translation'][$this->language]['title']." - ".$news['Category']['Translation'][$this->language]['title']);
-    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $news['Translation'][$this->language]['title']);
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $news['Translation'][$this->language]['title'],true);
     echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
 <div class="container">

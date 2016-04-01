@@ -10,7 +10,7 @@ class Advertisment_Service_Group extends MF_Service_ServiceAbstract{
     protected $groupTable;
     
     public function init() {
-        $this->groupTable = Doctrine_Core::getTable('Advertisment_Model_Doctrine_CategoryGroup');
+        $this->groupTable = Doctrine_Core::getTable('Advertisment_Model_Doctrine_Group');
     }
     
     public function getAllGroups($countOnly = false) {

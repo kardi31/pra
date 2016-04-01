@@ -29,11 +29,40 @@ class Staff_Service_Staff extends MF_Service_ServiceAbstract {
         if(!$record = $this->staffTable->getProxy($values['id'])) {
             $record = $this->staffTable->getRecord();
         }
+        
+        
         $record->fromArray($values);
-//        Zend_Debug::dump($record->toArray());exit;
+        $record->link = MF_Text::createUniqueTableField('Staff_Model_Doctrine_Staff','link', $values['firstname']." ".$values['lastname'],$values['id']);
+
         $record->save();
         
         return $record;
+    }
+    
+    public function saveStaffAdminFromArray($values) {
+        $i18nService = MF_Service_ServiceBroker::getInstance()->getService('Default_Service_I18n');
+        foreach($values as $key => $value) {
+            if(!is_array($value) && strlen($value) == 0) {
+                $values[$key] = NULL;
+            }
+        }
+        
+        if(!$staff = $this->staffTable->getProxy($values['id'])) {
+            $staff = $this->staffTable->getRecord();
+        }
+        
+        $staff->fromArray($values);
+        $languages = $i18nService->getLanguageList();
+        $staff->link = MF_Text::createUniqueTableField('Staff_Model_Doctrine_Staff','link', $values['firstname']." ".$values['lastname'], $staff->get('id'));
+        foreach($languages as $language) {
+            if(is_array($values['translations'][$language]) && strlen($values['translations'][$language]['description'])) {                             
+                $staff->Translation[$language]->description = $values['translations'][$language]['description'];
+            }
+        }
+        
+        $staff->save();
+        
+        return $staff;
     }
     
     public function saveNewStaffFromReview($staffName,$agent_id,$branch_id){
@@ -87,6 +116,25 @@ class Staff_Service_Staff extends MF_Service_ServiceAbstract {
        return $q->execute(array(),$hydrationMode);
    }
    
+   public function getStaffAdminForm(Staff_Model_Doctrine_Staff $staff = null) {
+        $form = new Staff_Form_StaffAdmin();
+        
+        if(null != $staff) {
+            $bannerArray = $staff->toArray();
+            $form->populate($bannerArray);
+            
+            $i18nService = MF_Service_ServiceBroker::getInstance()->getService('Default_Service_I18n');
+            $languages = $i18nService->getLanguageList();
+            foreach($languages as $language) {
+                $i18nSubform = $form->translations->getSubForm($language);
+                if($i18nSubform) {
+                    $i18nSubform->getElement('description')->setValue($staff->Translation[$language]->description);
+                }
+            }
+        }   
+        return $form;
+    }
+   
    public function searchStaffQuery($staff_name,$agent_name,$filters,$sort){
        $q = $this->staffTable->createQuery('s');
        
@@ -127,7 +175,7 @@ class Staff_Service_Staff extends MF_Service_ServiceAbstract {
    }
    
    public function searchStaffCount($staff_name,$agent_name,$filters,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
-       $q = $this->staffTable->createQuery('b');
+       $q = $this->staffTable->createQuery('s');
        
        if(strlen($staff_name)){
             $explode = explode(' ',$staff_name,2);
@@ -144,10 +192,10 @@ class Staff_Service_Staff extends MF_Service_ServiceAbstract {
             $q->addWhere('a.name like ?',"%".$agent_name."%");
         }
        
-       $q->select('a.*,b.*');
-       $q->leftJoin('b.Agent a');
+       $q->select('a.*,s.*');
+       $q->leftJoin('s.Agent a');
        $q->leftJoin('a.Categories c');
-       $q->groupBy('b.id');
+       $q->groupBy('s.id');
        
        return $q->count(array(),$hydrationMode);
    }

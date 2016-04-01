@@ -144,13 +144,13 @@ CategoryTranslation:
       alias: Category
       type: one
       foreignType: many
-CategoryGroup:
+Group:
   tableName: advertisment_category_group
   actAs:
     I18n:
       fields: [title, slug, content]
       tableName: advertisment_category_group_translation
-      className: CategoryGroupTranslation
+      className: GroupTranslation
   columns:
     id:
       primary: true
@@ -176,7 +176,7 @@ CategoryGroup:
       alias: Categories
       type: many
       foreignType: one
-CategoryGroupTranslation:
+GroupTranslation:
   tableName: advertisment_category_group_translation
   columns:
     id:
@@ -193,7 +193,7 @@ CategoryGroupTranslation:
     content:
       type: clob
   relations:
-    Category:
+    Group:
       local: id
       foreign: id
       foreignAlias: Translation

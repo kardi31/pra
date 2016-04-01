@@ -46,7 +46,7 @@ $news = $this->article;
                             <?= $news['Translation'][$this->language]['content']; ?>
                       <div class="line4"></div>
                       
-<?php echo $this->action('banner-under-news','index','banner'); ?>
+                    <?php echo $this->action('banner-under-news','index','banner'); ?>
 
                 </div>
                 <!-- END OF LEFT IMG -->
@@ -54,18 +54,22 @@ $news = $this->article;
                 <!-- IMG RIGHT TEXT -->
                 <div class="col-md-4 cpdd02">
                     <div class="opensans grey">
-                        <h2 class="lato size18 dark bold"><?= $this->translate('Popular articles'); ?></h2><br>
+                        <?php if(count($this->popularArticles)>0){ ?>
+                            <h2 class="lato size18 dark bold"><?= $this->translate('Popular articles'); ?></h2><br>
 
-                        <ul class="blogcat">
-                            <?php foreach($this->popularArticles as $popularArticle): ?>
-                                <li>
-                                    <a href="<?php echo $this->url(array('slug' => $popularArticle['Translation'][$this->language]['slug']), 'domain-news-article'); ?>">
-                                        <?= MF_Text::truncate($popularArticle['Translation'][$this->language]['title'],40); ?>
-                                    </a> 
-                                    <span class="badge2 pull-right indent0"><i class="fa fa-comment"></i> <?= count($popularArticle['Comments']); ?></span></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <br>
+                            <ul class="blogcat">
+                                <?php foreach($this->popularArticles as $popularArticle): ?>
+                                    <li>
+                                        <a href="<?php echo $this->url(array('slug' => $popularArticle['Translation'][$this->language]['slug']), 'domain-news-article'); ?>">
+                                            <?= MF_Text::truncate($popularArticle['Translation'][$this->language]['title'],40); ?>
+                                        </a> 
+                                        <span class="badge2 pull-right indent0"><i class="fa fa-comment"></i> <?= count($popularArticle['Comments']); ?></span></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <br>
+                        <?php } ?>
+                        <?php echo $this->action('banner-sidebar2','index','banner'); ?>
+                        <br /><br />
 
 
                         <!-- Nav tabs -->
@@ -115,7 +119,6 @@ $news = $this->article;
                         </div>
                         
                         
-<?php echo $this->action('banner-sidebar2','index','banner'); ?>
 
 
 

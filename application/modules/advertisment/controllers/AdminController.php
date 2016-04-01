@@ -42,8 +42,8 @@ class Advertisment_AdminController extends MF_Controller_Action {
             $row = array();
             $row[] = $result->id;
             $row[] = $result->Translation[$language->getId()]->title;
-            $row[] = $result['Category']['title'];
-            $row[] = strlen($result['Category']['Group']['title'])?$result['Category']['Group']['title']:"brak";
+            $row[] = $result['Category']['Translation'][$this->view->language]['title'];
+            $row[] = strlen($result['Category']['Group']['Translation'][$this->view->language]['title'])?$result['Category']['Group']['Translation'][$this->view->language]['title']:"brak";
             
             $row[] = MF_Text::timeFormat($result['created_at'], 'd/m/Y H:i'). "<br />".$result['UserCreated']['last_name']. " ".$result['UserCreated']['first_name'];
             $row[] = MF_Text::timeFormat($result['updated_at'], 'd/m/Y H:i'). "<br /> ".$result['UserUpdated']['last_name']. " ".$result['UserUpdated']['first_name'];
@@ -100,14 +100,6 @@ class Advertisment_AdminController extends MF_Controller_Action {
         $form->getElement('category_id')->addMultiOptions($categoryService->prependCategoryOptions());
         $form->getElement('category_id')->setValue($advertisment['category_id']);
         
-        
-        $metatagsForm = $metatagService->getMetatagsSubForm($advertisment->get('Metatags'));
-        $form->addSubForm($metatagsForm, 'metatags');
-        if(!$advertisment->photo_root_id){
-            $photoRoot = $photoService->createPhotoRoot();
-            $advertisment->set('PhotoRoot',$photoRoot);
-            $advertisment->save();
-        }
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getParams())) {

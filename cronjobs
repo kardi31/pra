@@ -1,0 +1,3 @@
+/default/cron/calculate-votes-and-rating
+/default/cron/rank-agents
+/default/cron/rank-branches

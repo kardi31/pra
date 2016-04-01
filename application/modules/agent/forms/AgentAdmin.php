@@ -80,7 +80,6 @@ class Agent_Form_AgentAdmin extends Admin_Form {
         
         $category = $this->createElement('select', 'category_id');
         $category->setLabel('Categories');
-        $category->setIsArray(true);
         $category->setDecorators(self::$selectDecorators);
         $category->setAttrib('class', 'form-control');
         

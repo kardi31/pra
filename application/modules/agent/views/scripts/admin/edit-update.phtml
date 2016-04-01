@@ -1,4 +1,6 @@
+<?php
 
+?>
 <script type="text/javascript">
 $(document).ready(function() {
    
@@ -40,7 +42,9 @@ $(document).ready(function() {
                     <?= $this->form->email; ?>
                     <hr />
                     <?= $this->form->name; ?>
-                    <?= $this->form->agent_email; ?>
+                    <?= $this->form->category_id->setAttrib('class',''); ?>
+                    <?= $this->form->facebook; ?>
+                    <?= $this->form->twitter; ?>
                     <hr />
                     <h3>Oddział 1</h3>
                     <?= $this->form->office_name; ?>
@@ -48,6 +52,7 @@ $(document).ready(function() {
                     <?= $this->form->town; ?>
                     <?= $this->form->county; ?>
                     <?= $this->form->postcode; ?>
+                    <?= $this->form->email; ?>
                     <hr />
                     <h4><?= $this->translate('Opening hours'); ?></h4>
                     <table class="table">
@@ -95,34 +100,36 @@ $(document).ready(function() {
                     <div class="tab-pane<?php if($language == $this->adminLanguage->getId()): ?> in active<?php endif; ?>" id="dropdown<?php echo $key + 1 ?>">
                         <span class="section contentSection">
                             <?php  if($this->form->translations->getSubForm($language)): ?>
-                                <?php echo $this->form->translations->getSubForm($language)->description->setAttrib('class', 'tinymce') ?>
+                                <?php echo $this->form->translations->getSubForm($language)->description->setAttrib('class', '') ?>
                             <?php endif; ?>
                         </span>
                     </div>
                     <?php  endforeach; ?>
                      </div>
                     <?= $this->form->phone; ?>
-                    <?= $this->form->facebook; ?>
-                    <?= $this->form->twitter; ?>
                     <?= $this->form->branch_email; ?>
                     <?php 
                     $branchNo = 1;
                     foreach($this->form->getSubForms() as $subForm){ 
-                        if(!$subForm->translations)
+                        if($subForm->getName()=='translations' || $subForm->getName()=='hoursForm' || 0 === strpos($string2, 'hoursForm'))
                             continue;
-                        ?>
-                    
-                    <hr />
-                    <h3>Oddział <?= (++$branchNo); ?></h3>
-                    <?= $subForm->office_name; ?>
-                    <?= $subForm->address; ?>
-                    <?= $subForm->town; ?>
-                    <?= $subForm->county; ?>
-                    <?= $subForm->postcode; ?>
-                    
-                    <hr />
-                    <h4><?= $this->translate('Opening hours'); ?></h4>
-                    <table class="table">
+                        
+                        
+                        
+                            ?>
+
+                        <hr />
+                        
+                        <h3>Oddział <?= (++$branchNo); ?></h3>
+                        <?= $subForm->office_name; ?>
+                        <?= $subForm->address; ?>
+                        <?= $subForm->town; ?>
+                        <?= $subForm->county; ?>
+                        <?= $subForm->postcode; ?>
+
+                        <hr />
+                        <h4><?= $this->translate('Opening hours'); ?></h4>
+                        <table class="table">
                         <thead>
                             <tr>
                                 <th></th>
@@ -144,18 +151,16 @@ $(document).ready(function() {
                                             ?>
                                         </label>
                                     </td>
-                                    <td><?= $subForm->hoursForm->getElement('start_'.strtolower(jddayofweek($i-1, 2))); ?></td>
-                                    <td><?= $subForm->hoursForm->getElement('end_'.strtolower(jddayofweek($i-1, 2))); ?></td>
-                                    <td><?= $subForm->hoursForm->getElement('closed_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $subForm->getSubForm('hoursForm_branch'.($branchNo-1))->getElement('start_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $subForm->getSubForm('hoursForm_branch'.($branchNo-1))->getElement('end_'.strtolower(jddayofweek($i-1, 2))); ?></td>
+                                    <td><?= $subForm->getSubForm('hoursForm_branch'.($branchNo-1))->getElement('closed_'.strtolower(jddayofweek($i-1, 2))); ?></td>
                                 </tr>
                             <?php endfor; ?>
                         </tbody>
                     </table>
-                    
-                    <?= $subForm->phone; ?>
-                    <?= $subForm->facebook; ?>
-                    <?= $subForm->twitter; ?>
-                    <?= $subForm->branch_email; ?>
+
+                        <?= $subForm->phone; ?>
+                        <?= $subForm->branch_email; ?>
                     
                     <?php }  ?>
                      <div class="tab-content">

@@ -1,7 +1,7 @@
 <?php
 $staff = $this->staff;
 $branch = $this->staff['Branch'];
-$agent = $this->staff['Branch']['Agent'];
+$agent = $this->staff['Agent'];
 ?>
 
 
@@ -41,7 +41,12 @@ $agent = $this->staff['Branch']['Agent'];
 
                 </div>
             </div>
-
+            <div class="clearfix"></div>
+            <hr />
+            
+                <div class="col-md-6 ">
+                <a href="<?= $this->url(array('agent' => $agent['link'],'branch' => $branch['office_link']),'domain-add-review-branch'); ?>" class="booknow margtop20 btnmarg"><?= $this->translate('Add review'); ?></a>
+                </div>
 
         </div>
         <!-- END OF SLIDER -->			
@@ -49,7 +54,7 @@ $agent = $this->staff['Branch']['Agent'];
         <!-- RIGHT INFO -->
         <div class="col-md-4 detailsright offset-0">
             <div class="padding20">
-                <h1 class="lh1 h2"><?= $staff['firstname']." ".$staff['lastname']; ?></h1>
+                <h1 class="h2 mt0 lato"><?= $staff['firstname']." ".$staff['lastname']; ?></h1>
                 <span class="stars">
                     <?= str_repeat('<img src="/images/star.png">',round($staff['rating'])); ?>
                 </span>
@@ -75,11 +80,7 @@ $agent = $this->staff['Branch']['Agent'];
             <div class="col-md-6 bordertype3">
                 <a href="<?= $this->url(array('id' => $staff['id']),'domain-update-staff'); ?>" class="grey underline"><?= $this->translate('Edit details'); ?></a>
             </div>
-            <div class="clearfix"></div><br/>
 
-            <div class="hpadding20">
-                <a href="<?= $this->url(array('agent' => $agent['link'],'branch' => $branch['office_link']),'domain-add-review-branch'); ?>" class="booknow margtop20 btnmarg"><?= $this->translate('Add review'); ?></a>
-            </div>
         </div>
         <!-- END OF RIGHT INFO -->
 
@@ -92,696 +93,37 @@ $agent = $this->staff['Branch']['Agent'];
             <div class="cstyle10"></div>
 
             <ul class="nav nav-tabs" id="myTab">
-                <li onclick="mySelectUpdate();
-                        trigerJslider();
-                        trigerJslider2();
-                        trigerJslider3();
-                        trigerJslider4();
-                        trigerJslider5();
-                        trigerJslider6();" class="active"><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext">Reviews</span>&nbsp;</a></li>
-<!--                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#summary"><span class="summary"></span><span class="hidetext">Summary</span>&nbsp;</a></li>
-                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#roomrates"><span class="rates"></span><span class="hidetext">Room rates</span>&nbsp;</a></li>
-                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#preferences"><span class="preferences"></span><span class="hidetext">Preferences</span>&nbsp;</a></li>
-                <li onclick="loadScript()" class=""><a data-toggle="tab" href="#maps"><span class="maps"></span><span class="hidetext">Maps</span>&nbsp;</a></li>
-                <li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#thingstodo"><span class="thingstodo"></span><span class="hidetext">Things to do</span>&nbsp;</a></li>-->
-
+                <li class="active"><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext"><?= $this->translate('Reviews'); ?></span>&nbsp;</a></li>
             </ul>			
             <div class="tab-content4" >
-<!--                 TAB 1 				
-                <div id="summary" class="tab-pane fade ">
-                    <p class="hpadding20">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor aliquam felis, sit amet tempus nibh ullamcorper nec. Maecenas suscipit dolor at blandit congue. Sed adipiscing, odio feugiat pellentesque tincidunt, est leo vestibulum erat, ac pharetra massa justo ac lorem. 
-                    </p>
-                    <div class="line4"></div>
-
-                     Collapse 1 	
-                    <button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse1">
-                        Malaga <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse1" class="collapse in">
-                        <div class="hpadding20">
-                            Situated near the sea, this hotel is close to Centre de Arte Contemporaneo, Malaga Cathedral, and Malaga Amphitheatre. Also nearby are Alcazaba and Picasso's Birthplace.
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 1 	
-
-                    <div class="line4"></div>						
-
-                     Collapse 2 	
-                    <button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse2">
-                        2 restaurants, a bar/lounge <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse2" class="collapse in">
-                        <div class="hpadding20">
-                            Situated near the sea, this hotel is close to Centre de Arte Contemporaneo, Malaga Cathedral, and Malaga Amphitheatre. Also nearby are Alcazaba and Picasso's Birthplace.
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 2 	
-
-                    <div class="line4"></div>						
-
-                     Collapse 3 	
-                    <button type="button" class="collapsebtn2 collapsed" data-toggle="collapse" data-target="#collapse3">
-                        Complimentary Wi-Fi <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse3" class="collapse">
-                        <div class="hpadding20">
-                            Yes
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 3 	
-
-                    <div class="line4"></div>							
-
-                     Collapse 4 	
-                    <button type="button" class="collapsebtn2 collapsed" data-toggle="collapse" data-target="#collapse4">
-                        Internet <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse4" class="collapse">
-                        <div class="hpadding20">
-                            Yes
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 4 		
-
-                    <div class="line4"></div>								
-
-                     Collapse 5 	
-                    <button type="button" class="collapsebtn2 collapsed" data-toggle="collapse" data-target="#collapse5">
-                        Parking <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse5" class="collapse">
-                        <div class="hpadding20">
-                            Yes
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 5 				
-
-                    <div class="line4"></div>								
-
-                     Collapse 6 	
-                    <button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse6">
-                        Room Amenities <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse6" class="collapse in">
-                        <div class="hpadding20">
-                            <div class="col-md-4">
-                                <ul class="checklist">
-                                    <li>Climate control</li>
-                                    <li>Air conditioning</li>
-                                    <li>Direct-dial phone</li>
-                                    <li>Minibar</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                <ul class="checklist">
-                                    <li>Wake-up calls</li>
-                                    <li>Daily housekeeping</li>
-                                    <li>Private bathroom</li>
-                                    <li>Hair dryer</li>	
-                                </ul>									
-                            </div>	
-                            <div class="col-md-4">
-                                <ul class="checklist">								
-                                    <li>Makeup/shaving mirror</li>
-                                    <li>Shower/tub combination</li>
-                                    <li>Satellite TV service</li>
-                                    <li>Electronic/magnetic keys</li>	
-                                </ul>									
-                            </div>									
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 6 								
-
-                </div>
-                 TAB 2 
-                <div id="roomrates" class="tab-pane fade">
-                    <div class="hpadding20">
-                        <p class="dark">Your travel rates</p>
-                        <div class="col-md-4 offset-0">
-                            <div class="w50percent">
-                                <div class="wh90percent textleft">
-                                    <span class="opensans size13"><b>Check in</b></span>
-                                    <input type="text" class="form-control mySelectCalendar" id="datepicker" placeholder="mm/dd/yyyy"/>
-                                </div>
-                            </div>
-
-                            <div class="w50percentlast">
-                                <div class="wh90percent textleft right">
-                                    <span class="opensans size13"><b>Check out</b></span>
-                                    <input type="text" class="form-control mySelectCalendar" id="datepicker2" placeholder="mm/dd/yyyy"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8 ">
-                                <div class="room1" >
-                                    <div class="w50percent">
-                                        <div class="wh90percent textleft">
-                                            <span class="opensans size13"><b>ROOM 1</b></span><br/>
-
-                                            <div class="addroom1 block"><a onclick="addroom2()" class="grey cpointer">+ Add room</a></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w50percentlast">	
-                                        <div class="wh90percent textleft right ohidden">
-                                            <div class="w50percent">
-                                                <div class="wh90percent textleft left">
-                                                    <span class="opensans size13"><b>Adult</b></span>
-                                                    <select class="form-control mySelectBoxClass">
-                                                        <option>1</option>
-                                                        <option selected>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </div>							
-                                            <div class="w50percentlast">
-                                                <div class="wh90percent textleft right ohidden">
-                                                    <span class="opensans size13"><b>Child</b></span>
-                                                    <select class="form-control mySelectBoxClass">
-                                                        <option>0</option>
-                                                        <option selected>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="room2 none">
-                                    <div class="clearfix"></div><div class="line1"></div>
-                                    <div class="w50percent">
-                                        <div class="wh90percent textleft">
-                                            <span class="opensans size13"><b>ROOM 2</b></span><br/>
-                                            <div class="addroom2 block grey"><a onclick="addroom3()" class="grey cpointer">+ Add room</a> | <a onclick="removeroom2()" class="orange cpointer"><img src="/assets/images/delete.png" alt="delete"/></a></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w50percentlast">	
-                                        <div class="wh90percent textleft right">
-                                            <div class="w50percent">
-                                                <div class="wh90percent textleft left">
-                                                    <span class="opensans size13"><b>Adult</b></span>
-                                                    <select class="form-control mySelectBoxClass">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option selected>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </div>							
-                                            <div class="w50percentlast">
-                                                <div class="wh90percent textleft right">
-                                                    <span class="opensans size13"><b>Child</b></span>
-                                                    <select class="form-control mySelectBoxClass">
-                                                        <option selected>0</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>		
-
-                                <div class="room3 none">
-                                    <div class="clearfix"></div><div class="line1"></div>
-                                    <div class="w50percent">
-                                        <div class="wh90percent textleft">
-                                            <span class="opensans size13"><b>ROOM 3</b></span><br/>
-                                            <div class="addroom3 block grey"><a onclick="addroom3()" class="grey cpointer">+ Add room</a> | <a onclick="removeroom3()" class="orange cpointer"><img src="/assets/images/delete.png" alt="delete"/></a></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w50percentlast">	
-                                        <div class="wh90percent textleft right">
-                                            <div class="w50percent">
-                                                <div class="wh90percent textleft left">
-                                                    <span class="opensans size13"><b>Adult</b></span>
-                                                    <select class="form-control mySelectBoxClass">
-                                                        <option selected>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </div>							
-                                            <div class="w50percentlast">
-                                                <div class="wh90percent textleft right">
-                                                    <span class="opensans size13"><b>Child</b></span>
-                                                    <select class="form-control mySelectBoxClass">
-                                                        <option selected>0</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 center offset-0 left">
-                                <button class="updatebtn caps center margtop20">Update</button>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <br/>
-
-                    <p class="hpadding20 dark">Room type</p>
-
-                    <div class="line2"></div>
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item1.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8 mediafix1">
-                                <h4 class="opensans dark bold margtop1 lh1">Standard Double room</h4>
-                                Max Occupancy: 2 adults
-                                <ul class="hotelpreferences margtop10">
-                                    <li class="icohp-internet"></li>
-                                    <li class="icohp-air"></li>
-                                    <li class="icohp-pool"></li>
-                                    <li class="icohp-childcare"></li>
-                                    <li class="icohp-fitness"></li>
-                                    <li class="icohp-breakfast"></li>
-                                    <li class="icohp-parking"></li>
-                                </ul>
-                                <div class="clearfix"></div>
-                                <ul class="checklist2 margtop10">
-                                    <li>FREE Cancellation</li>
-                                    <li>Pay at hotel or pay today </li>
-                                </ul>									
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <span class="opensans green size24">$49.51</span><br/>
-                                <span class="opensans lightgrey size12">avg/night</span><br/><br/>
-                                <span class="lred bold">3 left</span><br/><br/>
-                                <button class="bookbtn mt1">Book</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>		
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item2.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8">
-                                <h4 class="opensans dark bold margtop1 lh1">Double Room with Town View</h4>
-                                Max Occupancy: 3 adults
-                                <ul class="hotelpreferences margtop10">
-                                    <li class="icohp-hairdryer"></li>
-                                    <li class="icohp-garden"></li>
-                                    <li class="icohp-grill"></li>
-                                    <li class="icohp-kitchen"></li>
-                                    <li class="icohp-bar"></li>
-                                    <li class="icohp-living"></li>
-                                    <li class="icohp-tv"></li>
-                                </ul>
-                                <div class="clearfix"></div>
-                                <ul class="checklist2 margtop10">
-                                    <li>FREE Cancellation</li>
-                                    <li>Pay at hotel or pay today </li>
-                                </ul>									
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <span class="opensans green size24">$105.78</span><br/>
-                                <span class="opensans lightgrey size12">avg/night</span><br/><br/>
-                                <span class="">9 available</span><br/><br/>
-                                <button class="bookbtn mt1">Book</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>	
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item3.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8">
-                                <h4 class="opensans dark bold margtop1 lh1">Family Suite</h4>
-                                Max Occupancy: 4 adults
-                                <ul class="hotelpreferences margtop10">
-                                    <li class="icohp-fridge"></li>
-                                    <li class="icohp-microwave"></li>
-                                    <li class="icohp-washing"></li>
-                                    <li class="icohp-roomservice"></li>
-                                    <li class="icohp-safe"></li>
-                                    <li class="icohp-playground"></li>
-                                    <li class="icohp-conferenceroom"></li>
-                                </ul>
-                                <div class="clearfix"></div>
-                                <ul class="checklist2 margtop10">
-                                    <li>FREE Cancellation</li>
-                                    <li>Pay at hotel or pay today </li>
-                                </ul>									
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <span class="opensans green size24">$186.18</span><br/>
-                                <span class="opensans lightgrey size12">avg/night</span><br/><br/>
-                                <span class="red bold">booked</span><br/><br/>
-                                <button class="bookbtn mt1 cunvailable">Book</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>	
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item4.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8">
-                                <h4 class="opensans dark bold margtop1 lh1">Superior, Sea View</h4>
-                                Max Occupancy: 3 adults
-                                <ul class="hotelpreferences margtop10">
-                                    <li class="icohp-internet"></li>
-                                    <li class="icohp-air"></li>
-                                    <li class="icohp-pool"></li>
-                                    <li class="icohp-childcare"></li>
-                                    <li class="icohp-fitness"></li>
-                                    <li class="icohp-breakfast"></li>
-                                    <li class="icohp-parking"></li>
-                                </ul>
-                                <div class="clearfix"></div>
-                                <ul class="checklist2 margtop10">
-                                    <li>FREE Cancellation</li>
-                                    <li>Pay at hotel or pay today </li>
-                                </ul>									
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <span class="opensans green size24">$211.57</span><br/>
-                                <span class="opensans lightgrey size12">avg/night</span><br/><br/>
-                                <span class="">12 available</span><br/><br/>
-                                <button class="bookbtn mt1">Book</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>							
-
-                </div>-->
-<!--
-                 TAB 3 					
-                <div id="preferences" class="tab-pane fade">
-                    <p class="hpadding20">
-                        The hotel offers a snack bar/deli. A bar/lounge is on site where guests can unwind with a drink. Guests can enjoy a complimentary breakfast. An Internet point is located on site and high-speed wireless Internet access is complimentary.
-                    </p>
-
-                    <div class="line4"></div>
-
-                     Collapse 7 	
-                    <button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse7">
-                        Hotel facilities <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse7" class="collapse in">
-                        <div class="hpadding20">
-
-                            <div class="col-md-4 offset-0">
-                                <ul class="hotelpreferences2 left">
-                                    <li class="icohp-internet"></li>
-                                    <li class="icohp-air"></li>
-                                    <li class="icohp-pool"></li>
-                                    <li class="icohp-childcare"></li>
-                                    <li class="icohp-fitness"></li>
-                                    <li class="icohp-breakfast"></li>
-                                    <li class="icohp-parking"></li>
-                                    <li class="icohp-pets"></li>
-                                    <li class="icohp-spa"></li>
-                                    <li class="icohp-hairdryer"></li>
-                                </ul>
-                                <ul class="hpref-text left">
-                                    <li>High-speed Internet</li>
-                                    <li>Air conditioning</li>
-                                    <li>Swimming pool</li>
-                                    <li>Childcare</li>
-                                    <li>Fitness equipment</li>
-                                    <li>Free breakfast</li>
-                                    <li>Free parking</li>
-                                    <li>Pets allowed</li>
-                                    <li>Spa services on site</li>
-                                    <li>Hair dryer</li>
-                                </ul>
-                            </div>
-
-
-                            <div class="col-md-4 offset-0">	
-                                <ul class="hotelpreferences2 left">
-                                    <li class="icohp-garden"></li>
-                                    <li class="icohp-grill"></li>
-                                    <li class="icohp-kitchen"></li>
-                                    <li class="icohp-bar"></li>
-                                    <li class="icohp-living"></li>
-                                    <li class="icohp-tv"></li>
-                                    <li class="icohp-fridge"></li>
-                                    <li class="icohp-microwave"></li>
-                                    <li class="icohp-washing"></li>
-                                    <li class="icohp-roomservice"></li>
-                                </ul>
-                                <ul class="hpref-text left">
-                                    <li>Courtyard garden</li>
-                                    <li>Grill / Barbecue</li>
-                                    <li>Kitchen</li>
-                                    <li>Bar</li>
-                                    <li>Living</li>
-                                    <li>TV</li>
-                                    <li>Fridge</li>
-                                    <li>Microwave</li>
-                                    <li>Washing maschine</li>
-                                    <li>Room service</li>
-                                </ul>		
-                            </div>		
-                            <div class="col-md-4 offset-0">	
-                                <ul class="hotelpreferences2 left">
-                                    <li class="icohp-safe"></li>
-                                    <li class="icohp-playground"></li>
-                                    <li class="icohp-conferenceroom"></li>										
-                                </ul>
-                                <ul class="hpref-text left">
-                                    <li>Reception Safe</li>
-                                    <li>Playground</li>
-                                    <li>Conference room</li>
-                                </ul>										
-                            </div>									
-                            <div class="clearfix"></div>
-                        </div>
-
-                    </div>
-                     End of collapse 7 		
-                    <br/>
-                    <div class="line4"></div>							
-
-                     Collapse 8 	
-                    <button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse8">
-                        Room facilities <span class="collapsearrow"></span>
-                    </button>
-
-                    <div id="collapse8" class="collapse in">
-                        <div class="hpadding20">
-                            <div class="col-md-4">
-                                <ul class="checklist">
-                                    <li>Climate control</li>
-                                    <li>Air conditioning</li>
-                                    <li>Direct-dial phone</li>
-                                    <li>Minibar</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                <ul class="checklist">
-                                    <li>Wake-up calls</li>
-                                    <li>Daily housekeeping</li>
-                                    <li>Private bathroom</li>
-                                    <li>Hair dryer</li>	
-                                </ul>									
-                            </div>	
-                            <div class="col-md-4">
-                                <ul class="checklist">								
-                                    <li>Makeup/shaving mirror</li>
-                                    <li>Shower/tub combination</li>
-                                    <li>Satellite TV service</li>
-                                    <li>Electronic/magnetic keys</li>	
-                                </ul>									
-                            </div>									
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                     End of collapse 8 				
-
-
-                </div>
-
-                 TAB 4 					
-                <div id="maps" class="tab-pane fade">
-                    <div class="hpadding20">
-                        <div id="map-canvas"></div>
-                    </div>
-                </div>-->
 
                 <?= $this->render('index/reviews.phtml'); ?>
 
-<!--                 TAB 6 					
-                <div id="thingstodo" class="tab-pane fade">
-
-                    <p class="hpadding20 opensans size16 dark bold">Attractions travelers recommend</p>
-
-                    <div class="line2"></div>
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item5.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8 mediafix1">
-                                <span class="opensans dark size16 margtop1 margtop-5">Porto Limnionas Beach</span><br/>
-                                <span class="lblue">“Just Great!!!”</span> 08/27/2013<br/>
-                                <p class="margtop10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit augue, placerat quis est eget, cursus dictum felis. Morbi non dui vitae nisl pharetra placerat.</p>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <img src="/assets/images/user-rating-4.png" alt=""/><br/>
-                                <span class="opensans grey size14">31 reviews</span>
-                                <br/><br/><br/><br/>
-                                <button class="bookbtn mt1">More</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>		
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item6.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8 mediafix1">
-                                <span class="opensans dark size16 margtop1 margtop-5">Marathonissi (Turtle Island), Laganas</span><br/>									
-                                <span class="lblue">“Beautiful”</span> 08/27/2013<br/>
-                                <p class="margtop10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit augue, placerat quis est eget, cursus dictum felis. Morbi non dui vitae nisl pharetra placerat.</p>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <img src="/assets/images/user-rating-5.png" alt=""/><br/>
-                                <span class="opensans grey size14">23 reviews</span>
-                                <br/><br/><br/><br/>
-                                <button class="bookbtn mt1">More</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>		
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item7.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8 mediafix1">
-                                <span class="opensans dark size16 margtop1 margtop-5">Navagio Beach (Shipwreck Beach)</span><br/>											
-                                <span class="lblue">“like being on a tropical island”</span> 08/27/2013<br/>
-                                <p class="margtop10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit augue, placerat quis est eget, cursus dictum felis. Morbi non dui vitae nisl pharetra placerat.</p>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <img src="/assets/images/user-rating-3.png" alt=""/><br/>
-                                <span class="opensans grey size14">17 reviews</span>
-                                <br/><br/><br/><br/>
-                                <button class="bookbtn mt1">More</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>		
-
-                    <div class="padding20">
-                        <div class="col-md-4 offset-0">
-                            <a href="#"><img src="/assets/images/items2/item8.jpg" alt="" class="fwimg"/></a>
-                        </div>
-                        <div class="col-md-8 offset-0">
-                            <div class="col-md-8 mediafix1">
-                                <span class="opensans dark size16 margtop1 margtop-5">Blue Caves</span><br/>										
-                                <span class="lblue">“A must see”</span> 08/27/2013<br/>
-                                <p class="margtop10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit augue, placerat quis est eget, cursus dictum felis. Morbi non dui vitae nisl pharetra placerat.</p>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="col-md-4 center bordertype4">
-                                <img src="/assets/images/user-rating-4.png" alt=""/><br/>
-                                <span class="opensans grey size14">10 reviews</span>
-                                <br/><br/><br/><br/>
-                                <button class="bookbtn mt1">More</button>	
-                            </div>										
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="line2"></div>								
-
-
-
-                </div>						-->
             </div>
         </div>
 
         <div class="col-md-4" >
 
-<!--            <div class="pagecontainer2 testimonialbox">
-                <div class="cpadding0 mt-10">
-                    <span class="icon-quote"></span>
-                    <p class="opensans size16 grey2">It was very comfortable to stay and staff were pleasant and welcoming.<br/>
-                        <span class="lato lblue bold size13"><i>by Ellison from United Kingdom</i></span></p> 
-                </div>
-            </div>-->
-
             <div class="pagecontainer2 needassistancebox">
                 <div class="cpadding1">
                     <span class="icon-help"></span>
-                    <h3 class="opensans"><?= $this->translate('Branch'); ?></h3>
+                    <h3 class="opensans"><?= $this->translate('Contact'); ?></h3>
                      <?php echo $branch['address']." <br />";
                             echo $branch['postcode'].", ".$branch['town'];
                         ?>
                         <?php if(strlen($branch['phone'])){ ?>
                             <p class="opensans size30 lblue xslim"><?= $branch['phone']; ?></p>
                         <?php } ?>
-                        <?php if(strlen($branch['url'])){ ?>
-                            <p class="size14 grey">WWW: <a href='<?= $branch['url']; ?>'><?= substr($branch['url'],7); ?></a></p>
+                        <?php if(strlen($branch['url'])){
+                            $url = $branch['url'];
+                            if (strpos($url, 'http://')==false) {
+                                $url = 'http://'.$url;
+                             }
+                            ?>
+                            <p class="size14 grey">WWW: <a target="_blank" href='<?= $url; ?>'><?= $branch['url']; ?></a></p>
                         <?php } ?>
                 </div>
-            </div><br/>
+            </div>
 
             <div class="pagecontainer2 mt20 alsolikebox">
                 <div class="cpadding1">
@@ -789,38 +131,43 @@ $agent = $this->staff['Branch']['Agent'];
                     <h3 class="opensans"><?= $this->translate('Working hours'); ?></h3>
                     <div class="clearfix"></div>
                     <?php 
-                    $openingHours = array();
-                    foreach($branch['OpeningHours'] as $hour): 
-                        $openingHours[$hour['day']] = $hour;
-                    endforeach;
-                    ksort($openingHours);
-                    
-                    echo '<ul class="sidebar-opening-hours">';
-                    foreach($openingHours as $day_id => $day):
-                        echo '<li ';
-                        if($day_id == date('N'))
-                        {
-                            echo 'class="current"';
-                        }
-                        echo '>';
-                            if($this->language=='pl'){
-                                echo MF_Text::polishDayOfWeek($day_id);
+                    if(count($branch['OpeningHours'])>0){
+                        $openingHours = array();
+                        foreach($branch['OpeningHours'] as $hour): 
+                            $openingHours[$hour['day_id']] = $hour;
+                        endforeach;
+                        ksort($openingHours);
+
+                        echo '<ul class="sidebar-opening-hours">';
+                        foreach($openingHours as $day_id => $day):
+                            echo '<li ';
+                            if($day_id == date('N'))
+                            {
+                                echo 'class="current"';
                             }
-                            else{
-                                echo MF_Text::dayOfWeek($day_id);
-                            }
-                            echo '<span class="pull-right">';
-                                if($day['closed']){
-                                    echo $this->translate('Closed');
+                            echo '>';
+                                if($this->language=='pl'){
+                                    echo MF_Text::polishDayOfWeek($day_id);
                                 }
                                 else{
-                                    echo substr($day['from'],0,5)." - ".substr($day['to'],0,5);
+                                    echo MF_Text::dayOfWeek($day_id);
                                 }
+                                echo '<span class="pull-right">';
+                                    if($day['closed']){
+                                        echo $this->translate('Closed');
+                                    }
+                                    else{
+                                        echo substr($day['from'],0,5)." - ".substr($day['to'],0,5);
+                                    }
 
-                            echo '</span>';
-                        echo '</li>';
-                    endforeach;
-                    echo '</ul>';
+                                echo '</span>';
+                            echo '</li>';
+                        endforeach;
+                        echo '</ul>';
+                    }
+                    else{
+                        echo $this->translate('No data');
+                    }
                     ?>
                 </div>
                 

@@ -358,5 +358,20 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
         return $agent;
     }
     
+   public function getAllAgentsOrder($order = 'id',$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->agentTable->createQuery('a');
+       $q->orderBy('a.'.$order);
+       return $q->execute(array(),$hydrationMode);
+   }
+    
+    public function calculateAgentsRank(){
+        $agents = $this->getAllAgentsOrder('points DESC');
+        
+        foreach($agents as $key => $agent){
+            $agent->set('rank',($key+1));
+            $agent->save();
+        }
+    }
+    
 }
 

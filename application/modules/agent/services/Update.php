@@ -88,14 +88,27 @@ class Agent_Service_Update extends MF_Service_ServiceAbstract {
             $form->addSubForm($hoursForm,'hoursForm');
             
             foreach($update['Branches'] as $key => $branch):
-                $subform = new Agent_Form_AgentAdmin();
+                $contentform = new Agent_Form_AgentAdmin();
+                $subform = new Zend_Form_SubForm();
+                $subform->setName('branch'.($key+1));
+            
+                $subform->setElements($contentform->getElements());
                 $updateArray = $branch->toArray();
                 $updateArray['translations']['pl']['description'] = $updateArray['description'];
                 $subform->populate($updateArray);
                 
+                
                 $hoursForm = new Branch_Form_OpeningHours();
+                
                 $hoursForm->populateForm($branch['Hours']->toArray());
-                $subform->addSubForm($hoursForm,'hoursForm');
+                
+                $subhoursform = new Zend_Form_SubForm();
+                $subhoursform->setName('hoursForm_branch'.($key+1));
+            
+                $subhoursform->setElements($hoursForm->getElements());
+                
+                $subform->addSubForm($subhoursform,'hoursForm_branch'.($key+1));
+                
                 
                 $form->addSubForm($subform, 'branch'.($key+1));
             endforeach;

@@ -290,7 +290,7 @@ class Agent_AdminController extends MF_Controller_Action {
             $row[] = $result->name;
             $row[] = $result->town;
             $row[] = $result->address;
-            $row[] = count($result['Branches']);
+            $row[] = count($result['Branches'])+1;
             $row[] = MF_Text::timeFormat($result['created_at'],'d/m/Y H:i');
             $options = '<a href="' . $this->view->adminUrl('edit-update', 'agent', array('id' => $result->id)) . '" title="' . $this->view->translate('Edit') . '"><span class="icon24 entypo-icon-settings"></span></a>&nbsp;&nbsp;&nbsp;';
             $options .= '<a href="' . $this->view->adminUrl('remove-update', 'agent', array('id' => $result->id)) . '" class="remove" title="' . $this->view->translate('Remove') . '"><span class="icon16 icon-remove"></span></a>';
@@ -322,6 +322,9 @@ class Agent_AdminController extends MF_Controller_Action {
         
         $form = $updateService->getUpdateForm($update);
        
+        $form->getElement('category_id')->addMultiOptions($agentService->prependMainCategories('pl',false));
+        $form->getElement('category_id')->setValue($update['category_id']);
+        
         $this->view->assign('form',$form);
         
        
@@ -336,6 +339,7 @@ class Agent_AdminController extends MF_Controller_Action {
                 try {                                   
                     $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
                     $values = $form->getValues();  
+                    $postValues = $_POST;
                     unset($values['id']);
                     $agent = $agentService->saveNewAgentFromUpdate($values);
                     
@@ -347,20 +351,27 @@ class Agent_AdminController extends MF_Controller_Action {
                     $agent->set('HeadOffice',$branch);
                     $agent->save();
                     
+                    $headOffice = $branch;
+                    $branchNo = 1;
+                    
                     
                     foreach($form->getSubForms() as $subForm){
-                        if($subForm->getName()!='translations' && $subForm->getName() !='hoursForm'){
+                        if($subForm->getName()!='translations' && !(0 === strpos($subForm->getName(), 'hoursForm'))){
+                            
                             $newValues = $values[$subForm->getName()];
                             $branch = $branchService->saveNewAgentBranchFromUpdate($agent['id'],$newValues);
-                    
-                            $newValues['hoursForm']['branch_id'] = $branch['id'];
-                            $hoursService->saveOpeningHoursFromArray($newValues['hoursForm']);
+                            $postValues['hoursForm_branch'.$branchNo]['branch_id'] = $branch['id'];
+                            $hoursService->saveOpeningHoursFromArray($postValues['hoursForm_branch'.$branchNo]);
+                            $branchNo++;
                         }
                     }
-                    if($update->get('Branches')){
-                        $update->get('Branches')->delete();
-                    }
-                    $update->delete();
+//                    if($update->get('Branches')){
+//                        $update->get('Branches')->delete();
+//                    }
+//                    $update->delete();
+                    
+                    
+                    $this->createUser('agent',$agent,$headOffice);
             
                     
                     $this->_service->get('doctrine')->getCurrentConnection()->commit();
@@ -592,7 +603,6 @@ class Agent_AdminController extends MF_Controller_Action {
     
     public function createAgentUserAction(){
         $userService = $this->_service->getService('User_Service_User');
-        $mailService = $this->_service->getService('User_Service_Mail');
         $agentService = $this->_service->getService('Agent_Service_Agent');
         
         if($agent = $agentService->getAgent($this->getRequest()->getParam('id'))) {
@@ -606,30 +616,39 @@ class Agent_AdminController extends MF_Controller_Action {
                     $branchUser->save();
                 }
                 else{
-                    $passwordEncoder = new User_PasswordEncoder();
-                    $values['salt'] = MF_Text::createUniqueToken();
-                    $values['token'] = MF_Text::createUniqueToken();
-                    $values['role'] = 'agent';
-
-                    $values['email'] = $branch['email'];
-                    $values['agent_id'] = $agent['id'];
-
-                    $newPassword = MF_Text::createRandomString();
-
-                    $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
-                    $user = $userService->saveUserFromArray($values);
-
-                    $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
-                    $mail = new Zend_Mail('UTF-8');
-                    $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
-                    $mail->addTo($branch['email'], $agent['name']);
-                    $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
-
-                    $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
+                    
+                    $this->createUser('agent',$agent,$branch);
+                    
+                    
                 }
             }
             $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));
         }
+    }
+    
+    public function createUser($role,$agent,$branch){
+        $mailService = $this->_service->getService('User_Service_Mail');
+        $userService = $this->_service->getService('User_Service_User');
+        $passwordEncoder = new User_PasswordEncoder();
+        $values['salt'] = MF_Text::createUniqueToken();
+        $values['token'] = MF_Text::createUniqueToken();
+        $values['role'] = $role;
+
+        $values['email'] = $branch['email'];
+        $values['agent_id'] = $agent['id'];
+
+        $newPassword = MF_Text::createRandomString();
+
+        $values['password'] = $passwordEncoder->encode($newPassword, $values['salt']);
+        $user = $userService->saveUserFromArray($values);
+
+        $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+        $mail = new Zend_Mail('UTF-8');
+        $mail->setSubject($this->view->translate('Your company account has been created on Rate Pole'));
+        $mail->addTo($branch['email'], $agent['name']);
+        $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
+
+        $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
     }
 }
 

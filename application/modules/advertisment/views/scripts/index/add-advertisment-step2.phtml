@@ -57,8 +57,11 @@
 
 
 <?php
-    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Advertisments'), true);
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-advertisment'), $this->translate('Advertisments'));
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-add-advertisment'), $this->translate('Add advertisment')." - ".$this->translate('step')." 1");
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Add advertisment')." - ".$this->translate('step')." 2", true);
     echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+    
 ?>
 <div class="container">
 
@@ -67,8 +70,8 @@
 
         <!-- LEFT CONTENT -->
         <div class="col-md-8 pagecontainer2 offset-0 advertismentCategoryList">
-            <div class="hpadding50c">
-                <h1 class="lato size30 slim"><?= $this->translate('Add advertisment')." - ".$this->translate('step')." 2"; ?></h1>
+            <div class="hpadding50c defaultheader2">
+                <h1><?= $this->translate('Add advertisment')." - ".$this->translate('step')." 2"; ?></h1>
                 <p class="aboutarrow"></p>
             </div>
             <div class="line3"></div>
@@ -108,6 +111,9 @@
 
             </div>
 
+        </div>
+        <div class="col-md-4">
+            <?php echo $this->action('banner-sidebar2','index','banner'); ?>
         </div>
         <!-- END OF LEFT CONTENT -->			
 

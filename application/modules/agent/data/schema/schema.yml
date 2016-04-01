@@ -26,6 +26,8 @@ Agent:
       type: float(5,2)
     customer_satisfaction:
       type: float(5,2)
+    points:
+      type: float(5,2)
     votes:
       type: integer(4)
     rank:
@@ -101,113 +103,6 @@ Contact:
       alias: Agent
       type: one
       foreignType: many
-Update:
-  tableName: agent_update
-  actAs:
-    Timestampable: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    update_id:
-      type: integer(4)
-    firstname:
-      type: string(255)
-    lastname:
-      type: string(255)
-    name:
-      type: string(255)
-    description:
-      type: clob
-    email:
-      type: string(255)
-    agent_email:
-      type: string(255)
-    branch_email:
-      type: string(255)
-    office_name:
-      type: string(255)
-    twitter:
-      type: string(255)
-    facebook:
-      type: string(255)
-    address:
-      type: string(255)
-    town:
-      type: string(255)
-    county:
-      type: string(255)
-    postcode:
-      type: string(255)
-    phone:
-      type: string(255)
-  relations:
-    Update:
-      local: update_id
-      foreign: id
-      foreignAlias: Branches
-      alias: Update
-      type: one
-      foreignType: many
-UpdateMember:
-  tableName: agent_update_member
-  actAs:
-    Timestampable: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    agent_update_id:
-      type: integer(4)
-    naea:
-      type: boolean
-      default: 0
-    arla:
-      type: boolean
-      default: 0
-    safeagent:
-      type: boolean
-      default: 0
-    oft:
-      type: boolean
-      default: 0
-    propombudsman:
-      type: boolean
-      default: 0
-    franchise:
-      type: boolean
-      default: 0
-    independant:
-      type: boolean
-      default: 0
-    nla:
-      type: boolean
-      default: 0
-    sal:
-      type: boolean
-      default: 0
-    dps:
-      type: boolean
-      default: 0
-    mydeposits:
-      type: boolean
-      default: 0
-    sacda:
-      type: boolean
-      default: 0
-    gpea:
-      type: boolean
-      default: 0
-  relations:
-    Agent:
-      local: agent_update_id
-      foreign: id
-      foreignAlias: Member
-      alias: Update
-      type: one
-      foreignType: one
 HistoricRanking:
   tableName: agent_historic_ranking
   columns:
@@ -254,65 +149,6 @@ HistoricRankingWeekly:
       alias: Agent
       type: one
       foreignType: many
-Postcode:
-  tableName: agent_postcode
-  actAs:
-    Timestampable: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    postcode:
-      type: string(255)
-    radius0:
-      type: clob
-    radius1:
-      type: clob
-    radius5:
-      type: clob
-    radius10:
-      type: clob
-    radius20:
-      type: clob
-TransparentEnquiry:
-  tableName: agent_transparent_enquiry
-  actAs:
-    Timestampable: ~
-    SoftDelete: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    capacity:
-      type: integer(4)
-    firstname:
-      type: string(255)
-    lastname:
-      type: string(255)
-    email:
-      type: string(255)
-    tel:
-      type: string(255)
-    message:
-      type: clob
-    postcode:
-      type: string(255)
-    ip:
-      type: string(255)
-    hostname:
-      type: string(255)
-    tel:
-      type: string(255)
-    search:
-      type: string(255)
-    pagetype:
-      type: string(255)
-    from_page:
-      type: string(255)
-    address:
-      type: string(255)
 Awards:
   tableName: agent_award
   actAs:
@@ -429,5 +265,56 @@ CategoryTranslation:
       local: id
       foreign: id
       foreignAlias: Translation
+      type: one
+      foreignType: many
+Update:
+  tableName: agent_update
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    update_id:
+      type: integer(4)
+    category_id:
+      type: integer(4)
+    firstname:
+      type: string(255)
+    lastname:
+      type: string(255)
+    name:
+      type: string(255)
+    description:
+      type: clob
+    email:
+      type: string(255)
+    agent_email:
+      type: string(255)
+    branch_email:
+      type: string(255)
+    office_name:
+      type: string(255)
+    twitter:
+      type: string(255)
+    facebook:
+      type: string(255)
+    address:
+      type: string(255)
+    town:
+      type: string(255)
+    county:
+      type: string(255)
+    postcode:
+      type: string(255)
+    phone:
+      type: string(255)
+  relations:
+    Update:
+      local: update_id
+      foreign: id
+      foreignAlias: Branches
+      alias: Update
       type: one
       foreignType: many

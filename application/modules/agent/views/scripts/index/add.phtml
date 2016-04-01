@@ -4,7 +4,7 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
 <div class="container">
 
-    <div class="container mt25 offset-0">
+    <div class="container mt25 offset-0 addReviewPage addUnlistedAgentPage">
 
 
         <!-- LEFT CONTENT -->
@@ -12,12 +12,16 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
 
             <form class="form1 box1"method="post" >
+                
+                <div class="hpadding50c defaultheader2">
+                    <h1><?= $this->translate('Add company'); ?></h1>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
                 <div class="padding30 grey">
 
-                    <h1 class='h2 pb0 mb0 mt0'><?= $this->translate('Add company'); ?></h1>
-                    <hr /> <br />
-                     <span class="step_wrapper" rel="1">
-                        <strong class="h3 dark">1.<?= $this->translate('Company details'); ?></strong>
+                     <span class="steps">
+                        <strong class="sectionHeader">1.<?= $this->translate('Company details'); ?></strong>
                         <hr />
                         
                                 <?= $this->form->name; ?>
@@ -27,9 +31,31 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
 
                     </span>
-                    <span class="step_wrapper" rel="2">
-                        <br />
-                        <strong class="h3 dark">2.<?= $this->translate('Branch details'); ?></strong>
+                    
+                    <span class="steps">
+                        <span class="sectionHeader">2.<?= $this->translate('Select company category / business sector'); ?></span>
+                        <br /><br />
+                                <div class="form-group">
+                                    <div class="addCompanyCategoryList">
+                                        <?php foreach($this->agentCategories as $agentCategory): ?>
+                                        <div class="col-md-4">
+                                            <strong><?= $agentCategory['Translation'][$this->language]['title']; ?></strong>
+                                            <ul>
+                                                <?php foreach($agentCategory->getNode()->getChildren() as $subcategory){ ?>
+                                                    <li>
+                                                        <label><?= $subcategory['Translation'][$this->language]['title']; ?><input type="radio" value="<?= $subcategory['id']; ?>" name="category_id" /></label>
+                                                    </li>
+                                                <?php } ?>
+                                            </ul>
+                                        </div>
+
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                    </span>
+                    <br />
+                    <span class="steps">
+                        <span class="sectionHeader">3.<?= $this->translate('Branch details'); ?></span>
                         <hr />
                                 <?= $this->form->office_name; ?>
                                 <?= $this->form->address; ?>
@@ -76,9 +102,8 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                                 <div class="clearfix"></div>
 
                     </span>
-                    <span class="step_wrapper" rel="3">
-                        <br />
-                        <strong class="h3 dark">3.<?= $this->translate('Your details'); ?></strong>
+                    <span class="steps" >
+                        <span class="sectionHeader">4.<?= $this->translate('Your details'); ?></span>
                         <hr />
                         <?= $this->translate('Your details will not be published. We gather them only for moderation purposes.'); ?>
                                 <br /><br />
@@ -112,6 +137,16 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 </div>
 <script>
     $(function(){
+        
+        $('.addCompanyCategoryList label').on('click',function(){
+            $('.addCompanyCategoryList label').removeClass('active');
+            var label = $(this);
+            var input = label.find('input'); 
+            if(input.is(':checked')){
+                label.addClass('active');
+            }
+        });
+        
         $('input.closed').on('click',function(){
             var tr = $(this).closest('tr');
             var inputs = tr.find('select');

@@ -213,47 +213,46 @@ class Media_Service_Photo extends MF_Service_ServiceAbstract {
         }
     }
     
-    public function createPhotoFromTemp($photoPath, $name, $title = null, $options = array(), $parent = null, $watermark = false,$type='staff') {
-    
-        $offset = $type;
+    public function createPhotoFromTemp($filePath, $name, $title = null, $options = array(), $parent = null, $watermark = false) {
+        
+        $offset = self::createOffset();
         $offsetDir = $this->photosDir . DIRECTORY_SEPARATOR . $offset;
         if(!is_dir($offsetDir)) {
             @mkdir($this->photosDir . DIRECTORY_SEPARATOR . $offset);
         }
-
+        chmod($this->photosDir . DIRECTORY_SEPARATOR . $offset, 0777);
+        
         $name = MF_Text::createSlug($name);
         $filename = $this->createUniquefileName($name, $offsetDir);
         $title = null == $title ? pathinfo($name, PATHINFO_FILENAME) : $title;
 
         $watermarkFile = (false != $watermark && null != $this->watermarkFile) 
             ? $this->watermarkFile : null;
-        
-        $extension = substr($photoPath,strrpos($photoPath,'.'));
-        // returns .jpg
-        $filename .= $extension;
-        $photoPath = $this->photosDir.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR.$photoPath;
-        if(copy($photoPath, $offsetDir . DIRECTORY_SEPARATOR . $filename)) {
-            if($this->createPhotoFile($offsetDir . DIRECTORY_SEPARATOR . $filename, $offset, $filename, $options, $watermarkFile)) {
-                $photo = $this->photoTable->getRecord();
-                $photo->setFilename($filename);
-                $photo->setTitle($title);
-                $photo->setOffset($offset);
-                $photo->save();
-
-                if(null != $parent) {
-                    if(is_integer($parent)) {
-                        $parent = $this->photoTable->find($parent);
-                    } 
-                    if($parent instanceof Media_Model_Doctrine_Photo) {
-                        $photo->getNode()->insertAsLastChildOf($parent);
-                    }
-                } else {
-                    $tree = $this->photoTable->getTree();
-                    $tree->createRoot($photo);
+      
+        if($this->createPhotoFile($filePath, $offset, $filename, $options, $watermarkFile)) {
+            
+            die('234');
+            
+            $photo = $this->photoTable->getRecord();
+            $photo->setFilename($filename);
+            $photo->setTitle($title);
+            $photo->setOffset($offset);
+            $photo->save();
+            if(null != $parent) {
+                if(is_integer($parent)) {
+                    $parent = $this->photoTable->find($parent);
+                } 
+                if($parent instanceof Media_Model_Doctrine_Photo) {
+                    $photo->getNode()->insertAsLastChildOf($parent);
                 }
-
-                return $photo;
+            } else {
+                $tree = $this->photoTable->getTree();
+                $tree->createRoot($photo);
             }
+            
+            unlink($filePath);
+            
+            return $photo;
         }
     }
     
@@ -273,6 +272,7 @@ class Media_Service_Photo extends MF_Service_ServiceAbstract {
     }
     
     public function createPhotoFile($filePath, $offset = '', $name = null, array $options, $watermarkFile = null) {
+            var_dump($filePath);exit;
         if(file_exists($filePath)) {
             $offsetDir = realpath($this->photosDir . DIRECTORY_SEPARATOR . $offset);
 
@@ -286,7 +286,6 @@ class Media_Service_Photo extends MF_Service_ServiceAbstract {
                     $name = $this->createUniquefileName($name, $offsetDir);
                 }
             }
-          
             if(realpath(dirname($filePath)) == realpath($offsetDir) || @copy($filePath, $offsetDir . DIRECTORY_SEPARATOR . $name)) {
               
                 foreach($options as $cat) {

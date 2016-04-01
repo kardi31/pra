@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property integer $update_id
+ * @property integer $category_id
  * @property string $firstname
  * @property string $lastname
  * @property string $name
@@ -42,6 +43,10 @@ abstract class Agent_Model_Doctrine_BaseUpdate extends Doctrine_Record
              'length' => '4',
              ));
         $this->hasColumn('update_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => '4',
+             ));
+        $this->hasColumn('category_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => '4',
              ));

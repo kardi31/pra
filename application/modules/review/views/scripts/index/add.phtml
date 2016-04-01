@@ -276,13 +276,17 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
 
             <form id="addreview" class="add-review-form" name="add-review" method="post" >
+                
+                <div class="hpadding50c defaultheader2">
+                    <h1><?= $this->translate('Rate review'); ?></h1>
+                    <p class="aboutarrow"></p>
+                </div>
+                <div class="line3"></div>
                 <div class="padding30 grey">
 
                     <span class="step_wrapper" rel="1">
 
-                        <h1 class='h2'><?= $this->translate('Rate review') . " - " . $agent['name']; ?></h1>
                         <?= $this->form->agent_id; ?>
-                        <br />
                         <span class="sectionHeader">1.<?= $this->translate('Select review rating and branch'); ?></span>
                         <div class="clearfix"></div>
                         <!--<div class="line4"></div>-->

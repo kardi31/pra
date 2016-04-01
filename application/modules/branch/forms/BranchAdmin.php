@@ -88,8 +88,8 @@ class Branch_Form_BranchAdmin extends Admin_Form {
         $lng->setDecorators(self::$textDecorators);
         $lng->setAttrib('class', 'form-control');
         
-         $languages = $i18nService->getLanguageList();
-//
+        $languages = $i18nService->getLanguageList();
+        
         $translations = new Zend_Form_SubForm();
 
         foreach($languages as $language) {
@@ -99,12 +99,6 @@ class Branch_Form_BranchAdmin extends Admin_Form {
                 'FormElements'
             ));
             
-//            $name = $translationForm->createElement('text', 'name');
-//            $name->setBelongsTo($language);
-//            $name->setLabel('Video name');
-//            $name->setDecorators(self::$textDecorators);
-//            $name->setAttrib('class', 'span8');
-            
             $description = $translationForm->createElement('textarea', 'description');
             $description->setBelongsTo($language);
             $description->setLabel('Description');
@@ -113,7 +107,6 @@ class Branch_Form_BranchAdmin extends Admin_Form {
             $description->setAttrib('class', 'span8 tinymce');
             
             $translationForm->setElements(array(
-//                $name,
                 $description
             ));
 

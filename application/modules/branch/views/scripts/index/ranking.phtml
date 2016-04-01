@@ -1,7 +1,12 @@
 <?php
     MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-ranking'), $this->translate('Ranking'));
-    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('category' => $this->category['Translation'][$this->language]['slug']),'domain-ranking-category'), $this->category['Translation'][$this->language]['title']);
-    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', ucwords($this->region), true);
+    if(strlen($this->region)){
+        MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array('category' => $this->category['Translation'][$this->language]['slug']),'domain-ranking-category'), $this->category['Translation'][$this->language]['title']);
+        MF_View_Helper_Breadcrumb::getInstance()->addLink('#', ucwords($this->region), true);
+    }
+    else{
+        MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->category['Translation'][$this->language]['title'],true);
+    }
     echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
 <div class="container leagueTableWrapper">
@@ -11,7 +16,7 @@
             <div class="filtertip mb15 col-md-3 rankingName">
                 <div class="padding10">
 
-                    <h1 class="">
+                    <h1>
                         <?php if($this->region){ ?>
                             <p class="size17"><?= $this->translate('Best'); ?> <strong class="underline"><?= $this->category['Translation'][$this->language]['title']; ?></strong> <?= $this->translate('in'); ?></p>
                             <p class="size30 bold"><?= ucwords($this->region); ?></p>
@@ -24,9 +29,12 @@
 
                     </h1>
                 </div>
+                <a href="javascript:void(0)" class="hidden-md hidden-lg searchGlass">
+                    <i class="fa fa-search"></i>
+                </a>
             </div>
-            <div class="filtertip mb15 col-md-2" style=""></div>
-            <div class="filtertip mb15 col-md-7" style="">
+            <div class="filtertip mb15 col-md-2 hidden-sm hidden-xs" style=""></div>
+            <div class="filtertip mb15 col-md-7 rankingSearch2">
                 <form method="POST" id='leagueTableSearch'>
                     <div class="col-md-5">
                         <?= $this->form->getElement('area'); ?>
@@ -92,21 +100,19 @@
                             </td>
                             <td>
                                 <strong>
-                                    <a href="/view-branch/aldreds-estate-agents/stalham/">
-                                        <?= $branch['Agent']['name']; ?><br> 
-                                        <?= $branch['office_name']; ?>
-                                    </a>
+                                    <a href="<?= $this->url(array('agent' => $branch['Agent']['link'],'slug' => $branch['office_link']),'domain-branch-details'); ?>" class="bold">
+                                        <?= $branch['Agent']['name']; ?> - <?= $branch['office_name']; ?></a>
                                 </strong>
                                 <br><strong><i class="fa fa-map-marker"></i></strong> <?= $branch['address']; ?>,
                                 <?= $branch['town']; ?> <?= $branch['postcode']; ?> 
-                                <br>
+                                <br />
                                 <strong><i class="fa fa-phone"></i></strong> <?= $branch['phone']; ?> <br>
-                                <a style="color:blue;" href="/view-branch/aldreds-estate-agents/stalham/#contactAgent">
+                                <a style="color:blue;" href="<?= $this->url(array('agent' => $branch['Agent']['link'],'slug' => $branch['office_link']),'domain-branch-contact'); ?>">
                                     <?= $this->translate('Contact Branch'); ?>
                                 </a> <br>
                             </td>
 
-                            <td><?= round($branch['rating']*$branch['votes'],2); ?></td>
+                            <td><?= round($branch['rating']*$branch['votes']); ?></td>
                             <td><?= $branch['votes']; ?></td>
                             <td><?= $branch['rating']; ?></td>
                             <td><?= $branch['rank']; ?></td>
@@ -133,9 +139,8 @@
 <script>
     $(function(){
         $('#leagueTableSearch').on('submit',function(){
-            alert('126');
-            var area = $('#area').val();
-            var category = $('#category_id').val();
+            var area = $('#area').val().toLowerCase();
+            var category = $('#category_id').val().toLowerCase();
             
             if(area.length){
                 window.location.href = '/ranking/'+category+'/'+area;
@@ -145,5 +150,10 @@
             }
             return false;
         });
+        
+        $('.searchGlass').on('click',function(){
+           $('.rankingSearch2').slideToggle(); 
+        });
+        
     });
 </script>

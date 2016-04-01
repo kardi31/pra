@@ -150,11 +150,19 @@ else{
                         <?php if(strlen($branch['phone'])){ ?>
                             <p class="opensans size30 lblue xslim"><?= $branch['phone']; ?></p>
                         <?php } ?>
-                        <?php if(strlen($branch['url'])){ ?>
-                            <p class="size14 grey">WWW: <a href='<?= $branch['url']; ?>'><?= $branch['url']; ?></a></p>
+                        <?php if(strlen($branch['url'])){
+                            $url = $branch['url'];
+                            if (strpos($url, 'http://')==false) {
+                                $url = 'http://'.$url;
+                             }
+                            ?>
+                            <p class="size14 grey">WWW: <a target="_blank" href='<?= $url; ?>'><?= $branch['url']; ?></a></p>
                         <?php } ?>
                 </div>
-            </div><br/>
+            </div>
+                
+                <?php if(strlen($branch['lng'])){ ?>
+                <br/>
             <style>
       #map {
         width: 355px;
@@ -178,7 +186,7 @@ else{
                   });
               }
             </script>
-            
+                <?php } ?>
             <div class="pagecontainer2 mt20 alsolikebox">
                 <div class="cpadding1">
                     <span class="icon-location"></span>

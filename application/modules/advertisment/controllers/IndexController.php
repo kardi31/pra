@@ -7,20 +7,29 @@
  */
 class Advertisment_IndexController extends MF_Controller_Action {
  
-    public static $articleItemCountPerPage = 2;
+    public static $articleItemCountPerPage = 10;
     
     public function indexAction(){}
     
     public function searchAction() {
         $advertismentService = $this->_service->getService('Advertisment_Service_Advertisment');
-        $metatagService = $this->_service->getService('Default_Service_Metatag');
         
         $groupService = $this->_service->getService('Advertisment_Service_Group');
         $groups = $groupService->getFullGroups($this->view->language,Doctrine_Core::HYDRATE_ARRAY);
         $search = $this->getRequest()->getParam('search_name');
         $search = $this->view->escape($search);
-            
         
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Ogłoszenia dla fachowców',
+                'description' => 'Popularne ogłoszenia dla pracowników'
+            ),
+            'en' => array(
+                'title' => 'Search for Polish advertisments',
+                'description' => 'Read advertisments for Polish employees'
+            )
+        ),$this->view);
         
         
         if(isset($_GET['submit'])){
@@ -29,7 +38,7 @@ class Advertisment_IndexController extends MF_Controller_Action {
             $searchResults = $advertismentService->findAdvertisment($search,$area,$this->view->language,Doctrine_Core::HYDRATE_ARRAY);
             
             
-        $this->_helper->viewRenderer('index/search-result', null, true);
+            $this->_helper->viewRenderer('index/search-result', null, true);
 
             $this->view->assign('searchResults',$searchResults);
             $this->view->assign('search',$search);
@@ -101,19 +110,25 @@ class Advertisment_IndexController extends MF_Controller_Action {
         $authService = $this->_service->getService('User_Service_Auth');
         $user = $authService->getAuthenticatedUser();
             
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Dodaj darmowe ogłoszenie dla pracowników',
+                'description' => 'Dodaj nowe ogłoszenie'
+            ),
+            'en' => array(
+                'title' => 'Add new advertisment for Polish employees',
+                'description' => 'New advertisments for Polish employees'
+            )
+        ),$this->view);
         
         if($this->getRequest()->getParam('category')){
             
             $category = $categoryService->getFullCategory($this->getRequest()->getParam('category'),'slug',$this->view->language);
             
             
-//            $metatag = $ogloszeniePage->get('Metatag');
-//            
-//            $metatag['Translation']['pl']['title'] = 'Dodaj ogłoszenie - '.$category['Group']['title'].' - '.$category['title'];
-//            
-//            if($ogloszeniePage != NULL):
-//                $metatagService->setViewMetatags($metatag, $this->view);
-//            endif;
+            $this->view->headMeta()->appendName('robots', 'noindex, nofollow');
+            
             
             $this->view->assign('category',$category);
             
@@ -125,23 +140,18 @@ class Advertisment_IndexController extends MF_Controller_Action {
                     try {
                         $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
 
-                        error_reporting(E_ALL);
-                        ini_set('display_errors', 1);
                         $values = $form->getValues();
                         $values['category_id'] = $category->get('id');
                         $values['publish'] = 0;
                         $values['user_id'] = $user->get('id');
                         $values['last_user_id'] = $user->get('id');
                         
+                        
                         $values['Translation']['pl'] = array('title' => $values['title'],'content' => $values['content']);
                         $values['Translation']['en'] = $values['Translation']['pl'];
                        
                         $advertisment = $advertismentService->saveAdvertismentFromArray($values);
                        
-                        if($metatags = $metatagService->saveNewMetatagsFromArray($advertisment->toArray(), array('title' => 'title', 'description' => 'content', 'keywords' => 'content'))) {
-                            $values['metatag_id'] = $metatags->getId();
-                        }
-                        
                         $photoRoot = $photoService->createPhotoRoot();
                         $advertisment->set('PhotoRoot',$photoRoot);
                         $advertisment->save();
@@ -163,7 +173,6 @@ class Advertisment_IndexController extends MF_Controller_Action {
 
                         $this->_helper->redirector->gotoUrl($this->view->url(array(), 'domain-advertisment-confirm'));
                     } catch(Exception $e) {
-                        var_dump($e->getMessage());exit;
                         $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                         $this->_service->get('log')->log($e->getMessage(), 4);
                     }
@@ -202,18 +211,6 @@ class Advertisment_IndexController extends MF_Controller_Action {
         $authService = $this->_service->getService('User_Service_Auth');
         $user = $authService->getAuthenticatedUser();
             
-        
-            
-//            $category = $categoryService->getCategory($this->getRequest()->getParam('category'),'slug');
-            
-            
-//            $metatag = $ogloszeniePage->get('Metatag');
-//            
-//            $metatag['Translation']['pl']['title'] = 'Edytuj ogłoszenie - '.$category['title'];
-//            
-//            if($ogloszeniePage != NULL):
-//                $metatagService->setViewMetatags($metatag, $this->view);
-//            endif;
             
             
             $form = $advertismentService->getAdvertismentForm($advertisment);
@@ -263,9 +260,20 @@ class Advertisment_IndexController extends MF_Controller_Action {
         if(!$category = $categoryService->getFullCategory($this->getRequest()->getParam('category'), 'slug', $this->view->language, Doctrine_Core::HYDRATE_RECORD)) {
             throw new Zend_Controller_Action_Exception('Category not found');
         }
-        $metatagService = $this->_service->getService('Default_Service_Metatag');
         
-//        $metatagService->setViewMetatags(array('title' => $category['title']." - Ogłoszenia Polaków w Wielkiej Brytanii"),$this->view);
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => $category['Translation'][$this->view->language]['title'].' - Ogłoszenia dla fachowców',
+                'description' => 'Ogłoszenia dla pracowników w kategorii '.$category['Translation'][$this->view->language]['title']
+            ),
+            'en' => array(
+                'title' => $category['Translation'][$this->view->language]['title'].' advertisments - Search for Polish advertisments',
+                'description' => 'Read advertisments for Polish employees in category '.$category['Translation'][$this->view->language]['title']
+            )
+        ),$this->view);
+        
          $query = $companyService->getCategoryAdvertismentsQuery($category['id']);
 
         $adapter = new MF_Paginator_Adapter_Doctrine($query, Doctrine_Core::HYDRATE_ARRAY);
@@ -345,11 +353,19 @@ class Advertisment_IndexController extends MF_Controller_Action {
         
         $this->_helper->layout->setLayout('page');
         
+        $this->view->headMeta()->appendName('robots', 'noindex, nofollow');
+        
         $this->_helper->actionStack('layout', 'index', 'default');
         
-         $metatagService = $this->_service->getService('Default_Service_Metatag');
-        
-        $metatagService->setViewMetatags(array('title' => 'Ogłoszenie dodane'), $this->view);
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Ogłoszenie dodane'
+            ),
+            'en' => array(
+                'title' => 'Advertisment added'
+            )
+        ),$this->view);
         
         
     }
@@ -520,9 +536,19 @@ class Advertisment_IndexController extends MF_Controller_Action {
         $this->view->assign('popularAgents', $popularAgents);
         
         
-        $metatagService->setViewMetatags(array('title' => $article['Translation'][$this->view->language]['title']." - Ogłoszenia Polaków w Wielkiej Brytanii",'description'  => $article['Translation'][$this->view->language]['content']), $this->view);
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => $article['Translation'][$this->view->language]['title'],
+                'description' => $article['Translation'][$this->view->language]['content']
+            ),
+            'en' => array(
+                'title' => $article['Translation'][$this->view->language]['title'],
+                'description' => $article['Translation'][$this->view->language]['content']
+            )
+        ),$this->view);
         $metatagService->setOgMetatags($this->view,$article['Translation'][$this->view->language]['title'],'/media/photos/'.$article['Photos'][1]['offset']."/".$article['Photos'][1]['filename'],$article['Translation'][$this->view->language]['content']);
-       
+    
         $this->view->assign('article', $article);
         
         $form = new Default_Form_Contact();
@@ -547,15 +573,11 @@ class Advertisment_IndexController extends MF_Controller_Action {
         ));
         
         
-       $this->view->assign('videoUrl',$videoUrl);
-       $this->view->assign('ad',$ad);
        $this->view->assign('form',$form);
-       $this->view->assign('lastCategoryOtherArticles',$lastCategoryOtherArticles);
         
        
         $this->_helper->actionStack('layout', 'index', 'default');
         $this->_helper->layout->setLayout('page');
-//        $this->_helper->layout->setLayout('article');
     }
     
     

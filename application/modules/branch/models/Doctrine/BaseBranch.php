@@ -21,6 +21,7 @@
  * @property integer $view
  * @property float $customer_satisfaction
  * @property float $rating
+ * @property float $points
  * @property integer $votes
  * @property integer $rank
  * @property string $lat
@@ -112,6 +113,11 @@ abstract class Branch_Model_Doctrine_BaseBranch extends Doctrine_Record
              'scale' => '2',
              ));
         $this->hasColumn('rating', 'float', 5, array(
+             'type' => 'float',
+             'length' => '5',
+             'scale' => '2',
+             ));
+        $this->hasColumn('points', 'float', 5, array(
              'type' => 'float',
              'length' => '5',
              'scale' => '2',

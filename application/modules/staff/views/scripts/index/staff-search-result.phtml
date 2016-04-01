@@ -152,7 +152,7 @@
                                                                     <?= str_repeat('<img src="/images/star-o.png" alt="Star">',5-round($staff['rating'])); ?>
                                                                         <br/><br />
 									<span class="size11 grey"><?= $staff['active_reviews']; ?> <?= $this->translate('reviews'); ?></span><br/><br/><br/>
-									 <a class="btn-info bookbtn mt1" href="<?php $this->url(array('slug' => $staff['link']),'domain-staff-profile'); ?>" type="submit">
+									 <a class="btn-info bookbtn mt1" href="<?php echo $this->url(array('slug' => $staff['link']),'domain-staff-profile'); ?>" >
                                                                              <?= $this->translate('See profile'); ?>
                                                                          </a>	<br /><br /><br />
                                                                         <a class="bookbtn mt1" href="<?=  $this->url(array('branch' => $staff['Branch']['office_link'],'agent' => $staff['Agent']['link'],'staff' => $staff['link']),'domain-add-review-staff'); ?>" type="submit">

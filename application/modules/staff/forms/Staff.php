@@ -28,6 +28,12 @@ class Staff_Form_Staff extends Admin_Form {
         $position->setDecorators(self::$textAdminDecorators);
         $position->setAttrib('class', 'form-control');
         
+        
+        $email = $this->createElement('text', 'email');
+        $email->setLabel('Email');
+        $email->setDecorators(self::$textAdminDecorators);
+        $email->setAttrib('class', 'form-control');
+        
         $branchId = $this->createElement('select', 'branch_id');
         $branchId->setLabel('Branch');
         $branchId->setDecorators(self::$selectAdminDecorators);
@@ -52,6 +58,7 @@ class Staff_Form_Staff extends Admin_Form {
             $firstname,
             $lastname,
             $branchId,
+            $email,
             $description,
             $position,
             $submit

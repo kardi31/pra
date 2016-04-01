@@ -1,0 +1,106 @@
+
+<div class="row-fluid">
+
+    <div class="span12">
+        
+        <div class="box">
+            
+            <div class="title">
+
+                <h4>
+                    <span class="icon16 icomoon-icon-pencil"></span>
+                    <span><?php echo $this->translate('Edit update') ?> <?php echo $this->update['Staff']->firstname." ".$this->update['Staff']->lastname ?></span>
+                </h4>
+                
+            </div>
+            <div class="content clearfix">
+                <ul class="btnList">
+                    <li rel="contentSection"><button class="btn" type="button">Treść</button></li>
+                    <li rel="optionsSection"><button class="btn" type="button">Opcje</button></li>
+                    <li rel="photoSection"><button class="btn" type="button">Zdjęcia</button></li>
+                     <li rel="videoSection"><button class="btn" type="button">Video</button></li>
+                </ul>
+                <form class="form-horizontal" action="<?php echo $this->form->getAction() ?>" method="post" enctype="multipart/form-data">
+                    Staff link : <a href="<?= $this->url(array('slug' => $this->update['Staff']['link']),'domain-staff-profile'); ?>"><?= $this->update['Staff']['firstname']." ".$this->update['Staff']['lastname']; ?></a>
+                    <span class="section contentSection">
+                        <div class="span6">
+                            <h3>Obecne dane</h3>
+                            <?php echo $this->form->currentStaffForm->firstname ?>
+                            <?php echo $this->form->currentStaffForm->lastname ?>
+                            <?php echo $this->form->currentStaffForm->branch_id ?>
+                            <?php echo $this->form->currentStaffForm->position ?>
+                            <?php echo $this->form->currentStaffForm->email ?>
+                            <div class="page-header">
+                                <h4><?php echo $this->translate('Translations') ?></h4>
+                            </div>
+
+                            <ul id="myTab" class="nav nav-tabs pattern">
+                                <li class="dropdown">
+                                    <?php foreach($this->languages as $key => $language): ?>
+                                    <li class="<?php if($language == $this->adminLanguage->getId()): ?>active<?php endif; ?>"><a href="#dropdown<?php echo $key + 1 ?>" data-toggle="tab"><?php echo $language ?></a></li>
+                                    <?php endforeach; ?>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <?php foreach($this->languages as $key => $language): ?>
+                                <div class="tab-pane<?php if($language == $this->adminLanguage->getId()): ?> in active<?php endif; ?>" id="dropdown<?php echo $key + 1 ?>">
+                                    <span class="section contentSection">
+                                <?php if($this->form->currentStaffForm->translations->getSubForm($language)): ?>
+                                    <?php echo $this->form->currentStaffForm->translations->getSubForm($language)->description->setAttrib('class', 'tinymce') ?>
+                                <?php endif; ?>
+                                    </span>
+
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="span6">
+                            <h3>Nowe dane</h3>
+                            <?php echo $this->form->firstname ?>
+                            <?php echo $this->form->lastname ?>
+                            <?php echo $this->form->branch_id ?>
+                            <?php echo $this->form->position ?>
+                            <?php echo $this->form->email ?>
+                            <div class="page-header">
+                                <h4><?php echo $this->translate('Translations') ?></h4>
+                            </div>
+
+                            <ul id="myTab" class="nav nav-tabs pattern">
+                                <li class="dropdown">
+                                    <?php foreach($this->languages as $key => $language): ?>
+                                    <li class="<?php if($language == $this->adminLanguage->getId()): ?>active<?php endif; ?>"><a href="#dropdown<?php echo $key + 1 ?>" data-toggle="tab"><?php echo $language ?></a></li>
+                                    <?php endforeach; ?>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <?php foreach($this->languages as $key => $language): ?>
+                                <div class="tab-pane<?php if($language == $this->adminLanguage->getId()): ?> in active<?php endif; ?>" id="dropdown<?php echo $key + 1 ?>">
+                                    <span class="section contentSection">
+                                <?php if($this->form->translations->getSubForm($language)): ?>
+                                    <?php echo $this->form->translations->getSubForm($language)->description->setAttrib('class', 'tinymce') ?>
+                                <?php endif; ?>
+                                    </span>
+
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </span>
+                    <span class="section optionsSection">
+                        <?php echo $this->form->id ?>
+                    </span>
+                    <div class="clearfix"></div>
+                    <div class="form-actions">
+                        <?php echo $this->form->submit ?>
+                        <button name="save_only" id="btnSaveOnly" type="submit" class="btn btn-primary"><?php echo $this->translate('Save and stay') ?></button>
+                        <a href="<?php echo $this->adminUrl('list-update', 'staff') ?>" class="btn"><?php echo $this->translate('Cancel') ?></a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>   
+</div>
+    

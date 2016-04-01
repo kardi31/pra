@@ -15,7 +15,7 @@
  * @property clob $content
  * @property Doctrine_Collection $Advertisments
  * @property Doctrine_Collection $Translation
- * @property Advertisment_Model_Doctrine_CategoryGroup $Group
+ * @property Advertisment_Model_Doctrine_Group $Group
  * 
  * @package    Admi
  * @subpackage Advertisment
@@ -77,7 +77,7 @@ abstract class Advertisment_Model_Doctrine_BaseCategory extends Doctrine_Record
              'local' => 'id',
              'foreign' => 'id'));
 
-        $this->hasOne('Advertisment_Model_Doctrine_CategoryGroup as Group', array(
+        $this->hasOne('Advertisment_Model_Doctrine_Group as Group', array(
              'local' => 'group_id',
              'foreign' => 'id'));
 

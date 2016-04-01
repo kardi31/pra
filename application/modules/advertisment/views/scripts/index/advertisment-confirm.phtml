@@ -9,8 +9,8 @@
 
         <!-- LEFT CONTENT -->
         <div class="col-md-8 pagecontainer2 offset-0 advertismentCategoryList">
-            <div class="hpadding50c">
-                <h1 class="lato size30 slim"><?= $this->translate('Advertisment added'); ?></h1>
+            <div class="hpadding50c defaultheader2">
+                <h1><?= $this->translate('Advertisment added'); ?></h1>
                 <p class="aboutarrow"></p>
             </div>
             <div class="line3"></div>
@@ -26,11 +26,9 @@
             </div>
 
         </div>
-        <!-- END OF LEFT CONTENT -->			
-
-        <!-- RIGHT CONTENT -->
-
-        <!-- END OF RIGHT CONTENT -->
+        <div class="col-md-4">
+            <?php echo $this->action('banner-sidebar2','index','banner'); ?>
+        </div>
 
         <div class="clearfix"></div>
     </div>

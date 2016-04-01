@@ -80,9 +80,8 @@ class Advertisment_Service_Category extends MF_Service_ServiceAbstract{
        $categories = $this->getAllCategories();
        
        foreach($categories as $category):
-           $options[$category['Group']['title']][$category['id']] = $category['title'];
+           $options[$category['Group']['Translation']['pl']['title']][$category['id']] = $category['Translation']['pl']['title'];
        endforeach;
-       
        return $options;
     }
      
