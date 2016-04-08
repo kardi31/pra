@@ -3,7 +3,7 @@
 /**
  * Newsletter_Service_SentMessage
  *
- * @author Tomasz Kardas <kardi31@tlen.pl>
+ * @author Andrzej Wilczyński <and.wilczynski@gmail.com>
  */
 class Newsletter_Service_SentMessage extends MF_Service_ServiceAbstract {
     

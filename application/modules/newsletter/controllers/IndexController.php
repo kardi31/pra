@@ -3,11 +3,23 @@
 /**
  * Newsletter_IndexController
  *
- * @author Mateusz Aniołek
+ * @author 
  */
+
+
 class Newsletter_IndexController extends MF_Controller_Action {
     
+    public function init(){
+        die('13');
+    }
+    
+    public function indexAction(){
+        die('17');
+    }
+    
    public function registerAction(){
+       die('register');
+        $this->_helper->layout->setLayout('page');
         $subscriberService = $this->_service->getService('Newsletter_Service_Subscriber');
         
         $translator = $this->_service->get('Zend_Translate');

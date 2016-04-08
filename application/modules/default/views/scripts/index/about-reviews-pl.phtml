@@ -1,0 +1,194 @@
+<?php
+    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('About reviews'));
+    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+    <div class="container mt25 offset-0">
+        <div class="col-md-12 pagecontainer2 offset-0">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('About reviews')?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+
+            <div class="hpadding50c">
+
+
+
+                <!-- LEFT IMG -->
+                <div class="col-md-8 cpdd01 grey2">
+                    <div class="pl30 pr30 pb50">
+                        <strong>Klienci</strong>
+                        <p>Zanim dodasz opinie o firmie, upewnij się,że przeczytałeś nasze <a href="<?= $this->url(array(),'domain-terms-conditions'); ?>">Zasady Korzystania z Serwisu</a>. Polecamy także przeczytanie sekcji 'Najlepsze porady' na tej stronie </p>
+                        <ul>
+                            <li>Kliknij w przycisk 'Dodaj opinie' znajdujący sie w menu u góry strony</li>                            
+                            <li>Wpisz nazwę firmy, którą chcesz ocenić i kliknij w przycisk 'Dodaj opinie'
+                                <ul>
+                                    <li>Jeżeli firmy, którą chcesz ocenić nie ma na liście, kliknij w przycisk 'Nie mogę znaleźć firmy'. Następnie dodaj podstawowe informacje o firmie i wykonuj dalsze instrukcje znajdujące się poniżej.</li>
+                                </ul>
+                            </li>
+                            <li>Informujemy,że dodać opinie można też poprzez kliknięcie przycisku 'Dodaj opinie' znajdującego się na profilu danej firmy.</li>
+                            <li>Wybierz ocene-gwiazdkę , którą chcesz przypisaćdo opinii (skala 1 – 5, gdzie 1 oznacza bardzo słabą ocenę a 5 najlepszą ocene)</li>
+                            <li>Wybierz oddział firmy, który chcesz ocenić.</li>
+                            <li>Jeżeli chcesz przypisać pracowników do opinii, możesz ich wybrać z listy pracowników klikając na wybrane nazwisko.
+                                <ul>
+                                    <li>Jeżeli pracownik nie istnieje na liście, wpisz jego pełne imie i nazwisko.</li>
+                                </ul>
+                            </li>
+                            <li>Wpisz treść Twojej opinii.</li>
+                            <li>Wybierz czy polecasz tą firmę pozostałym klientom.</li>
+                            <li>Wybierz swoją wyświetlaną nazwę. Może to być np. Twoje imię bądź pseudonim. Ta nazwa będzie wyświetalna razem z Twoją opinią.</li>
+                            <li>Podaj date, kiedy ostatnio korzystałeś z usług tej firmy. (ta informacja nie jest wyświetlana w żadnym miejscu na stronie)</li>
+                            <li>Podaj swoje dane (ta informacja nie jest wyświetlana w żadnym miejscu na stronie)</li>
+                            <li>Zaakceptuj zasady użytkowania strony.</li>
+                            <li>Kliknij przycisk 'Dodaj opinie'</li>
+                            <li>
+                                Sprawdź swoją skrzynkę mailową. Wejdź w email aktywacyjny od Oceń Fachowca (pamiętaj aby sprawdzić foldery kosz/spam)
+                                <ul>
+                                    <li>Jeżeli nie możesz znaleźć maila, wyślij wiadomość na adres <a href="mailto:aktywuj@ocen-fachowca.pl">aktywuj@ocen-fachowca.pl</a> ze swojego adresu, którego użyłeś do dodania opinii a my aktywujemy Twoją opinie za Ciebie.</li>
+                                </ul>
+                            </li>
+                            <li>Kliknij w link aktywacyjny znajdujący się w mailu.</li>
+                            <li>Następnie Twoja opinia zostanie przekazana do zespołu moderacyjnego. Po przejściu procesu moderacji zostaniesz powiadomiony czy Twoja opinia została zaakceptowana.</li>
+                        </ul>
+                        <br />
+                        <strong>Najlepsze porady</strong>
+                        <ul>
+                            <li>Wszystkie konstruktywne opinie są mile widziane.</li>
+                            <li>Bądź szczery i uczciwy w swojej opinii.</li>
+                            <li>Oceniaj tylko firmy,z którymi miałeś bezpośredni kontakt.</li>
+                            <li>Zabronione jest używanie obraźliwego języka.</li>
+                            <li>Używanie tymczasowych emaili w celu dodania opinii jest zabronione.</li>
+                            <li>Nie akceptujemy opinii dodanych z sieci danej firmy.</li>
+                            <li>Możesz dodać tylko 1 opinie danej firmy w ciągu 6 miesięcy.</li>
+                            <li>Możesz zażądać usunięcia swojej opinii ze strony. Za usunięcie opinii może zostać naliczona opłata administracyjna.</li>
+                        </ul>
+                        <br />
+                        <strong>Firma</strong>
+                        <ul>
+                            <li>Zalecamy aby udzielać odpowiedzi na każdą otrzymaną opinie. Każda opinia klienta powinna zostać opatrzona profesjonalnym komentarzem, niezależnie od tego czy jest pozytywna czy negatywna.</li>
+                            <li>Jeżeli uważasz,że opinia narusza zasady użytkowania strony lub jest fałszywa, możesz zgłosić naruszenie zasad klikając przycisk 'Zgłoś naruszenie zasad' pod opinią.
+                                <ul>
+                                    <li>
+                                        Dodaj jak najwięcej informacji i wyślij zgłoszenie.
+                                    </li>
+                                    <li>
+                                        Nasz zespół moderacyjny zajmie się Twoim zgłoszeniem.
+                                    </li>
+                                    <li>
+                                        Pamiętaj, że opinia nie zostanie usunięta tylko dlatego,że się z nią nie zgadzasz.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Firmy mogą zażądać archiwizacji swoich opini po okresie 5 lat od dodania opinii. Firma nie ma możliwości wybrania, które opinie zostaną archiwizowane.
+                                Żądając wykonania archiwizacji wszystkie opinie starsze niż 5 lat zostają przeniesione do archiwum.
+                                Należy mieć na uwadze,że ta operacja spowoduje zmianę rankingu firmy w naszych rankingach
+                            </li>
+                            <li>Firmy nie powinny oferować bonusów (prezentów,pieniędzy) za dodawanie opinii. </li>
+                            <li>Zabronione jest dodawanie samemu opinii o swojej firmie, podrabianie opinii, podszywanie się za klienta bądź opłacanie osób trzecich do wykonywania tych działań.</li>
+                        </ul>
+                        Oceń Fachowca nie gwarantuje prawdziwości materiałów bądź treści opinii znajdującej się na stronie.
+                    </div>
+                      
+
+                </div>
+                <!-- END OF LEFT IMG -->
+
+                <!-- IMG RIGHT TEXT -->
+                <div class="col-md-4 cpdd02">
+                    <div class="opensans grey">
+                        <?php if(count($this->popularArticles)>0){ ?>
+                            <h2 class="lato size18 dark bold"><?= $this->translate('Popular articles'); ?></h2><br>
+
+                            <ul class="blogcat">
+                                <?php foreach($this->popularArticles as $popularArticle): ?>
+                                    <li>
+                                        <a href="<?php echo $this->url(array('slug' => $popularArticle['Translation'][$this->language]['slug']), 'domain-news-article'); ?>">
+                                            <?= MF_Text::truncate($popularArticle['Translation'][$this->language]['title'],40); ?>
+                                        </a> 
+                                        <span class="badge2 pull-right indent0"><i class="fa fa-comment"></i> <?= count($popularArticle['Comments']); ?></span></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <br>
+                        <?php } ?>
+                        <?php echo $this->action('banner-sidebar2','index','banner'); ?>
+                        <br /><br />
+
+
+                        <!-- Nav tabs -->
+                        <ul class="nav navigation-tabs3">
+                            <li class="active"><a href="#tab-newtopic" data-toggle="tab"><span class="glyphicon glyphicon-star"></span> <?= $this->translate('Featured'); ?></a></li>
+                            <li><a href="#tab-comments" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span> <?= $this->translate('Popular'); ?> </a></li>
+
+                        </ul>
+
+                        <div class="tab-content4">
+                            <!-- Tab 1 -->
+                            <div class="tab-pane active" id="tab-newtopic">
+                                <?php foreach($this->premiumAgents as $premiumAgent): ?>
+                                    <div class="col-md-4">
+                                        <a href="<?= $this->url(array('slug' => $premiumAgent['link']),'domain-agent-details'); ?>"><img alt="<?= $premiumAgent['name']; ?>" class="left mr20" src="<?= $premiumAgent->getLogoUrl('85x50'); ?>"></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a class="dark" href="<?= $this->url(array('slug' => $premiumAgent['link']),'domain-agent-details'); ?>">
+                                            <b><?= $premiumAgent['name']; ?></b></a>
+                                        <br>
+                                        <?= str_repeat('<img src="/images/star.png" alt="Star" />',round($premiumAgent['rating'])); ?>
+                                    </div>
+                                
+                                    <div class="line4 clearfix mt10"></div>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- End of Tab 1 -->
+
+                            <!-- Tab 2 -->
+                            <div class="tab-pane" id="tab-comments">
+                                <?php foreach($this->popularAgents as $popularAgent): ?>
+                                    <div class="col-md-4">
+                                        <a href="<?= $this->url(array('slug' => $popularAgent['link']),'domain-agent-details'); ?>"><img alt="<?= $popularAgent['name']; ?>" class="left mr20" src="<?= $popularAgent->getLogoUrl('85x50'); ?>"></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a class="dark" href="<?= $this->url(array('slug' => $popularAgent['link']),'domain-agent-details'); ?>">
+                                            <b><?= $popularAgent['name']; ?></b></a>
+                                        <br>
+                                        <?= str_repeat('<img src="/images/star.png" alt="Star" />',round($popularAgent['rating'])); ?>
+                                    </div>
+                                
+                                    <div class="line4 clearfix mt10"></div>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- End of Tab 2 -->
+
+                        </div>
+                        
+                        
+
+
+
+
+
+                    </div>
+                </div>
+                <!-- END OF IMG RIGHT TEXT -->
+                <div class="clearfix"></div>
+                <br><br>
+
+
+
+
+
+            </div>
+
+
+
+            <div class="clearfix"></div><br><br>
+        </div>
+        <!-- END CONTENT -->			
+
+
+
+    </div>
+
+
+</div>

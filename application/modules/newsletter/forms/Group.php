@@ -3,7 +3,7 @@
 /**
  * Newsletter_Form_Group
  *
- * @author Tomasz Kardas <kardi31@tlen.pl>
+ * @author Andrzej Wilczyński <and.wilczynski@gmail.com>
  */
 class Newsletter_Form_Group extends Admin_Form {
     

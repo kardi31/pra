@@ -11,6 +11,7 @@
  * @property string $last_name
  * @property string $email
  * @property string $token
+ * @property string $lang
  * @property boolean $active
  * @property Doctrine_Collection $Groups
  * @property Doctrine_Collection $SentMessages
@@ -48,6 +49,10 @@ abstract class Newsletter_Model_Doctrine_BaseSubscriber extends Doctrine_Record
              'length' => '255',
              ));
         $this->hasColumn('token', 'string', 255, array(
+             'type' => 'string',
+             'length' => '255',
+             ));
+        $this->hasColumn('lang', 'string', 255, array(
              'type' => 'string',
              'length' => '255',
              ));

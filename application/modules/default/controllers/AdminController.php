@@ -308,5 +308,150 @@ class Default_AdminController extends MF_Controller_Action {
         $this->view->assign('photo', $photo);
         $this->view->assign('form', $form);
     }
+    
+    public function listMessageAction() {
+
+    }
+    
+    public function listMessageDataAction() {    
+        $i18nService = $this->_service->getService('Default_Service_I18n');
+       
+        $table = Doctrine_Core::getTable('Default_Model_Doctrine_Message');
+        $dataTables = Default_DataTables_Factory::factory(array(
+            'request' => $this->getRequest(), 
+            'table' => $table, 
+            'class' => 'Default_DataTables_Message', 
+            'columns' => array('x.id','x.name', 'x.email', 'x.town','x.address','x.postcode','s.id','x.created_at'),
+            'searchFields' => array('x.id','x.name', 'x.email', 'x.town','x.address','x.postcode','s.id','x.created_at')
+        ));
+        
+        $language = $i18nService->getAdminLanguage();
+        
+        $results = $dataTables->getResult();
+        
+        $rows = array();
+        foreach($results as $result) {
+            $row = array();
+            $row[] = $result->id;
+            $row[] = $result->name;
+            $row[] = $result->email;
+            $row[] = $result->town;
+            $row[] = $result->address;
+            $row[] = $result->postcode;
+            $row[] = count($result['Sends']);
+            $row[] = MF_Text::timeFormat($result['created_at'],'d/m/Y H:i');
+            $options = '<a href="' . $this->view->adminUrl('edit-message', 'default', array('id' => $result->id)) . '" title="' . $this->view->translate('Edit') . '"><span class="icon24 entypo-icon-settings"></span></a>&nbsp;&nbsp;&nbsp;';
+            $options .= '<a href="' . $this->view->adminUrl('remove-message', 'default', array('id' => $result->id)) . '" class="remove" title="' . $this->view->translate('Remove') . '"><span class="icon16 icon-remove"></span></a>';
+            $row[] = $options;
+            $rows[] = $row;
+        }
+
+        $response = array(
+            "sEcho" => intval($_GET['sEcho']),
+            "iTotalRecords" => $dataTables->getDisplayTotal(),
+            "iTotalDisplayRecords" => $dataTables->getTotal(),
+            "aaData" => $rows
+        );
+
+        $this->_helper->json($response);
+    }
+    
+    public function editMessageAction() {
+        $messageService = $this->_service->getService('Default_Service_Message');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $i18nService = $this->_service->getService('Default_Service_I18n');
+        $mailService = $this->_service->getService('User_Service_Mail');
+        $translator = $this->_service->get('translate');
+        
+        if(!$message = $messageService->getMessage($this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Message not found');
+        }
+        
+        $adminLanguage = $i18nService->getAdminLanguage();
+        
+        $form = $messageService->getAdminMessageForm($message);
+        $form->getElement('category')->addMultiOptions($agentService->prependMainCategories($this->view->language,false));
+        
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getParams())) {
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    
+                    $values = $form->getValues();
+                    $values['id'] = $message['id'];
+                    $message = $messageService->saveMessageFromArray($values);
+                    $this->view->messages()->add($translator->translate('Item has been updated'), 'success');
+                    
+                    if(isset($_POST['sendLeads'])){
+                        
+                        $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+                        
+                        foreach($_POST['branch_ids'] as $branchId){
+                            
+                            $branch = $branchService->getBranch($branchId);
+                            
+                            
+                            $mail = new Zend_Mail('UTF-8');
+                            $mail->setSubject($this->view->translate('You have new customer enquiry from Rate Pole'));
+                            $mail->addTo($branch['email'], $branch['Agent']['name']." ".$branch['office_name']);
+                            $mail->setReplyTo($values['email'], $values['name']);
+
+                            $mailService->sendSpecialistContactMail($values,$branch,$mail, $this->view);
+                            
+                            $dataValues = array(
+                                'message_id' => $message['id'],
+                                'branch_id' => $branch['id']
+                            );
+                            
+                            $messageService->saveMessageSendFromArray($dataValues);
+                        }
+                    }
+                    
+                    
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                    
+
+                    $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-message', 'default'));
+                } catch(Exception $e) {
+                    var_dump($e->getMessage());exit;
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+        }
+        $languages = $i18nService->getLanguageList();
+        
+        $this->view->assign('adminLanguage', $adminLanguage);
+        $this->view->assign('message', $message);
+        $this->view->assign('languages', $languages);
+        $this->view->assign('form', $form);
+    }
+    
+    public function removeCategoryAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        
+        if($category = $agentService->getCategory($this->getRequest()->getParam('id'))) {
+            try {
+                $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+
+                $metatag = $metatagService->getMetatag((int) $category->getMetatagId());
+
+                $metatagService->removeMetatag($metatag);
+                
+                $category->delete();
+
+
+                $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-category', 'agent'));
+            } catch(Exception $e) {
+                var_dump($e->getMessage());exit;
+                $this->_service->get('Logger')->log($e->getMessage(), 4);
+            }
+        }
+        $this->_helper->viewRenderer->setNoRender();
+    }
+    
 }
 

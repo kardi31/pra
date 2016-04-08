@@ -3,8 +3,8 @@
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 
+
 // Define application environment
-        defined('APPLICATION_ENV')|| define('APPLICATION_ENV', 'development');
        
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -13,7 +13,14 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 /** Zend_Application */
-
+if($_SERVER['HTTP_HOST']=='pracownikuk.localhost'){
+    
+        defined('APPLICATION_ENV')|| define('APPLICATION_ENV', 'developmentuk');
+}
+else{
+        defined('APPLICATION_ENV')|| define('APPLICATION_ENV', 'development');
+        
+}
 
 require_once 'Zend/Application.php';
 

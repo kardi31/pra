@@ -6,7 +6,6 @@ class Default_IndexController extends MF_Controller_Action
    public function indexAction(){
        $this->_helper->actionStack('layout');
        
-       
         $agentService = $this->_service->getService('Agent_Service_Agent');
         $branchService = $this->_service->getService('Branch_Service_Branch');
         
@@ -18,8 +17,8 @@ class Default_IndexController extends MF_Controller_Action
         
         $categoryBranches = $branchService->rankBranchesByCategory($category['Translation'][$this->view->language]['slug'],$this->view->language,Doctrine_Core::HYDRATE_RECORD,3);
         
-        $geolocationData = var_export(unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR'])));
-        $userTown = strlen($geolocationData['geoplugin_city'])?$geolocationData['geoplugin_city']:'London';
+//        $geolocationData = var_export(unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR'])));
+//        $userTown = strlen($geolocationData['geoplugin_city'])?$geolocationData['geoplugin_city']:'London';
         
         $premiumBranches = $branchService->getRandomPremiumBranches();
         $bestTownBranches = $branchService->getBestTownBranches($userTown,3);
@@ -91,7 +90,7 @@ class Default_IndexController extends MF_Controller_Action
     public function thankYouAction(){
         $param = $this->getParam('type');
         $this->view->assign('param',$param);
-                
+
         $metatagService = $this->_service->getService('Default_Service_Metatag');
         $metatagService->setCustomViewMetatags(array(
             'pl' => array(
@@ -99,6 +98,28 @@ class Default_IndexController extends MF_Controller_Action
             ),
             'en' => array(
                 'title' => 'Thank you'
+            )
+        ),$this->view);
+        
+        $this->view->headMeta()->appendName('robots', 'noindex, follow');
+        
+        
+        $this->_helper->actionStack('layout');
+        
+        $this->_helper->layout->setLayout('page');
+    }
+
+    public function sorryAction(){
+        $param = $this->getParam('type');
+        $this->view->assign('param',$param);
+
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Wystąpił błąd na stronie'
+            ),
+            'en' => array(
+                'title' => 'An error occurred'
             )
         ),$this->view);
         
@@ -120,53 +141,25 @@ class Default_IndexController extends MF_Controller_Action
         
         $this->_helper->layout->setLayout('page');
         
-        $pageService = $this->_service->getService('Page_Service_Page');
-        $metatagService = $this->_service->getService('Default_Service_Metatag');
         $serviceService = $this->_service->getService('Default_Service_Service');
         
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Kontakt',
+                'description' => 'Skontaktuj się z Oceń Fachowca'
+            ),
+            'en' => array(
+                'title' => 'Contact',
+                'description' => 'Contact with Rate Pole'
+            )
+        ),$this->view);
         
-//        if(!$page = $pageService->getI18nPage('contact', 'type', $this->language, Doctrine_Core::HYDRATE_RECORD)) {
-//            throw new Zend_Controller_Action_Exception('Page not found');
-//        }
-// 
         $contactEmail = $this->getInvokeArg('bootstrap')->getOption('contact_email');
         $mailerEmail = $this->getInvokeArg('bootstrap')->getOption('mailer_email');
         
-//        if ($page != NULL):
-//            $metatagService->setViewMetatags($page->get('Metatag'), $this->view);
-//        endif;
         $form = new Default_Form_ContactPage();
-//        
-//	$form->getElement('name')->clearDecorators();
-//	$form->getElement('name')->addDecorator('viewHelper');
-//	$form->getElement('name')->addDecorator('Errors');
-//	
-//	$form->getElement('email')->clearDecorators();
-//	$form->getElement('email')->addDecorator('viewHelper');
-//	$form->getElement('email')->addDecorator('Errors');
-//	
-//	$form->getElement('phone')->clearDecorators();
-//	$form->getElement('phone')->addDecorator('viewHelper');
-//	$form->getElement('phone')->addDecorator('Errors');
-//	
-//	$form->getElement('message')->clearDecorators();
-//	$form->getElement('message')->addDecorator('viewHelper');
-//	$form->getElement('message')->addDecorator('Errors');
-//	
-//        $captchaDir = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('captchaDir');
-//        $form->addElement('captcha', 'captcha',
-//            array(
-//            'label' => 'Rewrite the chars', 
-//            'captcha' => array(
-//                'captcha' => 'Leads',  
-//                'wordLen' => 5,  
-//                'timeout' => 300,
-//                'font' => APPLICATION_PATH . '/../data/arial.ttf',  
-//                'imgDir' => $captchaDir,  
-//                'imgUrl' => $this->view->serverUrl() . '/captcha/',  
-//            )
-//        ));
-//        
+
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getParams())) {
                 try {
@@ -262,4 +255,204 @@ class Default_IndexController extends MF_Controller_Action
         $this->view->assign('dlaMediow', $dlaMediow);
         $this->view->assign('hideSlider', true);
     }
+    
+    public function aboutReviewsAction(){
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Wskazówki o opiniach',
+                'description' => 'Przeczytaj nasze wskazówki dla oceniających i firm przed dodaniem opinii. Podstawowe informacje o opiniach.'
+            ),
+            'en' => array(
+                'title' => 'About reviews',
+                'description' => 'Read our review guidelines for reviewers and companies before adding a review. Basic informations about reviews'
+            )
+        ),$this->view);
+        
+        if($this->view->language=='pl'){
+            $this->_helper->viewRenderer('index/about-reviews-pl', null, true);
+        }
+
+        $premiumAgents = $agentService->getRandomPremiumAgents();
+        $popularAgents = $agentService->getMostPopularAgents();
+        
+        $this->view->assign('premiumAgents', $premiumAgents);
+        $this->view->assign('popularAgents', $popularAgents);
+        $this->_helper->actionStack('layout', 'index', 'default');
+
+        $this->_helper->layout->setLayout('page');
+    }
+    
+    public function privacyPolicyAction(){
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Polityka prywatności',
+                'description' => 'Polityka prywatności Oceń Fachowca'
+            ),
+            'en' => array(
+                'title' => 'Privacy policy',
+                'description' => 'Privacy policy of Rate Pole'
+            )
+        ),$this->view);
+        
+        if($this->view->language=='pl'){
+            $this->_helper->viewRenderer('index/privacy-policy-pl', null, true);
+        }
+
+        $premiumAgents = $agentService->getRandomPremiumAgents();
+        $popularAgents = $agentService->getMostPopularAgents();
+        
+        $this->view->assign('premiumAgents', $premiumAgents);
+        $this->view->assign('popularAgents', $popularAgents);
+        $this->_helper->actionStack('layout', 'index', 'default');
+
+        $this->_helper->layout->setLayout('page');
+    }
+    
+    public function cookiePolicyAction(){
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Polityka cookie',
+                'description' => 'Polityka cookie Oceń Fachowca'
+            ),
+            'en' => array(
+                'title' => 'Cookie policy',
+                'description' => 'Cookie policy of Rate Pole'
+            )
+        ),$this->view);
+        
+        if($this->view->language=='pl'){
+            $this->_helper->viewRenderer('index/cookie-policy-pl', null, true);
+        }
+
+        $premiumAgents = $agentService->getRandomPremiumAgents();
+        $popularAgents = $agentService->getMostPopularAgents();
+        
+        $this->view->assign('premiumAgents', $premiumAgents);
+        $this->view->assign('popularAgents', $popularAgents);
+        $this->_helper->actionStack('layout', 'index', 'default');
+
+        $this->_helper->layout->setLayout('page');
+    }
+    
+    public function termsConditionsAction(){
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Zasady użytkowania strony',
+                'description' => 'Zasady użytkowania strony Oceń Fachowca'
+            ),
+            'en' => array(
+                'title' => 'Terms and conditions',
+                'description' => 'Terms and conditions of Rate Pole'
+            )
+        ),$this->view);
+        
+        if($this->view->language=='pl'){
+            $this->_helper->viewRenderer('index/terms-conditions-pl', null, true);
+        }
+
+        $premiumAgents = $agentService->getRandomPremiumAgents();
+        $popularAgents = $agentService->getMostPopularAgents();
+        
+        $this->view->assign('premiumAgents', $premiumAgents);
+        $this->view->assign('popularAgents', $popularAgents);
+        $this->_helper->actionStack('layout', 'index', 'default');
+
+        $this->_helper->layout->setLayout('page');
+    }
+    
+    public function newsletterAction(){
+            $this->_helper->layout->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender('sidemenu');
+       
+        $subscriberService = $this->_service->getService('Newsletter_Service_Subscriber');
+        
+        $translator = $this->_service->get('Zend_Translate');
+        $form = $subscriberService->getRegisterForm();
+        
+        $form->removeElement('first_name');
+        $form->removeElement('last_name');
+        
+      
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getPost())) { 
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+
+                    if($subscriberService->subscriberExists(array('email' => $form->getValue('email')))) {
+                        $this->_helper->redirector->gotoUrl($this->view->url(array('type' => 'newsletter'),'domain-sorry'));
+                    } else {
+
+                        $values = $form->getValues();
+                        $values['token'] = MF_Text::createUniqueToken($values['salt'].$values['email']);
+                        $values['lang'] = $this->view->language;
+                        
+                        $subscriberService->saveSubscriberFromArray($values);
+                        
+                        
+                        $this->_helper->redirector->gotoUrl($this->view->url(array('type' => 'newsletter'),'domain-thank-you'));
+                    }
+                    
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                    $this->_helper->redirector->gotoRoute(array('type' => 'newsletter'), 'domain-thank-you');
+                } catch(User_Model_UserWithEmailAlreadyExistsException $e) {
+                    var_dump($e->getMessage());exit;
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $form->getElement('email')->markAsError();
+                    $form->getElement('email')->setErrors(array($e->getMessage()));
+                } catch(Exception $e) {
+                    var_dump($e->getMessage());exit;
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                    var_dump($e->getMessage());exit;
+                } 
+            }
+        }
+        $this->view->assign('form', $form);
+        
+        $this->_helper->actionStack('layout', 'index', 'default');
+   } 
+   
+   public function findSpecialistAction(){
+        $messageService = $this->_service->getService('Default_Service_Message');
+        $form = new Default_Form_FindSpecialist();
+        $this->view->assign('form',$form);
+       
+//        $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+//        $apikeys = $config->getOption('apikeys');
+//        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+//            'siteKey' => $apikeys['google']['siteKey'],
+//            'secretKey' => $apikeys['google']['secretKey']
+//        ]);
+//        
+        if($this->getRequest()->isPost()) {
+            if($form->isValid($this->getRequest()->getPost())) { 
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+
+                    $values = $form->getValues();
+                    
+                    $messageService->saveMessageFromArray($values);                  
+                    
+                    $this->_helper->redirector->gotoUrl($this->view->url(array('type' => 'find-specialist'),'domain-thank-you'));
+                   
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                }  catch(Exception $e) {
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                } 
+            }
+        }
+   }
 }

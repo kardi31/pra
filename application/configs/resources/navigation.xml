@@ -908,15 +908,6 @@
         </pages>
     </production>
     <development extends="production"></development>
-    <juniorzystarsidevelopment extends="production"></juniorzystarsidevelopment>
-    <juniorzymlodsidevelopment extends="production"></juniorzymlodsidevelopment>
-    <trampkarzedevelopment extends="production"></trampkarzedevelopment>
-    <mlodzicydevelopment extends="production"></mlodzicydevelopment>
-    <orlikidevelopment extends="production"></orlikidevelopment>
-    <juniorzystarsiproduction extends="production"></juniorzystarsiproduction>
-    <juniorzymlodsiproduction extends="production"></juniorzymlodsiproduction>
-    <trampkarzeproduction extends="production"></trampkarzeproduction>
-    <mlodzicyproduction extends="production"></mlodzicyproduction>
-    <orlikiproduction extends="production"></orlikiproduction>
+    <developmentuk extends="development"></developmentuk>
     <testing extends="production"></testing>
 </config>

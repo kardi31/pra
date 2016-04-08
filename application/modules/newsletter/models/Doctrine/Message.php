@@ -24,16 +24,6 @@ class Newsletter_Model_Doctrine_Message extends Newsletter_Model_Doctrine_BaseMe
         return $this->_get('content');
     }
     
-    public function setUp() {
-       
-        $this->hasMany('Product_Model_Doctrine_Product as ProductMessages', array(
-             'refClass' => 'Newsletter_Model_Doctrine_MessageProduct',
-             'local' => 'message_id',
-             'foreign' => 'product_id'
-        ));
-        
-        parent::setUp();
-    }
     
     
 }

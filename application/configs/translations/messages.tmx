@@ -13,8 +13,44 @@
        <tu tuid='recommends'>
            <tuv xml:lang="pl"><seg>rekomenduje</seg></tuv>
        </tu>
+       
        <tu tuid='of customers'>
            <tuv xml:lang="pl"><seg>klientów</seg></tuv>
+       </tu>
+       <tu tuid='This email has already been subscribed for our newsletter.'>
+           <tuv xml:lang="pl"><seg>Ten adres email już został zarejestrowany do naszego newslettera.</seg></tuv>
+       </tu>
+       <tu tuid='Your full name'>
+           <tuv xml:lang="pl"><seg>Twoje imie i nazwisko</seg></tuv>
+       </tu>
+       
+       <tu tuid='Find your specialist with Rate-Pole.com'>
+           <tuv xml:lang="pl"><seg>Znajdź swojego fachowca z Oceń-Fachowca.pl</seg></tuv>
+       </tu>
+       <tu tuid='Thank you for your message. We will pass your message to specialists in your area shortly.'>
+           <tuv xml:lang="pl"><seg>Dziękujemy za Twoją wiadomość. Przekażemy Twoją wiadomość do poszukiwanych specjalistów w Twoim regionie wkrótce.</seg></tuv>
+       </tu>
+       <tu tuid='Close'>
+           <tuv xml:lang="pl"><seg>Zamknij</seg></tuv>
+       </tu>
+       <tu tuid='Your message'>
+           <tuv xml:lang="pl"><seg>Wiadomość</seg></tuv>
+       </tu>
+       <tu tuid='Enter your details'>
+           <tuv xml:lang="pl"><seg>Podaj swoje dane</seg></tuv>
+       </tu>
+       <tu tuid='Tell us what kind of specialist are you looking for and of what do you want specialist to do for you.'>
+           <tuv xml:lang="pl"><seg>Powiedz nam jakiego fachowca poszukujesz i co chcesz aby fachowiec zrobił.</seg></tuv>
+       </tu>
+        <tu tuid='We will contact proper specialist in your nearby area for you!'>
+           <tuv xml:lang="pl"><seg>Skontaktujemy się w Twoim imieniu z odpowiednimi specjalistami w pobliżu Ciebie!</seg></tuv>
+       </tu>
+       <tu tuid='Your message'>
+           <tuv xml:lang="pl"><seg>Wiadomość</seg></tuv>
+       </tu>
+       
+       <tu tuid='We are sorry'>
+           <tuv xml:lang="pl"><seg>Przykro nam</seg></tuv>
        </tu>
        
        <tu tuid='This company has no description available'>
@@ -27,11 +63,17 @@
            <tuv xml:lang="pl"><seg>Twoje hasło zostało pomyślnie edytowane.</seg></tuv>
        </tu>
        
+       <tu tuid='Submit review'>
+           <tuv xml:lang="pl"><seg>Dodaj opinie</seg></tuv>
+       </tu>
        <tu tuid='Send message'>
            <tuv xml:lang="pl"><seg>Wyślij wiadomość</seg></tuv>
        </tu>
        <tu tuid='customers ratings'>
            <tuv xml:lang="pl"><seg>ocena klientów</seg></tuv>
+       </tu>
+       <tu tuid='Follow us'>
+           <tuv xml:lang="pl"><seg>Media społecznościowe</seg></tuv>
        </tu>
        <tu tuid='Edit password'>
            <tuv xml:lang="pl"><seg>Edytuj hasło</seg></tuv>
@@ -39,6 +81,11 @@
        <tu tuid='Your current password'>
            <tuv xml:lang="pl"><seg>Twoje obecne hasło</seg></tuv>
        </tu>
+      <tu tuid='Thank you for your signing up to our newsletter.'>
+           <tuv xml:lang="pl"><seg>Dziękujemy za zapisanie do naszego newslettera.</seg></tuv>
+       </tu>
+
+
        <tu tuid='New password'>
            <tuv xml:lang="pl"><seg>Nowe hasło</seg></tuv>
        </tu>
@@ -60,6 +107,11 @@
        <tu tuid='You have new customer enquiry through Rate Pole. Please see the details below:'>
            <tuv xml:lang="pl"><seg>Masz nowe zapytanie od klienta ze strony Oceń Fachowca. Szczegóły znajdują się poniżej:</seg></tuv>
        </tu>
+       <tu tuid='We received a new client enquiry to our website which your company might be interested in. Please see the details below:'>
+           <tuv xml:lang="pl"><seg>Otrzymaliśmy nowe zapytanie od klienta, które może zainteresować Twoją firme. Szczegóły znajdują się poniżej:</seg>
+           </tuv>
+       </tu>
+       
        
        
        <tu tuid='Important!'>
@@ -391,6 +443,12 @@
        </tu>
        <tu tuid='Terms and Conditions'>
            <tuv xml:lang="pl"><seg>zasady użytkowania</seg></tuv>
+       </tu>
+        <tu tuid='Useful information'>
+           <tuv xml:lang="pl"><seg>Przydatne informacje</seg></tuv>
+       </tu>
+       <tu tuid='Terms and conditions'>
+           <tuv xml:lang="pl"><seg>Zasady użytkowania strony</seg></tuv>
        </tu>
        <tu tuid='of this website.'>
            <tuv xml:lang="pl"><seg>tej strony.</seg></tuv>
@@ -1668,6 +1726,9 @@
        <tu tuid='Maximum of 4 photos'>
            <tuv xml:lang="pl"><seg>Maksymalnie 4 zdjęcia</seg></tuv>
        </tu>
+       <tu tuid='Your address'>
+           <tuv xml:lang="pl"><seg>Twój adres</seg></tuv>
+       </tu>
        <tu tuid='Thank you for adding your advertisment'>
            <tuv xml:lang="pl"><seg>Dziękujemy za dodanie ogłoszenia</seg></tuv>
        </tu>
@@ -1828,9 +1889,19 @@
        <tu tuid='Please enter 1 or more characters'>
            <tuv xml:lang="pl"><seg>Wpisz conajmniej 1 literę</seg></tuv>
        </tu>
+       <tu tuid='About reviews'>
+           <tuv xml:lang="pl"><seg>Wskazówki o opiniach</seg></tuv>
+       </tu>
+       <tu tuid='Privacy policy'>
+           <tuv xml:lang="pl"><seg>Polityka prywatności</seg></tuv>
+       </tu>
        <tu tuid='Searching...'>
            <tuv xml:lang="pl"><seg>Wyszukiwanie...</seg></tuv>
        </tu>
+       <tu tuid='Cookie policy'>
+           <tuv xml:lang="pl"><seg>Polityka cookies</seg></tuv>
+       </tu>
+       
        <tu tuid='Person added'>
            <tuv xml:lang="pl"><seg>Pracownik dodany</seg></tuv>
        </tu>
@@ -1840,7 +1911,7 @@
        <tu tuid='Be honest and fair.'>
            <tuv xml:lang="pl"><seg>Bądź szczery i uczciwy w swojej opinii</seg></tuv>
        </tu>
-       <tu tuid='Only review only companies you have direct experience with.'>
+       <tu tuid='Review only companies you have direct experience with.'>
            <tuv xml:lang="pl"><seg>Oceniaj tylko firmy,z którymi miałeś bezpośredni kontakt.</seg></tuv>
        </tu>
        <tu tuid='Use of any offensive language is not acceptable.'>

@@ -1,52 +1,48 @@
 
-<a href="<?= $this->url(array(),'domain-staff-search'); ?>"><?= $this->translate('Search staff member'); ?></a>
+<!--<a href="<?= $this->url(array(),'domain-staff-search'); ?>"><?= $this->translate('Search staff member'); ?></a>-->
 
 <!-- FOOTER -->
 
 <div class="footerbgblack">
     <div class="container">		
-
+        
         <div class="col-md-3">
-            <span class="ftitleblack">Let's socialize</span>
+            <a href="/">
+                    <img src="/images/logo6.png" alt="<?= $this->translate('Rate Pole'); ?>" class="logo" style="display: inline-block; width: 100px;">
+                </a>
+        </div>
+        <div class="col-md-3">
+            <span class="ftitleblack"><?= $this->translate('Follow us'); ?></span>
             <div class="scont">
-                <a href="#" class="social1b"><img src="/assets/images/icon-facebook.png" alt=""/></a>
-                <a href="#" class="social2b"><img src="/assets/images/icon-twitter.png" alt=""/></a>
-                <a href="#" class="social3b"><img src="/assets/images/icon-gplus.png" alt=""/></a>
-                <a href="#" class="social4b"><img src="/assets/images/icon-youtube.png" alt=""/></a>
-                <br/><br/><br/>
-                <a href="#"><img src="/assets/images/logosmal2.png" alt="" /></a><br/>
-                <span class="grey2">&copy; 2013  |  <a href="#">Privacy Policy</a><br/>
-                    All Rights Reserved </span>
-                <br/><br/>
+                <?php
+                    if($this->language=='pl'){
+                        $facebookLink = 'http://facebook.com/ocenfachowca';
+                        $twitterLink = 'https://twitter.com/ocenfachowca';
+                    }
+                    else{
+                        $facebookLink = 'http://facebook.com/Rate-Pole-546889205490101';
+                        $twitterLink = 'https://twitter.com/rate_pole';
+                    }
+                
+                ?>
+                <br />
+                <a href="<?= $facebookLink; ?>" class="social1b"><img src="/assets/images/icon-facebook.png" alt=""/></a>
+                <a href="<?= $twitterLink; ?>" class="social2b"><img src="/assets/images/icon-twitter.png" alt=""/></a>
 
             </div>
         </div>
         <!-- End of column 1-->
 
-        <div class="col-md-3">
-            <span class="ftitleblack">Travel Specialists</span>
-            <br/><br/>
-            <ul class="footerlistblack">
-                <li><a href="#">Golf Vacations</a></li>
-                <li><a href="#">Ski & Snowboarding</a></li>
-                <li><a href="#">Disney Parks Vacations</a></li>
-                <li><a href="#">Disneyland Vacations</a></li>
-                <li><a href="#">Disney World Vacations</a></li>
-                <li><a href="#">Vacations As Advertised</a></li>
-            </ul>
-        </div>
         <!-- End of column 2-->		
 
         <div class="col-md-3">
-            <span class="ftitleblack">Travel Specialists</span>
+            <span class="ftitleblack"><?= $this->translate('Useful information'); ?></span>
             <br/><br/>
             <ul class="footerlistblack">
-                <li><a href="#">Weddings</a></li>
-                <li><a href="#">Accessible Travel</a></li>
-                <li><a href="#">Disney Parks</a></li>
-                <li><a href="#">Cruises</a></li>
-                <li><a href="#">Round the World</a></li>
-                <li><a href="#">First Class Flights</a></li>
+                <li><a href="<?= $this->url(array(),'domain-about-reviews'); ?>"><?= $this->translate('About reviews'); ?></a></li>
+                <li><a href="<?= $this->url(array(),'domain-privacy-policy'); ?>"><?= $this->translate('Privacy policy'); ?></a></li>
+                <li><a href="<?= $this->url(array(),'domain-terms-conditions'); ?>"><?= $this->translate('Terms and conditions'); ?></a></li>
+                <li><a href="<?= $this->url(array(),'domain-contact'); ?>"><?= $this->translate('Contact'); ?></a></li>
             </ul>				
         </div>
         <!-- End of column 3-->		
@@ -54,13 +50,11 @@
         <div class="col-md-3 grey">
             <span class="ftitleblack">Newsletter</span>
             <div class="relative">
-                <input type="email" class="form-control fccustom2black" id="exampleInputEmail1" placeholder="Enter email">
-                <button type="submit" class="btn btn-default btncustom">Submit<img src="/assets/images/arrow.png" alt=""/></button>
+                <form method='POST' action='<?= $this->url(array(),'domain-newsletter-register'); ?>'>
+                    <input type="email" class="form-control fccustom2black" name='email' id="exampleInputEmail1" placeholder="<?= $this->translate('Enter email'); ?>">
+                    <button type="submit" class="btn btn-default btncustom">Submit<img src="/assets/images/arrow.png" alt="Subscribe"/></button>
+                </form>
             </div>
-            <br/><br/>
-            <span class="ftitleblack">Customer support</span><br/>
-            <span class="pnr">1-866-599-6674</span><br/>
-            <span class="grey2">office@travel.com</span>
         </div>			
         <!-- End of column 4-->			
 
@@ -70,14 +64,8 @@
 
 <div class="footerbg3black">
     <div class="container center grey"> 
-        <a href="#">Home</a> | 
-        <a href="#">About</a> | 
-        <a href="#">Last minute</a> | 
-        <a href="#">Early booking</a> | 
-        <a href="#">Special offers</a> | 
-        <a href="#">Blog</a> | 
-        <a href="#">Contact</a>
-        <a href="#top" class="gotop scroll"><img src="/assets/images/spacer.png" alt=""/></a>
+        <span class="grey2">&copy; <?= date('Y'); ?>  | <?= $this->translate('All Rights Reserved'); ?></span>
+        <a href="#top" class="gotop scroll"><img src="/assets/images/spacer.png" alt="Go to top"/></a>
     </div>
 </div>
 

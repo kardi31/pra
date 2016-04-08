@@ -24,8 +24,14 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                         case 'activate':
                             echo $this->translate('Your review has been activated. Now our moderation team will validate your review. We will notify you whether your review is accepted or rejected.');
                             break;
+                        case 'find-specialist':
+                            echo $this->translate('Thank you for your message. We will pass your message to specialists in your area shortly.');
+                            break;
                          case 'review':
                             echo $this->translate('Thank you for your review. You still need to activate this review. Please check your email.');
+                            break;
+                         case 'newsletter':
+                            echo $this->translate('Thank you for your signing up to our newsletter.');
                             break;
                     endswitch;
                     ?>

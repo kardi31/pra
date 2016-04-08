@@ -10,6 +10,51 @@ Setting:
       type: string(255)
     value:
       type: string(1024)
+Message:
+  tableName: default_message
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    name:
+      type: string(255)
+    email:
+      type: string(255)
+    phone:
+      type: string(255)
+    address:
+      type: string(255)
+    town:
+      type: string(255)
+    postcode:
+      type: string(255)
+    message:
+      type: clob
+Send:
+  tableName: default_message_send
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    id:
+      primary: true
+      autoincrement: true
+      type: integer(4)
+    message_id:
+      type: integer(4)
+    branch_id:
+      type: integer(4)
+  relations:
+    Message:
+      local: message_id
+      foreign: id
+      foreignAlias: Sends
+      type: one
+      foreignType: many
 Service:
   tableName: default_service
   columns:
@@ -144,89 +189,6 @@ Redirect:
       type: integer(4)
     agent_id:
       type: integer(4)
-CompareFees:
-  tableName: default_compare_fees
-  actAs:
-    Timestampable: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    firstname:
-      type: string(255)
-    lastname:
-      type: string(255)
-    email:
-      type: string(255)
-    tel:
-      type: string(255)
-    allow:
-      type: boolean
-      default: 0
-    subscribe:
-      type: boolean
-      default: 0
-    reason:
-      type: clob
-    type:
-      type: string(255)
-    houseno:
-      type: string(255)
-    postcode:
-      type: string(255)
-    area:
-      type: string(255)
-    beds:
-      type: integer(4)
-    prop_type:
-      type: integer(4)
-    est_price:
-      type: integer(4)
-Postcode:
-  tableName: default_postcode
-  actAs:
-    Timestampable: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    postcode:
-      type: string(255)
-    district:
-      type: string(255)
-    town:
-      type: string(255)
-    county:
-      type: string(255)
-    x:
-      type: integer(4)
-    y:
-      type: integer(4)
-    lat:
-      type: string(255)
-    lng:
-      type: string(255)
-    area1:
-      type: clob
-    area5:
-      type: clob
-    area10:
-      type: clob
-    area20:
-      type: clob
-PostcodeFull:
-  tableName: default_postcode_full
-  actAs:
-    Timestampable: ~
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    postcode:
-      type: string(255)
 Testimonial:
   tableName: default_testimonial
   actAs:
@@ -288,59 +250,6 @@ TestimonialComment:
       foreignAlias: Comment
       type: one
       foreignType: one
-HousePricesEngland:
-  tableName: default_house_prices_england
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    unique_id:
-      type: string(255)
-    price:
-      type: integer(4)
-    saledate:
-      type: datetime
-    postcode:
-      type: string(255)
-    property_type:
-      type: string(255)
-    old_new:
-      type: boolean
-      default: 0
-    duration:
-      type: string(255)
-    paon:
-      type: string(255)
-    saon:
-      type: string(255)
-    street:
-      type: string(255)
-    locality:
-      type: string(255)
-    town:
-      type: string(255)
-    district:
-      type: string(255)
-    county:
-      type: string(255)
-    record_status:
-      type: string(1)
-SaleNumbersRegion:
-  tableName: default_sale_numbers_region
-  columns:
-    id:
-      primary: true
-      autoincrement: true
-      type: integer(4)
-    date:
-      type: datetime
-    region:
-      type: string(255)
-    slug:
-      type: string(255)
-    sales:
-      type: integer(20)
 TempEmailDomains:
   tableName: default_temp_email_domains
   columns:

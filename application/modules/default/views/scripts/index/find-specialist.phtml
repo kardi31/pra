@@ -1,0 +1,78 @@
+<div class="modal mod fade active in" id="findSpecialist" role="dialog" aria-hidden="false" style="display:block;">
+    <div class="modal-dialog">
+            <div class="modal-content">
+    
+                
+                
+                    <form action="<?= $this->url(array(),'domain-find-specialist'); ?>" method='POST'>
+                        <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title"><?= $this->translate('Find your specialist with Rate-Pole.com'); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <?php
+                            echo "1.".$this->translate('Enter your details')."<br />";
+                            echo "2.".$this->translate('Tell us what kind of specialist are you looking for and of what do you want specialist to do for you.')."<br />";
+                            echo "3.".$this->translate('We will contact proper specialist in your nearby area for you!')."<br />";
+                            echo "<br />";
+                            echo $this->form->name;
+                            echo $this->form->email;
+                            echo $this->form->address;
+                            echo $this->form->town;
+                            echo $this->form->postcode;
+                            echo $this->form->phone;
+                            echo $this->form->message;
+                            echo $this->form->getElement('g-recaptcha-response');
+                            
+                            ?>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-default left" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+                                <button type="submit" id="Valuation_Submit" class="btn btn-info"><?= $this->translate('Send message'); ?></button>
+                        </div>
+                    </form>
+            </div>
+            <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+
+
+
+<script>
+jQuery('#postcode_lookup2').getAddress({ 
+    api_key: '41ARJwFNzES_O3P1rIHs_g3365',
+     button_label: 'Find the address',
+    button_class: 'btn btn-info',
+    input_label: 'Enter postcode',
+    input_muted_style: 'color:#333;',
+    output_fields:{
+        line_1: '#address_line2_1',
+        post_town: '#address_town',
+        postcode: '#address_postcode2'
+    }
+});
+</script>
+<style>
+    .mod#getValuation .form-group:after{
+        clear:both;
+        display:block;
+        content:" ";
+    }
+    .mod#getValuation .form-group{
+        margin-bottom:10px;
+    }
+   .mod #opc_input{
+        margin-right:20px;
+    }
+    
+    .mod #opc_dropdown{
+        margin-top:10px;
+    }
+
+
+    .yogi {
+        display: none;
+    }
+
+    </style>

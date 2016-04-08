@@ -3,7 +3,7 @@
 /**
  * Newsletter_Form_Message
  *
- * @author Tomasz Kardas <kardi31@tlen.pl>
+ * @author Andrzej Wilczyński <and.wilczynski@gmail.com>
  */
 class Newsletter_Form_Register extends Zend_Form
 {
@@ -11,9 +11,9 @@ class Newsletter_Form_Register extends Zend_Form
     
     public function init() {
         
-        $csrf = $this->createElement('hash', 'csrf');
-	$csrf->setSalt(self::SALT);
-	$csrf->setDecorators(array('ViewHelper'));
+//        $csrf = $this->createElement('hash', 'csrf');
+//	$csrf->setSalt(self::SALT);
+//	$csrf->setDecorators(array('ViewHelper'));
         
         $firstName = $this->createElement('text', 'first_name');
         $firstName->setLabel('First name');
@@ -37,12 +37,12 @@ class Newsletter_Form_Register extends Zend_Form
         $lastName->setRequired();
         $lastName->setDecorators(User_BootstrapForm::$bootstrapElementDecorators);
         
-        $username = $this->createElement('text', 'username');
-        $username->setLabel('Nick');
-        $username->setRequired();
-        $username->setDecorators(User_BootstrapForm::$bootstrapElementDecorators);
+//        $username = $this->createElement('text', 'username');
+//        $username->setLabel('Nick');
+//        $username->setRequired();
+//        $username->setDecorators(User_BootstrapForm::$bootstrapElementDecorators);
         
-        $email = new Glitch_Form_Element_Text_Email('email');
+        $email = $this->createElement('text', 'email');
         $email->setLabel('Email');
         $email->setValidators(array('EmailAddress'));
         $email->setRequired(true);

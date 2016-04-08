@@ -104,7 +104,7 @@ class Review_Form_Review extends Admin_Form {
         
         
         $submit = $this->createElement('button', 'submit');
-        $submit->setLabel('Save');
+        $submit->setLabel('Submit Review');
         $submit->setDecorators(array('ViewHelper'));
         $submit->setAttribs(array('class' => 'bluebtn margtop20', 'type' => 'submit'));
         

@@ -15,6 +15,8 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
         $uriParts = explode('/', $_SERVER['REQUEST_URI']);
         $this->lang = (Zend_Locale::isLocale($uriParts[1])) ? $uriParts[1] : null;
         
+         
+        
         if($translator->isAvailable($this->lang)) {
             $translator->setLocale($this->lang);
         // set default site locale
@@ -23,25 +25,13 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
         } else {
             throw new Zend_Controller_Action_Exception("Language $this->lang not available", 500);
         }
-        
         Zend_Controller_Router_Route::setDefaultTranslator($translator);
-	}
+    }
     
     public function routeShutdown(Zend_Controller_Request_Abstract $request) {
         $front = Zend_Controller_Front::getInstance();
         $userAgent = new Zend_Http_UserAgent();
-//    $device     = $userAgent->getDevice(); 
-//            $layout = $front->getParam('bootstrap')->getResource('layout');
-            
-//	if ($userAgent->getBrowserType() === 'mobile') {
-//            
-//    $layout->setLayout('mobile');
-//        }
-//		else{
-//		
-//    $layout->setLayout('layout');
-//		} 
-//		var_dump(Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName());exit;
+
 		
         $locale = Zend_Registry::get('Zend_Locale');
         $translate = Zend_Registry::get('Zend_Translate');
@@ -62,6 +52,12 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
             $language = $session->lang;
         } else {
             $language = $locale->getLanguage();
+        }
+        
+        $host = Zend_Controller_Front::getInstance()->getRequest()->getHttpHost();
+       
+        if($host=='pracownikuk.localhost'){
+            $language = 'en';
         }
 
         $translationNotAvailable = false; // translation of this language not available --> 404
@@ -85,6 +81,7 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
             $container->set('Zend_Currency', new Zend_Currency(array(), $locale));
 
             Zend_Form::setDefaultTranslator($translate);
+//            var_dump(Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName());exit;
             Zend_Controller_Front::getInstance()->getRouter()->setGlobalParam('lang', $language);
 
         }

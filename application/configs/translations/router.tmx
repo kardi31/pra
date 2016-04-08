@@ -170,11 +170,24 @@
        <tu tuid='promotions'>
            <tuv xml:lang="pl"><seg>promocje</seg></tuv>
        </tu> 
+       
+       <tu tuid='cookie-policy'>
+           <tuv xml:lang="pl"><seg>polityka-cookie</seg></tuv>
+       </tu> 
+       <tu tuid='terms-conditions'>
+           <tuv xml:lang="pl"><seg>zasady-uzytkowania-strony</seg></tuv>
+       </tu> 
        <tu tuid='previews'>
            <tuv xml:lang="pl"><seg>zapowiedzi</seg></tuv>
        </tu> 
        <tu tuid='site-map'>
            <tuv xml:lang="pl"><seg>mapa-strony</seg></tuv>
+       </tu> 
+       <tu tuid='about-reviews'>
+           <tuv xml:lang="pl"><seg>wskazowki-o-opiniach</seg></tuv>
+       </tu> 
+       <tu tuid='privacy-policy'>
+           <tuv xml:lang="pl"><seg>polityka-prywatnosci</seg></tuv>
        </tu> 
        <tu tuid='about-us'>
            <tuv xml:lang="pl"><seg>o-nas</seg></tuv>

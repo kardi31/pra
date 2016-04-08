@@ -107,6 +107,42 @@ class Branch_AdminController extends MF_Controller_Action {
         
     }
     
+    public function listBranchDataShortAction() {
+        $i18nService = $this->_service->getService('Default_Service_I18n');
+        $table = Doctrine_Core::getTable('Branch_Model_Doctrine_Branch');
+        $dataTables = Default_DataTables_Factory::factory(array(
+            'request' => $this->getRequest(), 
+            'table' => $table, 
+            'class' => 'Branch_DataTables_BranchShort', 
+            'columns' => array('x.id','a.name','x.office_name'),
+            'searchFields' => array('x.id','a.name','x.office_name')
+        ));
+        
+        $results = $dataTables->getResult();
+        $language = $i18nService->getAdminLanguage();
+
+        $rows = array();
+        foreach($results as $result) {
+            
+            $row = array();
+            $row[] = '<input type="checkbox" name="branch_ids[]" value="'.$result->id.'" class="checkboxes" />';
+            $row[] = $result->id;
+            $row[] = $result['Agent']->name;
+            $row[] = $result->office_name;
+            
+            $rows[] = $row;
+        }
+
+         $response = array(
+            "sEcho" => intval($_GET['sEcho']),
+            "iTotalRecords" => $dataTables->getDisplayTotal(),
+            "iTotalDisplayRecords" => $dataTables->getTotal(),
+            "aaData" => $rows
+        );
+
+        $this->_helper->json($response);
+        
+    }
     public function editBranchAction() {
         $branchService = $this->_service->getService('Branch_Service_Branch');
         $i18nService = $this->_service->getService('Default_Service_I18n');

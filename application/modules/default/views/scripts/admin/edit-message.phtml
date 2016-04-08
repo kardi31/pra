@@ -1,0 +1,192 @@
+<script type="text/javascript">
+$(document).ready(function() {
+   
+    
+     $('.section').hide();
+     $('.contentSection').show();
+     $('.btnList li').click(function(){
+        var rel = $(this).attr('rel');
+        $('.section').hide();
+        $('.'+rel).show();
+     });
+});
+</script>
+
+<div class="row-fluid">
+
+    <div class="span12">
+        
+        <div class="box">
+            
+            <div class="title">
+                <h4>
+                    <span class="icon16 icomoon-icon-pencil"></span>
+                    <span><?php echo $this->translate('Edit message') ?></span>
+                </h4>
+            </div>
+            <div class="content clearfix">
+                <ul class="btnList">
+                    <li rel="contentSection"><button class="btn" type="button">Treść</button></li>
+                    <li rel="metatagSection"><button class="btn" type="button">Pokaż metatagi</button></li>
+                </ul>
+                <form class="form-horizontal" action="<?php echo $this->form->getAction() ?>" method="post" enctype="multipart/form-data">
+                    <div class="span6">
+                        <?php
+                        echo $this->form->name;
+                        echo $this->form->phone;
+                        echo $this->form->email;
+                        echo $this->form->address;
+                        echo $this->form->town;
+                        echo $this->form->postcode;
+                        echo $this->form->message;
+                        
+                        echo $this->form->id 
+                                ?>
+                    <div class="form-actions">
+                        <?php echo $this->form->submit ?>
+                        <button name="save_only" id="btnSaveOnly" type="submit" class="btn btn-primary"><?php echo $this->translate('Save and stay') ?></button>
+                        <a href="<?php echo $this->adminUrl('list-message', 'default') ?>" class="btn"><?php echo $this->translate('Cancel') ?></a>
+                    </div>
+                    </div>
+                    <div class="span6">
+                        <?php  echo $this->form->category; ?> <br /> <br />
+                        <div id="slider"></div>
+                        <input id="lat" type="hidden" />
+                        <input id="lng" type="hidden" />
+                        <input id="radius" value="10" />
+                        <br /><br />
+                        
+                        <div class="portlet box green ">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa-trophy fa "></i>
+                                    <span class="caption-subject">Branches in area</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="">
+                                     <div class="table-toolbar">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="btn-group">
+
+                                                        <button name="sendLeads" type="submit" class="btn btn-danger"> Email branches
+                                                            <i class="fa fa-envelope-o"></i>
+                                                        </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                            </div>
+                                        </div>
+                                     </div>
+                                    <table class="display table table-bordered table-striped table-condensed flip-content" id="sample_1">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"></th>
+                                                <th>Id</th>
+                                                <th>Agent</th>
+                                                <th>Branch</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>   
+</div> 
+<link href="/assets/global/plugins/nouislider/nouislider.css" rel="stylesheet" type="text/css">
+<script src="/assets/global/plugins/nouislider/nouislider.js" type="text/javascript"></script>
+
+<script>
+    $(function () {
+        $('.select2me').select2();
+        var slider = document.getElementById('slider');
+        noUi = noUiSlider.create(slider, {
+               start: 10,
+               step: 1,
+                connect: "lower",
+               range: {
+                       'min': 0,
+                       'max': 100
+               }
+       });
+      
+        var dataTable = $("#sample_1").dataTable({
+            
+            "sAjaxSource": "<?php echo $this->adminUrl('list-branch-data-short', 'branch') ?>",
+          "fnServerParams": function ( aoData ) {
+                aoData.push( { "name" : "lng", "value" : $('#lng').val() } );
+                aoData.push( { "name" : "lat", "value" : $('#lat').val() } );
+                aoData.push( { "name" : "radius", "value" : $('#radius').val() } );
+                aoData.push( { "name" : "categories", "value" : $('#category').val() } );
+            },
+         "bFilter": true,
+         "bSearchable": true,
+         "bSortable": false,
+        "sServerMethod": "GET",
+        "bProcessing": true,
+       
+        "bServerSide": true,
+       
+        "bLengthChange": true,
+        "iDisplayLength": 50
+        }
+        );
+
+
+
+        var address = "<?= $this->message->town." ".$this->message->address." ".$this->message->postcode; ?>";
+        $.ajax({
+          url: "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&sensor=false&region=pl",
+          type: "POST",
+          success: function(res){
+              $('#lat').val(res.results[0].geometry.location.lat);
+              $('#lng').val(res.results[0].geometry.location.lng);
+            dataTable.fnReloadAjax();
+          }
+        });
+        
+
+//        
+        slider.noUiSlider.on('update', function ( values, handle ) {
+            var result = values.toString().split('.')[0];
+            
+            $('#radius').val(result);
+
+//            dataTable.api().ajax.reload();
+            dataTable.fnReloadAjax();
+        });
+
+        
+
+        
+        
+        
+            
+            $('.group-checkable').change(function() {
+                var set = dataTable.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+                var checked = $(this).prop("checked");
+                $(set).each(function() {
+                    $(this).prop("checked", checked);
+                });
+                $.uniform.update(set);
+            });
+//
+//        $('.delete').on('click', function () {
+//            if (!confirm('Are you sure you want to delete this staff member?')) {
+//                return false;
+//            }
+//        });
+        
+        
+    });
+</script>
+

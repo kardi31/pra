@@ -131,7 +131,7 @@ class Agent_IndexController extends MF_Controller_Action {
                 $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
                 $mail = new Zend_Mail('UTF-8');
                 $mail->setSubject($this->view->translate('You have new customer enquiry from Rate Pole'));
-                $mail->addTo($branch['email'], $branch['office_name']." ".$branch['office_name']);
+                $mail->addTo($branch['email'], $branch['Agent']['name']." ".$branch['office_name']);
                 $mail->setReplyTo($values['mail'], $values['firstname']." ".$values['lastname']);
 
                 $mailService->sendBranchContactMail($values,$branch,$mail, $this->view);

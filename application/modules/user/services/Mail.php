@@ -33,6 +33,16 @@ class User_Service_Mail extends MF_Service_ServiceAbstract {
         $mail->send();
     }
     
+    public function sendSpecialistContactMail($values,$branch, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/contact-specialist.phtml') {
+        
+        $view->addScriptPath(APPLICATION_PATH.'/modules/user/views/scripts/');
+        $mail->setBodyHtml(
+            $view->partial($this->template, array('content' => $view->partial($partial, array('values' => $values,'branch' => $branch))))
+        );
+        
+        $mail->send();
+    }
+    
     public function sendActivationEmail($review, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/activate-review.phtml') {
         
         $view->addScriptPath(APPLICATION_PATH.'/modules/user/views/scripts/');

@@ -3,7 +3,7 @@
 /**
  * Newsletter_AdminController
  *
- * @author Tomasz Kardas <kardi31@tlen.pl>
+ * @author Andrzej Wilczyński <and.wilczynski@gmail.com>
  */
 class Newsletter_AdminController extends MF_Controller_Action {
     
