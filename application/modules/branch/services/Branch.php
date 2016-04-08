@@ -114,6 +114,15 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
        return $q->execute(array(),$hydrationMode);
    }
    
+   public function getMapBranches($limit = 6,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->branchTable->createQuery('b');
+       $q->addWhere('b.view = 1');
+       $q->groupBy('b.town');
+       $q->orderBy('b.created_at DESC');
+       $q->limit($limit);
+       return $q->execute(array(),$hydrationMode);
+   }
+   
    public function getBestTownBranches($area,$limit = 6,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
        $q = $this->branchTable->createQuery('b');
        $q->where('LOWER(town) like ?',array('%'.strtolower($area).'%'));

@@ -43,7 +43,7 @@
            <tuv xml:lang="pl"><seg>Powiedz nam jakiego fachowca poszukujesz i co chcesz aby fachowiec zrobił.</seg></tuv>
        </tu>
         <tu tuid='We will contact proper specialist in your nearby area for you!'>
-           <tuv xml:lang="pl"><seg>Skontaktujemy się w Twoim imieniu z odpowiednimi specjalistami w pobliżu Ciebie!</seg></tuv>
+           <tuv xml:lang="pl"><seg>Skontaktujemy się w Twoim imieniu z odpowiednimi specjalistami w pobliżu!</seg></tuv>
        </tu>
        <tu tuid='Your message'>
            <tuv xml:lang="pl"><seg>Wiadomość</seg></tuv>

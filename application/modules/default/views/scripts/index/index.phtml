@@ -47,7 +47,7 @@
 				<div class="shadow cstyle05">
 					<div class="fwi one findSpecialist"><img src="/images/znajdz-swojego-fachowca.jpg" alt="<?= $this->translate('Find specialist'); ?>" />
                                 </div>
-					<div class="ctitle">
+					<div class="ctitle findSpecialistLink">
                                             <a href="#" data-toggle="modal" data-target="#findSpecialist">
                                                 <?= $this->translate('Find your specialist'); ?>
                                             </a>
@@ -65,11 +65,13 @@
                                                 <img src="/assets/images/spacer.png" alt="<?= $this->translate('Visit website'); ?>"/>
                                             </a>
 					</div>
-				</div>			
+				</div>
 			</div>
 		  </div>
 		</div>
 		
+            
+            
 		<div class="deals3">
 			<div class="container">	
 				<div class="row">
@@ -133,7 +135,43 @@
 		</div>	
 		
 		<div class="container cstyle06">	
+                    <div class="clearfix"></div>
+            <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+            <style>
+                #map {
+                  height: 500px;
+                }
+            </style>
+            <div id="map">
+                
+            </div>
+            <script>
 
+                function initMap() {
+                  var myLatLng = {lat: 52.8201435, lng: -4.566986};
+
+                  var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 6,
+                    center: myLatLng
+                  });
+                  var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: 'Hello World!'
+                    });
+                  <?php foreach($this->mapBranches as $mapBranch){
+                      if(!strlen($mapBranch['lat']))
+                          continue;
+                      
+                      ?>
+                    var marker = new google.maps.Marker({
+                      position: {lat: <?= $mapBranch['lat']; ?>, lng: <?= $mapBranch['lng']; ?>},
+                      map: map,
+                      title: '<?= $mapBranch['Agent']['name']." ".$mapBranch['office_name']; ?>'
+                    });
+                  <?php } ?>
+                }
+              </script>
 
 			<div class="row anim3">
 			  <div class="col-md-3">

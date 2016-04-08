@@ -53,6 +53,49 @@
                     </div>
                 </div>	
             </li>
+            <li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 	
+                <!--
+                
+                
+                http://static6.depositphotos.com/1022400/579/i/450/depositphotos_5798989-On-the-phone-at-work.jpg
+                
+                -->
+                <img src="http://st.depositphotos.com/1011643/3244/i/450/depositphotos_32444571-Technical-support-operator-working-on-computer.jpg" alt="
+                      <?php
+                        
+                        echo $this->translate('Best company of')." "; 
+                        if($this->language=='pl'){
+                            echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
+                        }
+                        else{
+                            $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
+                            echo $dt->format('F');
+                        }
+                        ?>
+                     "/>
+                <div class="tp-caption scrolleffect sft"
+                     data-x="center"
+                     data-y="120"
+                     data-speed="1000"
+                     data-start="800"
+                     data-easing="easeOutExpo"  >
+                    <div class="sboxpurple textcenter padding20 pt40" style="background:rgba(0,0,0,0.7);padding-top:40px;">
+                        <span class="lato size65 slim caps white">
+                        <?php
+                        
+                        echo $this->translate('Find your specialist!')." "; 
+                        
+                        ?>
+                        </span><br /><br /><br /><br /><br />
+                        <span class="lato size48 slim caps white">
+                            <a href='<?= $this->url(array('slug' => $this->bestAgent['Agent']['link']),'domain-agent-details'); ?>'><?= $this->translate('Tell us what you want to do.'); ?></a>
+                        </span><br/><br /><br />
+                        <span class="lato size28 white slim uppercase">
+                            <?= $this->translate('We will contact proper specialist in your nearby area for you!'); ?>
+                        </span>
+                    </div>
+                </div>
+            </li>
 <!--
              FADE 
             <li data-transition="fade" data-slotamount="1" data-masterspeed="300">						

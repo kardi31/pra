@@ -23,6 +23,7 @@ class Default_IndexController extends MF_Controller_Action
         $premiumBranches = $branchService->getRandomPremiumBranches();
         $bestTownBranches = $branchService->getBestTownBranches($userTown,3);
         $newestBranches = $branchService->getNewestBranches(3);
+        $mapBranches = $branchService->getMapBranches(500,Doctrine_Core::HYDRATE_ARRAY);
         
         
         
@@ -44,6 +45,7 @@ class Default_IndexController extends MF_Controller_Action
         $this->view->assign('bestTownBranches',$bestTownBranches);
         $this->view->assign('userTown',$userTown);
         $this->view->assign('category',$category);
+        $this->view->assign('mapBranches',$mapBranches);
         $this->view->assign('newestBranches',$newestBranches);
         $this->view->assign('categoryBranches',$categoryBranches);
         
