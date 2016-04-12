@@ -2,33 +2,33 @@
 //Picker
 //------------------------------
 
-jQuery(function() {
-"use strict";
-	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
-});
-
-
-//------------------------------
-//Custom Select
-//------------------------------
-jQuery(document).ready(function(){
-"use strict";
-	jQuery('.mySelectBoxClass').customSelect();
-
-	/* -OR- set a custom class name for the stylable element */
-	//jQuery('.mySelectBoxClass').customSelect({customClass:'mySelectBoxClass'});
-});
-
-function mySelectUpdate(){
-"use strict";
-	setTimeout(function (){
-		jQuery('.mySelectBoxClass').trigger('update');
-	}, 200);
-}
-
-jQuery(window).resize(function() {
-	mySelectUpdate();
-});
+//jQuery(function() {
+//"use strict";
+//	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
+//});
+//
+//
+////------------------------------
+////Custom Select
+////------------------------------
+//jQuery(document).ready(function(){
+//"use strict";
+//	jQuery('.mySelectBoxClass').customSelect();
+//
+//	/* -OR- set a custom class name for the stylable element */
+//	//jQuery('.mySelectBoxClass').customSelect({customClass:'mySelectBoxClass'});
+//});
+//
+//function mySelectUpdate(){
+//"use strict";
+//	setTimeout(function (){
+//		jQuery('.mySelectBoxClass').trigger('update');
+//	}, 200);
+//}
+//
+//jQuery(window).resize(function() {
+//	mySelectUpdate();
+//});
 
 
 //------------------------------
@@ -36,7 +36,7 @@ jQuery(window).resize(function() {
 //------------------------------
 jQuery(document).ready(function(jQuery){
 "use strict";
-	jQuery("#foo").carouFredSel({
+	jQuery(".carousel_homepage").carouFredSel({
 		width: "100%",
 		height: 240,
 		items: {

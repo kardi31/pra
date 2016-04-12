@@ -1,6 +1,6 @@
 <div class="modal mod fade active in" id="findSpecialist" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content modal-lg">
     
                 
                 
@@ -10,11 +10,8 @@
                                 <h4 class="modal-title"><?= $this->translate('Find your specialist with Rate-Pole.com'); ?></h4>
                         </div>
                         <div class="modal-body">
+                            <div class="col-md-6">
                             <?php
-                            echo "1.".$this->translate('Enter your details')."<br />";
-                            echo "2.".$this->translate('Tell us what kind of specialist are you looking for and of what do you want specialist to do for you.')."<br />";
-                            echo "3.".$this->translate('We will contact proper specialist in your nearby area for you!')."<br />";
-                            echo "<br />";
                             echo $this->form->name;
                             echo $this->form->email;
                             echo $this->form->address;
@@ -25,6 +22,17 @@
                             echo $this->form->getElement('g-recaptcha-response');
                             
                             ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?php
+                                echo "1.".$this->translate('Enter your details')."<br />";
+                                echo "2.".$this->translate('Tell us what kind of specialist are you looking for and of what do you want specialist to do for you.')."<br />";
+                                echo "3.".$this->translate('We will contact proper specialist in your nearby area for you!')."<br />";
+                                echo "<br />";
+
+                                ?>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                         <div class="modal-footer">
                                 <button type="button" class="btn btn-default left" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
@@ -36,43 +44,3 @@
     </div>
 <!-- /.modal-dialog -->
 </div>
-
-
-
-<script>
-jQuery('#postcode_lookup2').getAddress({ 
-    api_key: '41ARJwFNzES_O3P1rIHs_g3365',
-     button_label: 'Find the address',
-    button_class: 'btn btn-info',
-    input_label: 'Enter postcode',
-    input_muted_style: 'color:#333;',
-    output_fields:{
-        line_1: '#address_line2_1',
-        post_town: '#address_town',
-        postcode: '#address_postcode2'
-    }
-});
-</script>
-<style>
-    .mod#getValuation .form-group:after{
-        clear:both;
-        display:block;
-        content:" ";
-    }
-    .mod#getValuation .form-group{
-        margin-bottom:10px;
-    }
-   .mod #opc_input{
-        margin-right:20px;
-    }
-    
-    .mod #opc_dropdown{
-        margin-top:10px;
-    }
-
-
-    .yogi {
-        display: none;
-    }
-
-    </style>

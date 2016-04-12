@@ -11,18 +11,16 @@
 
             <!-- FADE -->
             <li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-                <img src="http://st2.depositphotos.com/1051355/6256/i/450/depositphotos_62568073-Winner-cup..jpg" alt="
-                      <?php
-                        
-                        echo $this->translate('Best company of')." "; 
-                        if($this->language=='pl'){
-                            echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
-                        }
-                        else{
-                            $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
-                            echo $dt->format('F');
-                        }
-                        ?>
+                <img src="/images/trophy2.jpg" alt="
+                <?php
+                echo $this->translate('Best company of') . " ";
+                if ($this->language == 'pl') {
+                    echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
+                } else {
+                    $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
+                    echo $dt->format('F');
+                }
+                ?>
                      "/>
                 <div class="tp-caption scrolleffect sft"
                      data-x="center"
@@ -32,107 +30,55 @@
                      data-easing="easeOutExpo"  >
                     <div class="sboxpurple textcenter">
                         <span class="lato size28 slim caps white">
-                        <?php
-                        
-                        echo $this->translate('Best company of')." "; 
-                        if($this->language=='pl'){
-                            echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
-                        }
-                        else{
-                            $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
-                            echo $dt->format('F');
-                        }
-                        ?>
+                            <?php
+                            echo $this->translate('Best company of') . " ";
+                            if ($this->language == 'pl') {
+                                echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
+                            } else {
+                                $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
+                                echo $dt->format('F');
+                            }
+                            ?>
                         </span><br />
                         <span class="lato size100 slim caps white">
-                            <a class='bestFirmOfTheMonth' href='<?= $this->url(array('slug' => $this->bestAgent['Agent']['link']),'domain-agent-details'); ?>'><?= $this->bestAgent['Agent']['name']; ?></a>
+                            <a class='bestFirmOfTheMonth' href='<?= $this->url(array('slug' => $this->bestAgent['Agent']['link']), 'domain-agent-details'); ?>'><?= $this->bestAgent['Agent']['name']; ?></a>
                         </span><br/>
                         <span class="lato size48 slim uppercase yellow">
-                            <?= MF_Text::showStars($this->bestAgent['Agent']['rating'],'big'); ?>
+                            <?= MF_Text::showStars($this->bestAgent['Agent']['rating'], 'big'); ?>
                         </span><br/>
                     </div>
                 </div>	
             </li>
-            <li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 	
-                <!--
-                
-                
-                http://static6.depositphotos.com/1022400/579/i/450/depositphotos_5798989-On-the-phone-at-work.jpg
-                
-                -->
-                <img src="http://st.depositphotos.com/1011643/3244/i/450/depositphotos_32444571-Technical-support-operator-working-on-computer.jpg" alt="
-                      <?php
-                        
-                        echo $this->translate('Best company of')." "; 
-                        if($this->language=='pl'){
-                            echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
-                        }
-                        else{
-                            $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
-                            echo $dt->format('F');
-                        }
-                        ?>
-                     "/>
+            <li data-transition="fade" data-slotamount="1" data-masterspeed="300">
+                <img src="/images/find-your-specialist.jpg" alt="<?= $this->translate('Find your specialist!'); ?>"/>
                 <div class="tp-caption scrolleffect sft"
                      data-x="center"
                      data-y="120"
                      data-speed="1000"
                      data-start="800"
                      data-easing="easeOutExpo"  >
-                    <div class="sboxpurple textcenter padding20 pt40" style="background:rgba(0,0,0,0.7);padding-top:40px;">
+                    <div class="sboxpurple textcenter padding20 pt40 slidersepia" >
                         <span class="lato size65 slim caps white">
-                        <?php
-                        
-                        echo $this->translate('Find your specialist!')." "; 
-                        
-                        ?>
-                        </span><br /><br /><br /><br /><br />
-                        <span class="lato size48 slim caps white">
-                            <a href='<?= $this->url(array('slug' => $this->bestAgent['Agent']['link']),'domain-agent-details'); ?>'><?= $this->translate('Tell us what you want to do.'); ?></a>
+                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
+                            <?php
+                            echo $this->translate('Find your specialist!') . " ";
+                            ?>
+                            </a>
+                        </span><br /><br /><br /><br />
+                        <span class="lato size48 slim caps yellowgreen">
+                            
+                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
+                            <?= $this->translate('Tell us what you want to do.'); ?>
+                            </a>
                         </span><br/><br /><br />
                         <span class="lato size28 white slim uppercase">
+                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
                             <?= $this->translate('We will contact proper specialist in your nearby area for you!'); ?>
+                            </a>
                         </span>
                     </div>
                 </div>
             </li>
-<!--
-             FADE 
-            <li data-transition="fade" data-slotamount="1" data-masterspeed="300">						
-                <img src="/assets/images/slider/rome.jpg" alt=""/>
-                <div class="tp-caption scrolleffect sft"
-                     data-x="center"
-                     data-y="120"
-                     data-speed="1000"
-                     data-start="800"
-                     data-easing="easeOutExpo"  >
-                    <div class="sboxpurple textcenter">
-                        <span class="lato size28 slim caps white">Italy</span><br/><br/><br/>
-                        <span class="lato size100 slim caps white">Rome</span><br/>
-                        <span class="lato size20 normal caps white">from</span><br/><br/>
-                        <span class="lato size48 slim uppercase yellow">$1500</span><br/>
-                    </div>
-                </div>	
-            </li>	
-
-             FADE 
-            <li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-
-                <img src="/assets/images/slider/paris.jpg" alt=""/>
-                <div class="tp-caption scrolleffect sft"
-                     data-x="center"
-                     data-y="120"
-                     data-speed="1000"
-                     data-start="800"
-                     data-easing="easeOutExpo"  >
-                    <div class="sboxpurple textcenter">
-                        <span class="lato size28 slim caps white">France</span><br/><br/><br/>
-                        <span class="lato size100 slim caps white">Paris</span><br/>
-                        <span class="lato size20 normal caps white">from</span><br/><br/>
-                        <span class="lato size48 slim uppercase yellow">$1500</span><br/>
-                    </div>
-                </div>	
-            </li>	-->
 
         </ul>
         <div class="tp-bannertimer none"></div>
@@ -146,18 +92,15 @@
 -->
 <script type="text/javascript">
 
-//    var tpj = jQuery;
-//    tpj.noConflict();
-
     $(document).ready(function () {
 
-      
+
 
         $('.fullscreenbanner').revolution(
                 {
                     delay: 9000,
-                    startwidth: 1170,
-                    startheight: 100,
+                    startwidth: 1920,
+                    startheight: 600,
                     onHoverStop: "on", // Stop Banner Timet at Hover on Slide on/off
 
                     thumbWidth: 100, // Thumb With and Height and Amount (only if navigation Tyope set to thumb !)
@@ -193,7 +136,7 @@
                     hideSliderAtLimit: 0, // Hide the whole slider, and stop also functions if Width of Browser is less than this value
 
 
-                    fullWidth: "on", // Same time only Enable FullScreen of FullWidth !!
+                    fullWidth: "off", // Same time only Enable FullScreen of FullWidth !!
                     fullScreen: "off", // Same time only Enable FullScreen of FullWidth !!
 
 

@@ -36,7 +36,7 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
         $locale = Zend_Registry::get('Zend_Locale');
         $translate = Zend_Registry::get('Zend_Translate');
         $session = new Zend_Session_Namespace('locale');
-       
+        
         if($request->getModuleName() == 'admin') {
             //$language = $locale->getLanguage();
             $container = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getContainer();

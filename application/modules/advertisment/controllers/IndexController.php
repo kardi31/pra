@@ -296,10 +296,8 @@ class Advertisment_IndexController extends MF_Controller_Action {
         
         $advertismentService = $this->_service->getService('Advertisment_Service_Advertisment');
         
-        $lastAds = $advertismentService->getLastAdvertisment(8);
-        
+        $lastAds = $advertismentService->getLastAdvertisment(6,Doctrine_Core::HYDRATE_ARRAY);
         $this->view->assign('lastAds',$lastAds);
-        $this->_helper->viewRenderer->setResponseSegment('lastAds');
     }
     
     public function lastJobAdsAction(){

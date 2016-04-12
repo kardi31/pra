@@ -1623,6 +1623,18 @@
        <tu tuid='Find your specialist'>
            <tuv xml:lang="pl"><seg>Znajdź Twojego fachowca</seg></tuv>
        </tu>
+       <tu tuid='Find your specialist!'>
+           <tuv xml:lang="pl"><seg>Znajdź Twojego fachowca!</seg></tuv>
+       </tu>
+       <tu tuid='Tell us what you want to do.'>
+           <tuv xml:lang="pl"><seg>Powiedz nam jaką pracę chcesz zlecić.</seg></tuv>
+       </tu>
+       <tu tuid='Latest advertisments'>
+           <tuv xml:lang="pl"><seg>Najnowsze ogłoszenia</seg></tuv>
+       </tu>
+       <tu tuid='See latest advertisments for Polish employees.'>
+           <tuv xml:lang="pl"><seg>Zobacz najnowsze ogłoszenia dla fachowców.</seg></tuv>
+       </tu>
        <tu tuid='Write review'>
            <tuv xml:lang="pl"><seg>Dodaj opinie</seg></tuv>
        </tu>
@@ -2010,6 +2022,9 @@
        </tu>
        <tu tuid='Your comment'>
            <tuv xml:lang="pl"><seg>Twój komentarz</seg></tuv>
+       </tu>
+       <tu tuid='Premium Package'>
+           <tuv xml:lang="pl"><seg>Pakiet Premium</seg></tuv>
        </tu>
        
        

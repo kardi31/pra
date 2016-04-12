@@ -310,8 +310,14 @@ class Advertisment_Service_Advertisment extends MF_Service_ServiceAbstract{
     }
     
       public function getLastAdvertisment($limit = 4, $hydrationMode = Doctrine_Core::HYDRATE_RECORD){
-        $q = $this->advertismentTable->createQuery('a');
-        $q->orderBy('a.created_at DESC');
+        $q = $this->advertismentTable->createQuery('c');
+        $q->leftJoin('c.Category ca');
+        $q->leftJoin('c.Translation t');
+        $q->leftJoin('ca.Translation cat');
+        $q->leftJoin('c.PhotoRoot pr');
+        $q->leftJoin('c.Photos ps');
+        $q->select('c.*, p.*,ca.*,t.*,pr.*,ps.*,cat.*');
+        $q->orderBy('c.created_at ASC');
         $q->limit($limit);
         return $q->execute(array(), $hydrationMode);
     }

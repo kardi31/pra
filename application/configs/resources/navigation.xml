@@ -908,6 +908,7 @@
         </pages>
     </production>
     <development extends="production"></development>
+    <productionuk extends="production"></productionuk>
     <developmentuk extends="development"></developmentuk>
     <testing extends="production"></testing>
 </config>

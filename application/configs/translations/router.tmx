@@ -15,6 +15,12 @@
        <tu tuid='articles-new'>
            <tuv xml:lang="pl"><seg>artykuly-dodaj</seg></tuv>
        </tu>
+       <tu tuid='advertising'>
+           <tuv xml:lang="pl"><seg>reklama</seg></tuv>
+       </tu>
+       <tu tuid='premium-package'>
+           <tuv xml:lang="pl"><seg>pakiet-premium</seg></tuv>
+       </tu>
        <tu tuid='articles-show'>
            <tuv xml:lang="pl"><seg>artykuly-tresc</seg></tuv>
        </tu>

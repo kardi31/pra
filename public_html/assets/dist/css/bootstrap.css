@@ -409,6 +409,10 @@ p {
 }
 
 @media (min-width: 992px) {
+    
+    .modal-lg {
+    width: 900px;
+  }
   .lead {
     font-size: 21px;
   }

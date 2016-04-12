@@ -12,21 +12,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Form::setDefaultTranslator($translator);
     }
     
-    protected function _initViewVars() {
-//        $view = $this->bootstrap('view')->getResource('view');
-//        $view->assign('mediaServer', $this->getOption('mediaServer'));
-    }
-    
-    protected function _initLaggerLog() {
-//        echo "d";exit;
-//        if(APPLICATION_ENV == 'development') {
-//            $writer = new MF_Log_Writer_Lagger();
-//            $filter = new Zend_Log_Filter_Priority(7);
-//            $writer->addFilter($filter);
-//            $log = $this->bootstrap('log')->getResource('log');
-//            $log->addWriter($writer);
-//        }
-    }
 	
 }
 

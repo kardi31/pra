@@ -1,0 +1,115 @@
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Premium Package'));
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+<div class="container">
+    <div class="container mt25 offset-0">
+        <div class="col-md-12 pagecontainer2 offset-0">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Premium Package') ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
+
+            <div class="hpadding50c">
+                <!-- LEFT IMG -->
+                <div class="col-md-8 cpdd01 grey2">
+
+
+                    <div class="pl30 pr30 pb50">
+                        Rate-Pole.com gives your company the opportunity to use our great Premium Package. Find below what opportunities you receive with it. <br /><br />
+                        1. <strong>Company branding following you throughout the website.</strong> Every customer visiting your profile will see you logo and advertisement. Such profile is more eye-catching and can encourage people to use your company services.
+                        <br /><br /><strong>Don't have your company logo or advertisement?</strong> Don't worry! As a Premium member, we will create advertisement & logo for you!<br /><br />
+                        2. <strong>Top appearance in search results.</strong> Whenever customers search for companies in your area or category, your company will appear at the top of every search results. <br /><br />
+                        3. <strong>Up to 3 company categories.</strong> Your company may offer services which fits into multiple categories. Standard members may choose only 1 company category. For Premium members we offer the ability to choose up to 3 categories. That way, your company profile would appear in more search results.
+                        <br /><br />
+                        4. <strong>Immediate support.</strong> With premium support, you receive direct email address to our support team. Your support requests will be given top priority and responded as soon as possible. Requests of non Premium members might take up to 48 hours to respond.
+                        <br /><br />
+                        5. <strong>Customer leads.</strong> We receive customer enquiries through our 'find specialist' form. Enquiries which fits into your services in your nearby areas will be passed on to your company. Those people might became your new customers!
+                        <br /><br />
+                        To order Premium Package for your company, email us at <a href='premium@ocen-fachowca.pl'>premium@ocen-fachowca.pl</a> or <a href='<?= $this->url(array(), 'domain-contact'); ?>'>contact us</a> through the website.
+                    </div>
+                </div>
+                <!-- END OF LEFT IMG -->
+
+                <!-- IMG RIGHT TEXT -->
+                <div class="col-md-4 cpdd02">
+                    <div class="opensans grey">
+                        <?php if (count($this->popularArticles) > 0) { ?>
+                            <h2 class="lato size18 dark bold"><?= $this->translate('Popular articles'); ?></h2><br>
+
+                            <ul class="blogcat">
+                                <?php foreach ($this->popularArticles as $popularArticle): ?>
+                                    <li>
+                                        <a href="<?php echo $this->url(array('slug' => $popularArticle['Translation'][$this->language]['slug']), 'domain-news-article'); ?>">
+                                            <?= MF_Text::truncate($popularArticle['Translation'][$this->language]['title'], 40); ?>
+                                        </a> 
+                                        <span class="badge2 pull-right indent0"><i class="fa fa-comment"></i> <?= count($popularArticle['Comments']); ?></span></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <br>
+                        <?php } ?>
+                        <?php echo $this->action('banner-sidebar2', 'index', 'banner'); ?>
+                        <br /><br />
+
+
+                        <!-- Nav tabs -->
+                        <ul class="nav navigation-tabs3">
+                            <li class="active"><a href="#tab-newtopic" data-toggle="tab"><span class="glyphicon glyphicon-star"></span> <?= $this->translate('Featured'); ?></a></li>
+                            <li><a href="#tab-comments" data-toggle="tab"><span class="glyphicon glyphicon-stats"></span> <?= $this->translate('Popular'); ?> </a></li>
+
+                        </ul>
+
+                        <div class="tab-content4">
+                            <!-- Tab 1 -->
+                            <div class="tab-pane active" id="tab-newtopic">
+                                <?php foreach ($this->premiumAgents as $premiumAgent): ?>
+                                    <div class="col-md-4">
+                                        <a href="<?= $this->url(array('slug' => $premiumAgent['link']), 'domain-agent-details'); ?>"><img alt="<?= $premiumAgent['name']; ?>" class="left mr20" src="<?= $premiumAgent->getLogoUrl('85x50'); ?>"></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a class="dark" href="<?= $this->url(array('slug' => $premiumAgent['link']), 'domain-agent-details'); ?>">
+                                            <b><?= $premiumAgent['name']; ?></b></a>
+                                        <br>
+                                        <?= str_repeat('<img src="/images/star.png" alt="Star" />', round($premiumAgent['rating'])); ?>
+                                    </div>
+
+                                    <div class="line4 clearfix mt10"></div>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- End of Tab 1 -->
+
+                            <!-- Tab 2 -->
+                            <div class="tab-pane" id="tab-comments">
+                                <?php foreach ($this->popularAgents as $popularAgent): ?>
+                                    <div class="col-md-4">
+                                        <a href="<?= $this->url(array('slug' => $popularAgent['link']), 'domain-agent-details'); ?>"><img alt="<?= $popularAgent['name']; ?>" class="left mr20" src="<?= $popularAgent->getLogoUrl('85x50'); ?>"></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <a class="dark" href="<?= $this->url(array('slug' => $popularAgent['link']), 'domain-agent-details'); ?>">
+                                            <b><?= $popularAgent['name']; ?></b></a>
+                                        <br>
+                                        <?= str_repeat('<img src="/images/star.png" alt="Star" />', round($popularAgent['rating'])); ?>
+                                    </div>
+
+                                    <div class="line4 clearfix mt10"></div>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- End of Tab 2 -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END OF IMG RIGHT TEXT -->
+                <div class="clearfix"></div>
+            </div>
+
+
+
+            <div class="clearfix"></div>
+        </div>
+        <!-- END CONTENT -->	
+
+    </div>
+
+</div>

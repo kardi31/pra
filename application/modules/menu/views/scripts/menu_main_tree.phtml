@@ -20,6 +20,15 @@
         </li>
         
         <?php endforeach; ?>
+        
+        <li class="langSwitcher">
+                <a href="<?= PL_URL; ?>">
+                    <img src="/images/pl.png" />
+                </a>
+                <a href="<?= UK_URL; ?>">
+                    <img src="/images/gb.png" />
+                </a>
+        </li>
     </ul>
     <?php elseif(isset($this->subtree)): ?>
         <ul class="dropdown-menu">

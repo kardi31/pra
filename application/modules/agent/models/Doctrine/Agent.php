@@ -59,7 +59,7 @@ class Agent_Model_Doctrine_Agent extends Agent_Model_Doctrine_BaseAgent
             return MF_Text::getAgentPhotoPath($this->logo,$dimensions);
         }
         else{
-            return 'http://placehold.it/'.$dimensions;
+            return 'http://placehold.it/'.$dimensions.'?text=Brak+logo';
         }
     }
     

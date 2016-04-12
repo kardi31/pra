@@ -38,4 +38,6 @@ class Advertisment_Model_Doctrine_AdvertismentTable extends Doctrine_Table
                 ->leftJoin('g.Translation gt');
         return $q;
     }
+    
+  
 }
