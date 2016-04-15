@@ -1,4 +1,3 @@
-
 <!-- WRAP -->
 <div class="wrap cstyle03">
 
@@ -57,7 +56,15 @@
             <div class="col-md-4 bannerHomepage">
                 <div class="shadow cstyle05">
                     <div class="fwi one">
-                        <img src="/media/attachments/<?= $this->banner['AttachmentRoot']['filename']; ?>" alt="<?= $this->banner['Translation'][$this->language]['name']; ?>" />
+                        <?php $yourAd = '/images/your_ad_here.jpg';
+                        
+                        if($this->language=='pl'){
+                            $yourAd = '/images/twoja_reklama.jpg';
+                        }
+                        ?>
+                        
+                        
+                        <img src="<?= $yourAd; ?>" alt="<?= $this->banner['Translation'][$this->language]['name']; ?>" />
                     </div>
                     <div class="ctitle">
                         <a href="<?= $this->banner['website']; ?>">

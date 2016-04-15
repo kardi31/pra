@@ -1,12 +1,26 @@
-<div id="header">
-    adhsjadjashdah
-    
-    
-</div>
-
-
-<?= $this->content; ?>
-
-<div id="footer">
-    foooteasradas a zxc z 
-</div>
+<table width="600px" cellpadding="10"  border="1">
+    <thead>
+        <tr>
+            <td colspan="2">
+                <img src="<?= PL_URL; ?>/images/logo_email.png" />
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <table cellpadding="10">
+                    <tr>
+                        <td>
+                            <?= $this->content; ?>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <img src="<?= PL_URL; ?>/images/twoja_reklama.jpg" style="max-width:200px;" />
+                
+            </td>
+        </tr>
+    </tbody>
+</table>

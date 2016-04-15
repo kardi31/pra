@@ -80,6 +80,18 @@ class Default_IndexController extends MF_Controller_Action {
     public function awardsAction() {
         $this->_helper->actionStack('layout', 'index', 'default');
         $this->_helper->layout->setLayout('page');
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Nagrody dla firm',
+                'description' => 'Nagrody dla najlepszych firma w opinii klientów.'
+            ),
+            'en' => array(
+                'title' => 'Best Polish company awards',
+                'description' => 'Best Polish company awards according to customers'
+            )
+                ), $this->view);
     }
 
     public function layoutAction() {
@@ -147,6 +159,8 @@ class Default_IndexController extends MF_Controller_Action {
 
         $serviceService = $this->_service->getService('Default_Service_Service');
 
+        $mailService = $this->_service->getService('User_Service_Mail');
+
         $metatagService = $this->_service->getService('Default_Service_Metatag');
         $metatagService->setCustomViewMetatags(array(
             'pl' => array(
@@ -161,7 +175,6 @@ class Default_IndexController extends MF_Controller_Action {
 
         $contactEmail = $this->getInvokeArg('bootstrap')->getOption('contact_email');
         $mailerEmail = $this->getInvokeArg('bootstrap')->getOption('mailer_email');
-
         $form = new Default_Form_ContactPage();
 
         if ($this->getRequest()->isPost()) {
@@ -170,12 +183,22 @@ class Default_IndexController extends MF_Controller_Action {
                     if (!strlen($contactEmail)) {
                         $this->_helper->alertor->gotoUrl($this->view->url(array('success' => 'fail'), 'domain-contact'));
                     }
+                    
                     $values = $_POST;
-                    $serviceService->sendMail($values, $contactEmail, $mailerEmail);
+                    
+                    $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
+                    
+                    $mail = new Zend_Mail('UTF-8');
+                    $mail->setSubject($this->view->translate('Contact message Rate Pole'));
+                    $mail->addTo($options['reply_email'], $options['reply_email']);
+                    $mail->setReplyTo($values['email'], $values['name']);
 
+                    $mailService->sendContactMail($values,$mail, $this->view);
+                    
 
                     $this->_helper->getHelper('FlashMessenger')->setNamespace('success')->addMessage($this->view->translate('Thank you for your message. We will contact you soon.'));
-                    $this->_helper->alertor->gotoUrl($this->view->url(array('success' => 'fail'), 'domain-contact'));
+
+                    $this->_helper->redirector->gotoUrl($this->view->url(array('success' => 'fail'), 'domain-contact'));
                 } catch (Exception $e) {
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->_service->get('log')->log($e->getMessage(), 4);
@@ -407,18 +430,12 @@ class Default_IndexController extends MF_Controller_Action {
                     $this->_service->get('doctrine')->getCurrentConnection()->commit();
                     $this->_helper->redirector->gotoRoute(array('type' => 'newsletter'), 'domain-thank-you');
                 } catch (User_Model_UserWithEmailAlreadyExistsException $e) {
-                    var_dump($e->getMessage());
-                    exit;
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $form->getElement('email')->markAsError();
                     $form->getElement('email')->setErrors(array($e->getMessage()));
                 } catch (Exception $e) {
-                    var_dump($e->getMessage());
-                    exit;
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->_service->get('log')->log($e->getMessage(), 4);
-                    var_dump($e->getMessage());
-                    exit;
                 }
             }
         }

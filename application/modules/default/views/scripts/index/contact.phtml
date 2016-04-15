@@ -1,44 +1,39 @@
-
 <?php
-    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Contact'), true);
-    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Contact'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
 <div class="container mt25 mobileContainer offset-0">
-        <div class="bs-example bs-example-tabs">
-				
-            <div class="tab-content" style="min-height:424px;">
+    <div class="bs-example bs-example-tabs">
 
-                            <h1 class="m0 p0 opensans size24 slim"><?= $this->translate('Contact Us'); ?></h1>
-                    <form method="POST">
-                    <div class="col-md-4 col-sm-4">
-                            <input required="" type="text" name="name" placeholder="<?= $this->translate('Your name'); ?>" class="form-control logpadding margtop10">
-                            <input required="" type="text" name="telephone" placeholder="<?= $this->translate('Phone'); ?>" class="form-control logpadding margtop20">
-                            <input required="" type="text" name="email" placeholder="E-mail" class="form-control logpadding margtop20">
-                            <input required="" type="text" name="company" placeholder="<?= $this->translate('Company'); ?>" class="form-control logpadding margtop20">
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <label class=""><?= $this->translate('Topic'); ?></label>
-                        <select required="" name="subject" id="subject" class="form-control">
-                                <option value="" selected="selected" disabled="disabled"><?= $this->translate('Please Select'); ?></option>
-                                <option value="Advertising"><?= $this->translate('Advertising'); ?></option>
-                                <option value="Bug"><?= $this->translate('Report a bug'); ?></option>
-                                <option value="Details Login"><?= $this->translate('Details change/login problems'); ?></option>
-                                <option value="Other"><?= $this->translate('Other'); ?></option>
-                                </select>
-                            <textarea required="" rows="8" name="message" class="form-control margtop10"></textarea>
-                <div class="clearfix"></div>
+        <div class="tab-content" style="min-height:424px;">
+
+            <h1 class="m0 p0 opensans size24 slim"><?= $this->translate('Contact Us'); ?></h1>
+            <form method="POST">
+                <div class="col-md-4 col-sm-4">
+                    <input required="" type="text" name="name" placeholder="<?= $this->translate('Your name'); ?>" class="form-control logpadding margtop10">
+                    <input required="" type="text" name="telephone" placeholder="<?= $this->translate('Phone'); ?>" class="form-control logpadding margtop20">
+                    <input required="" type="text" name="email" placeholder="E-mail" class="form-control logpadding margtop20">
+                    <input required="" type="text" name="company" placeholder="<?= $this->translate('Company'); ?>" class="form-control logpadding margtop20">
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <label class=""><?= $this->translate('Topic'); ?></label>
+                    <select required="" name="subject" id="subject" class="form-control">
+                        <option value="" selected="selected" disabled="disabled"><?= $this->translate('Please Select'); ?></option>
+                        <option value="Advertising"><?= $this->translate('Advertising'); ?></option>
+                        <option value="Bug"><?= $this->translate('Report a bug'); ?></option>
+                        <option value="Details Login"><?= $this->translate('Details change/login problems'); ?></option>
+                        <option value="Other"><?= $this->translate('Other'); ?></option>
+                    </select>
+                    <textarea required="" rows="8" name="message" class="form-control margtop10"></textarea>
+                    <div class="clearfix"></div>
                     <button type="submit" name="submit" class="btn-search right mr20 mb20"><?= $this->translate('Send'); ?></button>
-                <div class="clearfix"></div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 opensans grey">
-                            
-                    </div>
-                <div class="clearfix"></div>
-                </form>
-            </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-4 col-sm-4 opensans grey">
 
-
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </div>
     </div>
-    
-    
 </div>

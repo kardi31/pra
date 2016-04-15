@@ -350,8 +350,9 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                 } elseif (array_key_exists($name, $this->_defaults)) {
                     $value = $this->_defaults[$name];
                 } else {
-                    require_once 'Zend/Controller/Router/Exception.php';
-                    throw new Zend_Controller_Router_Exception($name . ' is not specified');
+                    $value = '#';
+//                    require_once 'Zend/Controller/Router/Exception.php';
+//                    throw new Zend_Controller_Router_Exception($name . ' is not specified');
                 }
 
                 if ($this->_isTranslated && in_array($name, $this->_translatable)) {
@@ -388,6 +389,9 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
 
         $return = '';
 
+        if($value=='#'){
+            return trim('#', $this->_urlDelimiter);
+        }
         foreach (array_reverse($url, true) as $key => $value) {
             $defaultValue = null;
 
@@ -405,7 +409,8 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                 $flag = true;
             }
         }
-
+        
+        
         return trim($return, $this->_urlDelimiter);
 
     }

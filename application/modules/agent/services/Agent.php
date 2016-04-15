@@ -167,12 +167,13 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
         return $agent;
     }
     
-    public function getMainCategories() {
+    public function getMainCategories($lang = 'pl') {
         $q = $this->categoryTable->createQuery('c');
         $q->select('c.*,ct.*');
         $q->leftJoin('c.Translation ct');
         $q->addWhere('c.level = 0');
         $q->addOrderBy('ct.title');
+        $q->addWhere("ct.lang like '".$lang."'");
         return $q->execute();
     }
     

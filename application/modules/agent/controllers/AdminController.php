@@ -522,7 +522,6 @@ class Agent_AdminController extends MF_Controller_Action {
     public function approveAgentAction() {
         $userService = $this->_service->getService('User_Service_User');
         $agentService = $this->_service->getService('Agent_Service_Agent');
-        $mailService = $this->_service->getService('User_Service_Mail');
         
         if($agent = $agentService->getAgent($this->getRequest()->getParam('id'))) {
             try {

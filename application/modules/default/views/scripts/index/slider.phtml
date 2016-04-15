@@ -31,6 +31,40 @@
                     <div class="sboxpurple textcenter">
                         <span class="lato size28 slim caps white">
                             <?php
+                                echo $this->translate('Compete for Best Company of the Month title') . " ";
+                                
+                            ?>
+                        </span><br />
+                        <span class="lato size65 slim caps white">
+                            <?= $this->translate('Win free advertising space'); ?>
+                        </span><br/>
+                        <span class="lato size48 slim uppercase yellow">
+                            <?= MF_Text::showStars(5, 'big'); ?>
+                        </span><br/>
+                    </div>
+                </div>	
+            </li>
+<!--            <li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+                <img src="/images/trophy2.jpg" alt="
+                <?php
+                echo $this->translate('Best company of') . " ";
+                if ($this->language == 'pl') {
+                    echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
+                } else {
+                    $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
+                    echo $dt->format('F');
+                }
+                ?>
+                     "/>
+                <div class="tp-caption scrolleffect sft"
+                     data-x="center"
+                     data-y="120"
+                     data-speed="1000"
+                     data-start="800"
+                     data-easing="easeOutExpo"  >
+                    <div class="sboxpurple textcenter">
+                        <span class="lato size28 slim caps white">
+                            <?php
                             echo $this->translate('Best company of') . " ";
                             if ($this->language == 'pl') {
                                 echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
@@ -48,7 +82,7 @@
                         </span><br/>
                     </div>
                 </div>	
-            </li>
+            </li>-->
             <li data-transition="fade" data-slotamount="1" data-masterspeed="300">
                 <img src="/images/find-your-specialist.jpg" alt="<?= $this->translate('Find your specialist!'); ?>"/>
                 <div class="tp-caption scrolleffect sft"

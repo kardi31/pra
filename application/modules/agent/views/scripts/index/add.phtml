@@ -32,26 +32,29 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
                     </span>
                     
+                    <!--https://github.com/xavierfaucon/bootstrap-selectsplitter-->
                     <span class="steps">
                         <span class="sectionHeader">2.<?= $this->translate('Select company category / business sector'); ?></span>
                         <br /><br />
-                                <div class="form-group">
-                                    <div class="addCompanyCategoryList">
-                                        <?php foreach($this->agentCategories as $agentCategory): ?>
-                                        <div class="col-md-4">
-                                            <strong><?= $agentCategory['Translation'][$this->language]['title']; ?></strong>
-                                            <ul>
-                                                <?php foreach($agentCategory->getNode()->getChildren() as $subcategory){ ?>
-                                                    <li>
-                                                        <label><?= $subcategory['Translation'][$this->language]['title']; ?><input type="radio" value="<?= $subcategory['id']; ?>" name="category_id" /></label>
-                                                    </li>
-                                                <?php } ?>
-                                            </ul>
-                                        </div>
-
-                                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="addCompanyCategoryList">
+                                <?php foreach($this->agentCategories as $key => $agentCategory): ?>
+                                    <div class="col-md-4">
+                                        <strong><?= $agentCategory['Translation'][$this->language]['title']; ?></strong>
+                                        <ul>
+                                            <?php foreach($agentCategory->getNode()->getChildren() as $subcategory){ ?>
+                                                <li>
+                                                    <label><?= $subcategory['Translation'][$this->language]['title']; ?><input type="radio" value="<?= $subcategory['id']; ?>" name="category_id" /></label>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
                                     </div>
-                                </div>
+                                <?php if($key%3==2){
+                                    echo '<div class="clearfix"></div>';
+                                } ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
                     </span>
                     <br />
                     <span class="steps">

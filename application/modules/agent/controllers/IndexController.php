@@ -182,13 +182,23 @@ class Agent_IndexController extends MF_Controller_Action {
         
         $form = new Agent_Form_Agent();
         
+        $categoryId = $form->createElement('radio','category_id');
+        $form->addElement($categoryId);
         $hoursForm = new Branch_Form_OpeningHours();
         
         $form->addSubForm($hoursForm, 'hoursForm');
-        
+        $form->getElement('firstname')->setRequired();
+        $form->getElement('lastname')->setRequired();
+        $form->getElement('email')->setRequired();
         $agentCategories = $agentService->getMainCategories();
 
         $this->view->assign('agentCategories',$agentCategories);
+        
+        foreach($agentCategories as $category){
+            foreach($category->getNode()->getChildren() as $subCategory){
+                $categoryId->addMultiOptions(array($subCategory->id => $subCategory->id));
+            }
+        }
         
         
         if($this->getRequest()->getParam('id')){

@@ -17,6 +17,13 @@
        <tu tuid='of customers'>
            <tuv xml:lang="pl"><seg>klientów</seg></tuv>
        </tu>
+       <tu tuid='Compete for Best Company of the Month title'>
+           <tuv xml:lang="pl"><seg>Rywalizuj o tytuł firmy miesiąca</seg></tuv>
+       </tu>
+       <tu tuid='Win free advertising space'>
+           <tuv xml:lang="pl"><seg>Wygrywaj darmową reklame</seg></tuv>
+       </tu>
+       
        <tu tuid='This email has already been subscribed for our newsletter.'>
            <tuv xml:lang="pl"><seg>Ten adres email już został zarejestrowany do naszego newslettera.</seg></tuv>
        </tu>
@@ -165,6 +172,9 @@
        </tu>
        <tu tuid='The best companies'>
            <tuv xml:lang="pl"><seg>Najlepsze firmy</seg></tuv>
+       </tu>
+       <tu tuid='See advertisments for Polish employees.'>
+           <tuv xml:lang="pl"><seg>Sprawdź ogłoszenia dla fachowców.</seg></tuv>
        </tu>
        
        
@@ -1820,6 +1830,10 @@
        <tu tuid='Rate Pole'>
            <tuv xml:lang="pl"><seg>Oceń fachowca</seg></tuv>
        </tu>
+       <tu tuid='All Rights Reserved'>
+           <tuv xml:lang="pl"><seg>Wszystkie prawa zastrzeżone</seg></tuv>
+       </tu>
+       
        <tu tuid='Topic'>
            <tuv xml:lang="pl"><seg>Temat</seg></tuv>
        </tu>
