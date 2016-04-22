@@ -8,13 +8,19 @@ echo $this->headLink();
     <?php
     $title = strip_tags($this->headTitle());
     if($this->language=='pl'){
+        $faviconLink = '/images/favicon_ocen.ico';
         echo $title." - Oceń Fachowca";
     }
     else{
+        $faviconLink = '/images/favicon_rate.ico';
         echo $title." - Rate Pole";
     }
     ?>
 </title>
+
+<link rel="icon" 
+      type="image/ico" 
+      href="<?= $faviconLink; ?>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -78,3 +84,30 @@ echo $this->headLink();
 
 </head>
 
+<?php if($this->language=='pl'){
+    ?>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76794032-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<?php
+} 
+else{ ?>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76782023-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<?php } ?>

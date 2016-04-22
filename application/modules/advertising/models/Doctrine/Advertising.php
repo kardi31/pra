@@ -12,5 +12,16 @@
  */
 class Advertising_Model_Doctrine_Advertising extends Advertising_Model_Doctrine_BaseAdvertising
 {
-
+    public static $adPhotoDimensions = array(
+        '126x126' => 'Photo in admin panel',                  // admin
+        '728x90' => 'Very main',
+    );
+    
+    public static function getAdPhotoDimensions() {
+        return self::$adPhotoDimensions;
+    }
+    
+    public static function getDefaultAd() {
+        return 'http://placehold.it/728x90?text=Brak+logo';
+    }
 }

@@ -13,6 +13,9 @@
        <tu tuid='recommends'>
            <tuv xml:lang="pl"><seg>rekomenduje</seg></tuv>
        </tu>
+       <tu tuid='Enter your new password.'>
+           <tuv xml:lang="pl"><seg>Podaj swoje nowe hasło.</seg></tuv>
+       </tu>
        
        <tu tuid='of customers'>
            <tuv xml:lang="pl"><seg>klientów</seg></tuv>
@@ -23,6 +26,13 @@
        <tu tuid='Win free advertising space'>
            <tuv xml:lang="pl"><seg>Wygrywaj darmową reklame</seg></tuv>
        </tu>
+       <tu tuid='Please enter your email address, we will send you link to reset your password.'>
+           <tuv xml:lang="pl"><seg>Podaj swój adres email, aby otrzymać link do zmiany hasła.</seg></tuv>
+       </tu>
+       <tu tuid='Password recovery'>
+           <tuv xml:lang="pl"><seg>Odzyskiwanie hasła</seg></tuv>
+       </tu>
+       
        
        <tu tuid='This email has already been subscribed for our newsletter.'>
            <tuv xml:lang="pl"><seg>Ten adres email już został zarejestrowany do naszego newslettera.</seg></tuv>

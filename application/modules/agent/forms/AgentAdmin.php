@@ -8,6 +8,11 @@
 class Agent_Form_AgentAdmin extends Admin_Form {
     
     public function init() {
+        $premium_support = $this->createElement('checkbox', 'premium_support');
+        $premium_support->setLabel('Premium support');
+        $premium_support->setDecorators(self::$checkboxDecorators);
+        $premium_support->setAttrib('class', 'form-control');
+        
         $id = $this->createElement('hidden', 'id');
         $id->setDecorators(array('ViewHelper'));
         
@@ -80,8 +85,10 @@ class Agent_Form_AgentAdmin extends Admin_Form {
         
         $category = $this->createElement('select', 'category_id');
         $category->setLabel('Categories');
-        $category->setDecorators(self::$selectDecorators);
-        $category->setAttrib('class', 'form-control');
+//        $category->setDecorators(self::$selectDecorators);
+        $category->setAttrib('class', 'form-control no-uniform nostyle select2');
+        $category->setIsArray(true);
+        $category->setAttrib('multiple','multiple');
         
         $town = $this->createElement('text', 'town');
         $town->setLabel('Town');
@@ -112,6 +119,8 @@ class Agent_Form_AgentAdmin extends Admin_Form {
         $twitter->setLabel('Twitter');
         $twitter->setDecorators(self::$textDecorators);
         $twitter->setAttrib('class', 'form-control');
+        
+        
         
         $branch_email = $this->createElement('text', 'branch_email');
         $branch_email->setLabel('Email');
@@ -144,8 +153,8 @@ class Agent_Form_AgentAdmin extends Admin_Form {
             $town,
             $county,
             $postcode,
+            $premium_support,
             $phone,
-            $url,
             $facebook,
             $twitter,
             $submit

@@ -7,20 +7,14 @@
  */
 class User_UpdateController extends MF_Controller_Action {
     
-    public function init() {
-        if (APPLICATION_ENV == 'ajurwedaDevelopment' || APPLICATION_ENV == 'ajurwedaProduction'):
-              $this->_helper->actionStack('layout-ajurweda', 'index', 'default');
-        elseif(APPLICATION_ENV == 'shopDevelopment' || APPLICATION_ENV == 'shopProduction'):
-            $this->_helper->actionStack('layout-shop', 'index', 'default');
-        endif;
-        parent::init();
-    }
     
     public function indexAction() {
+        $this->_helper->actionStack('layout', 'index', 'default');
+        $this->_helper->layout->setLayout('contact');
         $userService = $this->_service->getService('User_Service_User');
         
         $mail = new Zend_Mail('UTF-8');
-        $mail->setSubject($this->view->translate('REGISTER_PASSWORD_RECOVERY_MESSAGE_SUBJECT'));
+        $mail->setSubject($this->view->translate('Password recovery'));
         
         // what going to change
         $subject = $this->getRequest()->getParam('subject');
@@ -31,8 +25,19 @@ class User_UpdateController extends MF_Controller_Action {
         $form->removeElement('password');
         $form->removeElement('confirm_password');
         $form->removeElement('token');
-        $session = new Zend_Session_Namespace('REGISTER_CSRF');
-        $form->getElement('csrf')->setSession($session)->initCsrfValidator();
+        $form->removeElement('csrf');
+        
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Odzyskiwanie hasła'
+            ),
+            'en' => array(
+                'title' => 'Password recovery'
+            )
+                ), $this->view);
+        $this->view->headMeta()->appendName('robots', 'noindex, follow');
         
         $this->view->messages()->clean();
         
@@ -46,7 +51,7 @@ class User_UpdateController extends MF_Controller_Action {
                         throw new Zend_Controller_Action_Exception('User not found');
                     }
                     $update = $userService->prepareUpdate($user, $subject);
-                    $userService->sendUpdateMail(User_Model_Doctrine_Update::TYPE_PASSWORD, $user, $update->getToken(), $mail, $this->view, 'email/update.phtml');
+                    $userService->sendUpdateMail( $user, $update->getToken(), $mail, $this->view, 'email/update.phtml');
 
                     $this->_service->get('doctrine')->getCurrentConnection()->commit();
                     
@@ -167,10 +172,11 @@ class User_UpdateController extends MF_Controller_Action {
         
         if($token && $update = $userService->getUpdateOfToken($token)) {
             $form = $userService->getUpdateForm($update, $update->getType());
-            $form->getElement('password')->setDescription('Enter new password');
-            $form->getElement('confirm_password')->setDescription('Re-type new password');
-            $session = new Zend_Session_Namespace('RECOVER_CSRF');
-            $form->getElement('csrf')->setSession($session)->initCsrfValidator();
+//            $form->getElement('password')->setDescription('Enter new password');
+//            $form->getElement('confirm_password')->setDescription('Re-type new password');
+//            $session = new Zend_Session_Namespace('RECOVER_CSRF');
+//            $form->getElement('csrf')->setSession($session)->initCsrfValidator();
+            $form->removeElement('csrf');
         }
         
         if($this->getRequest()->isPost()) {

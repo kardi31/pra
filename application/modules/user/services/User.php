@@ -186,12 +186,11 @@ class User_Service_User extends MF_Service_ServiceAbstract {
     public function prepareUpdate($user, $subject) {
         $table = Doctrine_Core::getTable('User_Model_Doctrine_Update');
         
-        $table->deleteUserTokensOfType($user->getId(), $subject);
         
         $update = $table->getRecord();
         $update->User = $user;
-        $update->setType($subject);
-        $update->setToken(MF_Text::createUniqueToken());
+        $update->set('type',$subject);
+        $update->set('token',MF_Text::createUniqueToken());
         $update->save();
         return $update;
     }
@@ -210,11 +209,11 @@ class User_Service_User extends MF_Service_ServiceAbstract {
     public function getUpdateForm($update, $subject) {
         $form = new User_Form_Update();
         switch($subject) {
-            case User_Model_Doctrine_Update::TYPE_EMAIL:
+            case 'email':
                 $form->removeElement('password');
                 $form->removeElement('confirm_password');
                 break;
-            case User_Model_Doctrine_Update::TYPE_PASSWORD:
+            case 'password':
                 $form->removeElement('email');
                 break;
         }
@@ -268,10 +267,10 @@ class User_Service_User extends MF_Service_ServiceAbstract {
         $mail->send(); 
     }
     
-    public function sendUpdateMail($type = User_Model_Doctrine_Update::TYPE_PASSWORD, $user, $token, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/update.phtml') {
+    public function sendUpdateMail($user, $token, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/update.phtml') {
         $mail->addTo($user->getEmail());
         $mail->setBodyText(
-                $view->partial($partial, array('user' => $user, 'token' => $token, 'type' => $type))
+                $view->partial($partial, array('user' => $user, 'token' => $token))
         );
         $mail->send(); 
     }

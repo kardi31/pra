@@ -36,6 +36,15 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
         return $q->fetchOne(array(), $hydrationMode);
     }
     
+    public function getRandomCategory(){
+        $q = $this->categoryTable->createQuery('c');
+        $q->leftJoin('c.Translation ct');
+        $q->select('c.*,ct.*');
+        $q->orderBy('rand()');
+        $q->limit(1);
+        return $q->fetchOne(array(), $hydrationMode);
+    }
+    
     
    public function getNotApprovedAgents($countOnly = false,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
        $q = $this->agentTable->createQuery('b');
@@ -179,7 +188,7 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
     
     public function prependMainCategories($language = 'pl',$slug = true){
         
-        $categories = $this->getMainCategories();
+        $categories = $this->getMainCategories($language);
         
         $result = array();
         foreach($categories as $mainCategory):

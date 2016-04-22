@@ -35,6 +35,7 @@ class Branch_IndexController extends MF_Controller_Action {
         ),$this->view);
         
         
+        
         if($agent['premium_support']){
             $advertisingService = $this->_service->getService('Advertising_Service_Advertising');
             $ad = $advertisingService->getAgentAd($agent['id']);
@@ -260,6 +261,7 @@ class Branch_IndexController extends MF_Controller_Action {
         $this->_helper->actionStack('layout', 'index', 'default');
         $this->_helper->layout->setLayout('page');
         $agentService = $this->_service->getService('Agent_Service_Agent');
+        $branchService = $this->_service->getService('Branch_Service_Branch');
         
         $form = new Branch_Form_RankingSearch();
         $form->getElement('category_id')->addMultiOptions($agentService->prependMainCategories($this->view->language));
@@ -276,6 +278,7 @@ class Branch_IndexController extends MF_Controller_Action {
             )
         ),$this->view);
         
+        $branchesRegion = $branchService->getRankingNotes();
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getParams())) {
@@ -299,10 +302,8 @@ class Branch_IndexController extends MF_Controller_Action {
                 }
             }
         }
-        
-        $categories = $agentService->getMainCategories();
-        
-        $this->view->assign('categories',$categories);
+                
+        $this->view->assign('branchesRegion',$branchesRegion);
         $this->view->assign('form',$form);
     }
     

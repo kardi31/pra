@@ -48,6 +48,7 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                     <p class="aboutarrow"></p>
                 </div>
                 <div class="line3"></div>
+                <div class='clearfix'></div>
 
                 <?php foreach ($this->agentCategories as $key => $category): ?>
                     <div class="col-md-4">
@@ -94,6 +95,7 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 <script>
 
     $(function () {
+    $("#category").select2();
         $('#searchHomepage').on('click', function () {
             $('.tab-pane.active form').submit();
         });

@@ -18,7 +18,8 @@
  * @property integer $views
  * @property string $meta_title
  * @property boolean $premium_support
- * @property string $logo
+ * @property integer $logo_root_id
+ * @property integer $ad_root_id
  * @property string $facebook
  * @property string $twitter
  * @property boolean $approved
@@ -96,9 +97,13 @@ abstract class Agent_Model_Doctrine_BaseAgent extends Doctrine_Record
              'type' => 'boolean',
              'default' => 0,
              ));
-        $this->hasColumn('logo', 'string', 255, array(
-             'type' => 'string',
-             'length' => '255',
+        $this->hasColumn('logo_root_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => '4',
+             ));
+        $this->hasColumn('ad_root_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => '4',
              ));
         $this->hasColumn('facebook', 'string', 255, array(
              'type' => 'string',

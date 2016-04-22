@@ -24,11 +24,7 @@ else{
         <!-- SLIDER -->
         <div class="col-md-8 details-slider">
             <div class="company-ad">
-                <?php if(isset($this->ad)): ?>
-                    <img src="<?= MF_Text::getAdPhotoPath($this->ad['source'],'branch'); ?>" class="img-responsive" />
-                <?php else: ?>
-                    <img src="http://placehold.it/728x90" class="img-responsive" />
-                <?php endif; ?>
+                <img src="<?= $agent->getAdUrl('728x90'); ?>" alt="<?= $agent['name'];?> advertisment" />
             </div>
             
         </div>
@@ -100,7 +96,7 @@ else{
             </div>
            
             <div class="col-md-6 bordertype3">
-                <?= $branch['votes']; ?> <?= $this->translate('reviews'); ?>
+                <?= (int)$branch['votes']; ?> <?= $this->translate('reviews'); ?>
             </div>
             <div class="col-md-6 bordertype3">
                 <a href="<?= $this->url(array(),'domain-login'); ?>" class="grey underline"><?= $this->translate('Edit details'); ?></a>

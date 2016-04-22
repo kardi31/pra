@@ -11,7 +11,7 @@ class Default_IndexController extends MF_Controller_Action {
 
 
         if (!$category = $agentService->getFullCategory($_COOKIE['category'], 'slug', $this->view->language)) {
-            $category = $agentService->getFullCategory(1, 'id', $this->view->language);
+            $category = $agentService->getRandomCategory();
         }
 
         $categoryBranches = $branchService->rankBranchesByCategory($category['Translation'][$this->view->language]['slug'], $this->view->language, Doctrine_Core::HYDRATE_RECORD, 3);
@@ -22,7 +22,7 @@ class Default_IndexController extends MF_Controller_Action {
         $premiumBranches = $branchService->getRandomPremiumBranches();
         $bestTownBranches = $branchService->getBestTownBranches($userTown, 3);
         $newestBranches = $branchService->getNewestBranches(3);
-        $mapBranches = $branchService->getMapBranches(500, Doctrine_Core::HYDRATE_ARRAY);
+//        $mapBranches = $branchService->getMapBranches(500, Doctrine_Core::HYDRATE_ARRAY);
 
 
         $bannerService = $this->_service->getService('Banner_Service_Banner');
@@ -54,7 +54,7 @@ class Default_IndexController extends MF_Controller_Action {
         $this->view->assign('bestTownBranches', $bestTownBranches);
         $this->view->assign('userTown', $userTown);
         $this->view->assign('category', $category);
-        $this->view->assign('mapBranches', $mapBranches);
+//        $this->view->assign('mapBranches', $mapBranches);
         $this->view->assign('newestBranches', $newestBranches);
         $this->view->assign('categoryBranches', $categoryBranches);
 
@@ -65,13 +65,13 @@ class Default_IndexController extends MF_Controller_Action {
         $form->getElement('category_id')->addMultiOption('', '');
         $form->getElement('category_id')->addMultiOptions($agentService->prependMainCategories($this->view->language, false));
         $form->getElement('category_id')->setName('category');
+        $form->getElement('category_id')->setValue('');
 
         $form2 = new Agent_Form_SelectAgent();
 
         $this->view->assign('form', $form);
         $this->view->assign('form2', $form2);
     }
-
     public function searchAction() {
         $this->_helper->viewRenderer->setResponseSegment('search');
         $this->_helper->actionStack('layout', 'index', 'default');
@@ -444,6 +444,7 @@ class Default_IndexController extends MF_Controller_Action {
         $this->_helper->actionStack('layout', 'index', 'default');
     }
 
+    
     public function findSpecialistAction() {
         $messageService = $this->_service->getService('Default_Service_Message');
         $form = new Default_Form_FindSpecialist();
@@ -504,5 +505,4 @@ class Default_IndexController extends MF_Controller_Action {
 
         $this->_helper->layout->setLayout('page');
     }
-
 }

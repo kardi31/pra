@@ -12,5 +12,22 @@
  */
 class User_Model_Doctrine_Update extends User_Model_Doctrine_BaseUpdate
 {
-
+    public function getToken(){
+        return $this->token;
+    }
+    
+    public function getType(){
+        return $this->type;
+    }
+    public function getUserId(){
+        return $this->user_id;
+    }
+    
+    public function setValue($value){
+        $this->value = $value;
+    }
+    
+    public function getValue(){
+        return $this->value;
+    }
 }

@@ -7,6 +7,7 @@
         $pageString = ' - '.$this->translate('page').' '.$pageString;
     }
 
+    MF_View_Helper_Breadcrumb::getInstance()->addLink($this->url(array(),'domain-area-search'), $this->translate('Find company'));
     MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Search').$pageString, true);
     echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
@@ -222,6 +223,7 @@
                                             
                                             <h1 class="lato size30 slim">
                                                 <?php 
+                                                
                                                 if(count($this->fullSearchCategories)>1){
                                                     echo $this->translate('The best');
                                                     foreach($this->fullSearchCategories as $key => $fullSearchCategory){
@@ -234,13 +236,14 @@
                                                     }
                                                 }
                                                 elseif(count($this->fullSearchCategories)==1){
-                                                    echo $this->translate('The best');
-                                                    echo " ".$this->fullSearchCategories[0]['Translation'][$this->language]['title'];
+                                                    echo $this->translate('The best companies');
+                                                    echo " - ".$this->fullSearchCategories[0]['Translation'][$this->language]['title'];
                                                 }
                                                 else{
                                                     echo $this->translate('');
                                                     echo " ".$this->translate('The best companies');
                                                 }
+                                                if(strlen($this->searchString))
                                                 echo " - ".ucwords($this->searchString);
                                             
                                             ?>
@@ -308,7 +311,7 @@
                                                                     <?= str_repeat('<img src="/images/star.png" alt="Star">',round($branch['rating'])); ?>
                                                                     <?= str_repeat('<img src="/images/star-o.png" alt="Star">',5-round($branch['rating'])); ?>
                                                                         <br/><br />
-									<span class="size11 grey"><?= $branch['votes']; ?> <?= $this->translate('reviews'); ?></span><br/><br/>><br/>
+									<span class="size11 grey"><?= (int)$branch['votes']; ?> <?= $this->translate('reviews'); ?></span><br/><br/>><br/>
 									 <a class="btn-info bookbtn mt1" href="<?= $url ?>" type="submit">
                                                                              <?= $this->translate('See profile'); ?>
                                                                          </a>	<br /><br /><br />
@@ -321,7 +324,10 @@
                                                                         <?php if($branch['premium_support']) { ?>
                                                                             <img src="<?= $branch->get('Agent')->getLogoUrl('225x90'); ?>" alt="<?= $branch['Agent']['name']; ?>" class="pull-right logo">	
                                                                         <?php } ?>
-                                                                        <a href="<?= $url; ?>"><strong><?= $branch['Agent']['name']." - ".$branch['office_name']; ?></strong></a><br/><br />
+                                                                        <a href="<?= $url; ?>"><strong><?= $branch['Agent']['name']; ?>
+                                                                                
+                                                                                
+                                                                                <?php if(count($branch['Agent']['Branches'])>1){ echo " - ".$branch['office_name']; } ?></strong></a><br/><br />
 									<p class="grey">
 									<?= MF_Text::truncate($branch['Translation'][$this->language]['description']); ?>
                                                                         </p><br/>

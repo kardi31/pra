@@ -56,8 +56,8 @@ Branch:
       type: string(255)
     lng:
       type: string(255)
-    logo:
-      type: string(255)
+    photo_root_id:
+      type: integer(4)
     description:
       type: clob
     facebook:

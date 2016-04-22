@@ -15,8 +15,10 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
         $uriParts = explode('/', $_SERVER['REQUEST_URI']);
         $this->lang = (Zend_Locale::isLocale($uriParts[1])) ? $uriParts[1] : null;
         
-         
-        
+        $host = Zend_Controller_Front::getInstance()->getRequest()->getHttpHost();
+        if($host=='pracownikuk.localhost'||$host=='rate-pole.com'){
+            $this->lang = 'en';
+        }
         if($translator->isAvailable($this->lang)) {
             $translator->setLocale($this->lang);
         // set default site locale
@@ -56,9 +58,6 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
         
         $host = Zend_Controller_Front::getInstance()->getRequest()->getHttpHost();
        
-        if($host=='pracownikuk.localhost'){
-            $language = 'en';
-        }
 
         $translationNotAvailable = false; // translation of this language not available --> 404
         if(!in_array($language, $translate->getList())) {
@@ -82,6 +81,7 @@ class MF_Controller_Plugin_Language extends Zend_Controller_Plugin_Abstract
 
             Zend_Form::setDefaultTranslator($translate);
 //            var_dump(Zend_Controller_Front::getInstance()->getRouter()->getCurrentRouteName());exit;
+            
             Zend_Controller_Front::getInstance()->getRouter()->setGlobalParam('lang', $language);
 
         }

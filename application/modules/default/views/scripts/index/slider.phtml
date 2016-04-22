@@ -17,8 +17,9 @@
                 if ($this->language == 'pl') {
                     echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
                 } else {
-                    $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
-                    echo $dt->format('F');
+//                    $dt = DateTime::createFromFormat('m', $this->bestAgent['month']);
+//                    var_dump($dt);exit;
+//                    echo $dt->format('F');
                 }
                 ?>
                      "/>
@@ -51,8 +52,8 @@
                 if ($this->language == 'pl') {
                     echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
                 } else {
-                    $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
-                    echo $dt->format('F');
+//                    $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
+//                    echo $dt->format('F');
                 }
                 ?>
                      "/>
@@ -69,8 +70,8 @@
                             if ($this->language == 'pl') {
                                 echo MF_Text::polishMonthFromNo($this->bestAgent['month']);
                             } else {
-                                $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
-                                echo $dt->format('F');
+//                                $dt = DateTime::createFromFormat('!m', $this->bestAgent['month']);
+//                                echo $dt->format('F');
                             }
                             ?>
                         </span><br />

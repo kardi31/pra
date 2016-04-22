@@ -582,6 +582,8 @@ public static function createUniqueTableField($table,$field, $string, $id = 0, $
                      endforeach; 
                 $html .= '</div>';
             endif; 
+            
+            $flashMessenger->clearMessages();
             echo $html;
         }
         

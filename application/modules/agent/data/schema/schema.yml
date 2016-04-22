@@ -41,8 +41,10 @@ Agent:
     premium_support:
       type: boolean
       default: 0
-    logo:
-      type: string(255)
+    logo_root_id:
+      type: integer(4)
+    ad_root_id:
+      type: integer(4)
     facebook:
       type: string(255)
     twitter:

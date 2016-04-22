@@ -33,6 +33,9 @@
        <tu tuid='banners-edit'>
            <tuv xml:lang="pl"><seg>bannery-edycja</seg></tuv>
        </tu>
+       <tu tuid='find-specialist'>
+           <tuv xml:lang="pl"><seg>znajdz-fachowca</seg></tuv>
+       </tu>
        <tu tuid='banners-new'>
            <tuv xml:lang="pl"><seg>bannery-dodaj</seg></tuv>
        </tu>

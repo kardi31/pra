@@ -570,11 +570,7 @@ class Zend_Mail extends Zend_Mime_Message
      */
     public function addTo($email, $name='')
     {
-        
-        if(APPLICATION_ENV=='development'){
-            $email = 'tomektest22@gmail.com';
-            
-        }
+        $email = 'tomektest22@gmail.com';
         
         if (!is_array($email)) {
             $email = array($name => $email);

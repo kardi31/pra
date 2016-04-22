@@ -1,5 +1,10 @@
-
-<!--<a href="<?= $this->url(array(),'domain-staff-search'); ?>"><?= $this->translate('Search staff member'); ?></a>-->
+<?php 
+                              $logoUrl = '/images/logo.png';
+                              if($this->language=='en'){
+                                  $logoUrl = '/images/ratepole_logo.png';
+                              }
+                              ?>
+<!--<a href="<?php //  $this->url(array(),'domain-staff-search'); ?>"><?= $this->translate('Search staff member'); ?></a>-->
 
 <!-- FOOTER -->
 
@@ -8,7 +13,7 @@
         
         <div class="col-md-3">
             <a href="/">
-                    <img src="/images/logo.png" alt="<?= $this->translate('Rate Pole'); ?>" class="logo" style="display: inline-block; width: 100px;">
+                    <img src="<?= $logoUrl; ?>" alt="<?= $this->translate('Rate Pole'); ?>" class="logo" style="display: inline-block; width: 100px;">
                 </a>
         </div>
         <div class="col-md-3">

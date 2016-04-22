@@ -4,7 +4,6 @@ $agentPsp = (int) $agent['premium_support'];
 ?>
 
 <?php
-    //        Tomasz_Breadcrumb::getInstance()->addLink('/house-prices/','House prices'); 
     MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $agent['name'], true);
     echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
@@ -18,11 +17,7 @@ $agentPsp = (int) $agent['premium_support'];
         <!-- SLIDER -->
         <div class="col-md-8 details-slider">
             <div class="company-ad">
-                <?php if(isset($this->ad)): ?>
-                    <img src="<?= MF_Text::getAdPhotoPath($this->ad['source'],'agent'); ?>" class="img-responsive" />
-                <?php else: ?>
-                    <img src="http://placehold.it/728x90" class="img-responsive" />
-                <?php endif; ?>
+                <img src="<?= $agent->getAdUrl('728x90'); ?>" alt="<?= $agent['name'];?> advertisment" />
             </div>
         </div>
         

@@ -338,11 +338,18 @@ class Agent_AdminController extends MF_Controller_Action {
             if($form->isValid($this->getRequest()->getPost())) {
                 try {                                   
                     $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
-                    $values = $form->getValues();  
+                    $values = $form->getValues();
+                    
                     $postValues = $_POST;
                     unset($values['id']);
                     $agent = $agentService->saveNewAgentFromUpdate($values);
                     
+                    foreach($values['category_id'] as $category_id){
+                        $agent->link('Categories',$category_id);
+                        
+                    }
+                    
+                    $values['email'] = $values['branch_email'];
                     $branch = $branchService->saveNewAgentBranchFromUpdate($agent['id'],$values);
                     
                     $values['hoursForm']['branch_id'] = $branch['id'];
@@ -365,10 +372,10 @@ class Agent_AdminController extends MF_Controller_Action {
                             $branchNo++;
                         }
                     }
-//                    if($update->get('Branches')){
-//                        $update->get('Branches')->delete();
-//                    }
-//                    $update->delete();
+                    if($update->get('Branches')){
+                        $update->get('Branches')->delete();
+                    }
+                    $update->delete();
                     
                     
                     $this->createUser('agent',$agent,$headOffice);
@@ -573,8 +580,18 @@ class Agent_AdminController extends MF_Controller_Action {
         $form = $agentService->getAgentAdminForm($agent);
        
         $this->view->assign('form',$form);
+        $this->view->assign('agent',$agent);
         
        
+        $form->getElement('category_id')->addMultiOptions($agentService->prependMainCategories('pl',false));
+        
+        $cat = array();
+        foreach($agent->get('Categories') as $category){
+            $cat[] = $category['id'];
+        }
+        
+        $form->getElement('category_id')->setValue($cat);
+        
         $languages = $i18nService->getLanguageList();
         $adminLanguage = $i18nService->getAdminLanguage();
         $this->view->assign('languages', $languages);
@@ -588,6 +605,13 @@ class Agent_AdminController extends MF_Controller_Action {
                     $values = $form->getValues();  
                     $values['id'] = $agent['id'];
                     $agent = $agentService->saveAgentFromCms($values);
+                    
+                    $agent->unlink('Categories');
+                    foreach($values['category_id'] as $category_id){
+                        $agent->link('Categories',$category_id);
+                    }
+                                        
+                    $agent->save();
                     
                     $this->_service->get('doctrine')->getCurrentConnection()->commit();
                     $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));
@@ -648,6 +672,196 @@ class Agent_AdminController extends MF_Controller_Action {
         $mail->setReplyTo($options['reply_email'], 'Oceń Fachowca');
 
         $mailService->sendBranchAddedMail($user,$branch,$newPassword,$mail, $this->view);
+    }
+    
+    public function addLogoPhotoAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $photoService = $this->_service->getService('Media_Service_Photo');
+        if(!$agent = $agentService->getAgent((int) $this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Agent not found');
+        }
+        
+        $options = $this->getInvokeArg('bootstrap')->getOptions();
+        if(!array_key_exists('domain', $options)) {
+            throw new Zend_Controller_Action_Exception('Domain string not set');
+        }
+        
+        $href = $this->getRequest()->getParam('hrefs');
+        
+        if(is_string($href) && strlen($href)) {
+            $path = str_replace("http://" . $options['domain'], "", urldecode($href));
+            $filePath = urldecode($options['publicDir'] . $path);
+            if(file_exists($filePath)) {
+                $pathinfo = pathinfo($filePath);
+                $slug = MF_Text::createSlug($pathinfo['basename']);
+                $name = MF_Text::createUniqueFilename($slug, $photoService->photosDir);
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+
+                    $root = $agent->get('LogoRoot');
+                    
+                     if(!$root || $root->isInProxyState()) {
+                        $photo = $photoService->createPhoto($filePath, $name, $pathinfo['filename'], array_keys(Agent_Model_Doctrine_Agent::getAgentPhotoDimensions()), false, false);
+                    } else {
+                        $photo = $photoService->clearPhoto($root);       
+                        $photo = $photoService->updatePhoto($root, $filePath, null, $name, $pathinfo['filename'], array_keys(Agent_Model_Doctrine_Agent::getAgentPhotoDimensions()), false);                    
+                    }
+                    
+                    $agent->set('LogoRoot', $photo);
+                    $agent->save();
+
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                } catch(Exception $e) {
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+        }
+
+        
+       
+        $root = $agent->get('LogoRoot');
+        $root->refresh();
+        $list = $this->view->partial('admin/agent-logo.phtml', 'agent', array('photos' => $root, 'agent' => $agent));
+        
+        $this->_helper->json(array(
+            'status' => 'success',
+            'body' => $list,
+            'id' => $agent->get('id')
+        ));
+        
+    }
+    public function removeLogoPhotoAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $photoService = $this->_service->getService('Media_Service_Photo');
+        
+        if(!$people = $peopleService->getPeople((int) $this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Attraction not found');
+        }
+        
+        try {
+            $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    
+            if($root = $agent->get('LogoRoot')) {
+                if($root && !$root->isInProxyState()) {
+                    $photo = $photoService->updatePhoto($root);
+                    $photo->setOffset(null);
+                    $photo->setFilename(null);
+                    $photo->setTitle(null);
+                    $photo->save();
+                }
+            }
+        
+            $this->_service->get('doctrine')->getCurrentConnection()->commit();
+        } catch(Exception $e) {
+            $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+            $this->_service->get('log')->log($e->getMessage(), 4);
+        }
+        
+        $root = $people->get('LogoRoot');
+        $list = $this->view->partial('admin/agent-logo.phtml', 'agent', array('photos' => $root , 'agent' => $agent));
+        
+        $this->_helper->json(array(
+            'status' => 'success',
+            'body' => $list,
+            'id' => $agent->get('id')
+        ));
+    }
+    
+    public function addAdPhotoAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $photoService = $this->_service->getService('Media_Service_Photo');
+        if(!$agent = $agentService->getAgent((int) $this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Agent not found');
+        }
+        
+        $options = $this->getInvokeArg('bootstrap')->getOptions();
+        if(!array_key_exists('domain', $options)) {
+            throw new Zend_Controller_Action_Exception('Domain string not set');
+        }
+        
+        $href = $this->getRequest()->getParam('hrefs');
+        if(is_string($href) && strlen($href)) {
+            
+            $path = str_replace("http://" . $options['domain'], "", urldecode($href));
+            $filePath = urldecode($options['publicDir'] . $path);
+            if(file_exists($filePath)) {
+                
+                $pathinfo = pathinfo($filePath);
+                $slug = MF_Text::createSlug($pathinfo['basename']);
+                $name = MF_Text::createUniqueFilename($slug, $photoService->photosDir);
+                try {
+                    $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    
+                    $root = $agent->get('AdRoot');
+                    
+                     if(!$root || $root->isInProxyState()) {
+                        $photo = $photoService->createPhoto($filePath, $name, $pathinfo['filename'], array_keys(Advertising_Model_Doctrine_Advertising::getAdPhotoDimensions()), false, false);
+                    } else {
+                        $photo = $photoService->clearPhoto($root);       
+                        $photo = $photoService->updatePhoto($root, $filePath, null, $name, $pathinfo['filename'], array_keys(Advertising_Model_Doctrine_Advertising::getAdPhotoDimensions()), false);                    
+                    }
+                    
+                    $agent->set('AdRoot', $photo);
+                    $agent->save();
+
+                    $this->_service->get('doctrine')->getCurrentConnection()->commit();
+                } catch(Exception $e) {
+                    var_dump($e->getMessage());exit;
+                    $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+                    $this->_service->get('log')->log($e->getMessage(), 4);
+                }
+            }
+        }
+
+        
+       
+        $root = $agent->get('AdRoot');
+        $root->refresh();
+        $list = $this->view->partial('admin/agent-ad.phtml', 'agent', array('photos' => $root, 'agent' => $agent));
+        
+        $this->_helper->json(array(
+            'status' => 'success',
+            'body' => $list,
+            'id' => $agent->get('id')
+        ));
+        
+    }
+    public function removeAdPhotoAction() {
+        $agentService = $this->_service->getService('Agent_Service_Agent');
+        $photoService = $this->_service->getService('Media_Service_Photo');
+        
+        if(!$people = $peopleService->getPeople((int) $this->getRequest()->getParam('id'))) {
+            throw new Zend_Controller_Action_Exception('Attraction not found');
+        }
+        
+        try {
+            $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
+                    
+            if($root = $agent->get('AdRoot')) {
+                if($root && !$root->isInProxyState()) {
+                    $photo = $photoService->updatePhoto($root);
+                    $photo->setOffset(null);
+                    $photo->setFilename(null);
+                    $photo->setTitle(null);
+                    $photo->save();
+                }
+            }
+        
+            $this->_service->get('doctrine')->getCurrentConnection()->commit();
+        } catch(Exception $e) {
+            $this->_service->get('doctrine')->getCurrentConnection()->rollback();
+            $this->_service->get('log')->log($e->getMessage(), 4);
+        }
+        
+        $root = $people->get('AdRoot');
+        $list = $this->view->partial('admin/agent-ad.phtml', 'agent', array('photos' => $root , 'agent' => $agent));
+        
+        $this->_helper->json(array(
+            'status' => 'success',
+            'body' => $list,
+            'id' => $agent->get('id')
+        ));
     }
 }
 

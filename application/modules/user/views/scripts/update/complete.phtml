@@ -1,15 +1,58 @@
-<section class="span8">
-    <h2><?php echo $this->translate('Update user') ?></h2>
-    <?php echo $this->messages()->render() ?><br />
-    <?php if($this->form): ?>
-    <form action="<?php echo $this->form->getAction() ?>" method="<?php echo $this->form->getMethod() ?>" class="form-horizontal">
-        <?php echo $this->form->email ?>
-        <?php echo $this->form->password ?>
-        <?php echo $this->form->confirm_password ?>
-        <?php echo $this->form->submit ?>
-        <?php echo $this->form->user_id ?>
-        <?php echo $this->form->token ?>
-        <?php echo $this->form->csrf ?>
-    </form>
-    <?php endif; ?>
-</section>
+<?php
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Password recovery'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+?>
+
+
+
+<div class="container">
+    <div class="container pagecontainer offset-0">
+        <div class="login-fullwidith  custom-login-container">
+
+            <!-- Login Wrap  -->
+            <div class="login-wrap text-center">
+                <h1><?php echo $this->translate('Password recovery') ?></h1>
+                <br /> 
+                <div class="pagecontainer2 container">
+                <?= $this->translate('Enter your new password.'); ?>
+                </div>
+                <br />
+                <form class="form-horizontal" method='POST'> 
+
+                    <?php if ($this->messages()->count()): ?>
+                        <div class="alert alert-error">
+                            <?php echo $this->messages()->render() ?>
+                        </div>
+                    <?php endif; ?>
+                    <div class="login-c1">
+                        <div class="cpadding20">
+                                <?php echo $this->form->password->setAttrib('class', 'logpadding form-control') ?>
+                                <?php echo $this->form->confirm_password->setAttrib('class', 'logpadding form-control') ?>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="login-c2">
+                        <div class="logmargfix">
+                            <div class="chpadding50">
+                                <div class="alignbottom">
+                                    <?php echo $this->form->submit->setAttrib('class', 'btn-search4')->setLabel('Save'); ?>						
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="clearfix"></div>
+                </form>
+                <div class="login-c3">
+                    <!--<div class="left"><a href="#" class="whitelink"><span></span>Website</a></div>-->
+                    <div class="right">
+
+                    </div>
+                </div>			
+            </div>
+            <!-- End of Login Wrap  -->
+
+            <div class="clearfix"></div>
+        </div>	
+        <div class="clearfix"></div>
+    </div>
+</div>

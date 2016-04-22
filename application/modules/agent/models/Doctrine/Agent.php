@@ -14,6 +14,7 @@ class Agent_Model_Doctrine_Agent extends Agent_Model_Doctrine_BaseAgent
 {
     public static $agentPhotoDimensions = array(
         '126x126' => 'Photo in admin panel',                  // admin
+        '225x90' => 'Very main',
         '200x150' => 'Main',
         '250x150' => 'Main2',
         '150x80' => 'Directory search',
@@ -32,9 +33,13 @@ class Agent_Model_Doctrine_Agent extends Agent_Model_Doctrine_BaseAgent
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Media_Model_Doctrine_Photo as PhotoRoot', array(
-             'local' => 'logo',
-             'foreign' => 'filename'));
+        $this->hasOne('Media_Model_Doctrine_Photo as LogoRoot', array(
+             'local' => 'logo_root_id',
+             'foreign' => 'id'));
+        
+        $this->hasOne('Media_Model_Doctrine_Photo as AdRoot', array(
+             'local' => 'ad_root_id',
+             'foreign' => 'id'));
         
          $this->hasMany('Staff_Model_Doctrine_Staff as StaffMembers', array(
              'local' => 'id',
@@ -55,11 +60,20 @@ class Agent_Model_Doctrine_Agent extends Agent_Model_Doctrine_BaseAgent
     }
     
      public function getLogoUrl($dimensions = '200x150'){
-        if(strlen($this->logo)&&file_exists(APPLICATION_PATH."/../public_html/".MF_Text::getAgentPhotoPath($this->logo,$dimensions))){
-            return MF_Text::getAgentPhotoPath($this->logo,$dimensions);
+        if($this->get('LogoRoot')&&file_exists(APPLICATION_PATH."/../public_html/".MF_Text::getPhotoPath($this->get('LogoRoot'),$dimensions))){
+            return MF_Text::getPhotoPath($this->get('LogoRoot'),$dimensions);
         }
         else{
             return 'http://placehold.it/'.$dimensions.'?text=Brak+logo';
+        }
+    }
+    
+    public function getAdUrl($dimensions = '728x90'){
+        if($this->get('AdRoot')&&file_exists(APPLICATION_PATH."/../public_html/".MF_Text::getPhotoPath($this->get('AdRoot'),$dimensions))&&$this->premium_support = 1){
+            return MF_Text::getPhotoPath($this->get('AdRoot'),$dimensions);
+        }
+        else{
+            return Advertising_Model_Doctrine_Advertising::getDefaultAd($dimensions);
         }
     }
     

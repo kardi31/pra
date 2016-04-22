@@ -1,117 +1,93 @@
 <?php
-    MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Ranking'),true);
-    echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
+MF_View_Helper_Breadcrumb::getInstance()->addLink('#', $this->translate('Ranking'), true);
+echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 ?>
 <div class="container">
 
-		
-		<div class="container mt25 offset-0">
-			
-			
-			<!-- CONTENT -->
-			<div class="col-md-12 pagecontainer2 offset-0">
-				<div class="hpadding50c">
-                                   <h1 class="lato size30 slim"><?= $this->translate('Ranking of best Polish companies'); ?></h1>
-					<p class="aboutarrow"></p>
-				</div>
-				<div class="line3"></div>
-				
-				<div class="hpadding50c">
-					
 
-                                    
-						<span class="lato size22 dark bold block textcenter"><?= $this->translate('Browse best Polish companies by category and area'); ?></span>
-					<!-- LEFT IMG -->
-					<div class="col-md-7 cpdd01 grey2">
-						
-						<div class="line4"></div>
-                                                
-                                                <div class='col-md-12'>
-                                                    <?php foreach($this->categories as $category): ?>
-                                                    <h4><?= $category['Translation'][$this->language]['title']; ?></h4>
-                                                    <ul>
-                                                        <?php foreach($category->getNode()->getChildren() as $key => $subcategory){ 
-                                                            $area = MF_Text::getArea($key);
-                                                            ?>
-                                                            <li>
-                                                                <a href='<?= $this->url(array('category' => $subcategory['Translation'][$this->language]['slug'],'region' => MF_Text::createSlug($area)),'domain-ranking-region-category'); ?>'><?= $this->translate('Best')." ".$subcategory['Translation'][$this->language]['title']." ".$this->translate('in')." ".$area; ?></a>
-                                                            </li>
-                                                        <?php } ?>
-                                                    </ul> 
-                                                    <?php endforeach; ?>
-                                                </div>
-						
-					</div>
-					<!-- END OF LEFT IMG -->
-					
-					<!-- IMG RIGHT TEXT -->
-					<div class="col-md-5 cpdd02">
-						<div class="opensans grey">
-                                           
-                                                    <div class="line4"></div>
-                                                    <form method="POST" id='leagueTableSearch'>
-                                                        <div class="col-md-12">
-                                                            <?= $this->form->getElement('area'); ?>
-                                                        </div>
-                                                        <br />
-                                                        <div class="col-md-12">
-                                                            <?= $this->form->getElement('category_id'); ?>
-                                                            &nbsp;
-                                                        </div>
-                                                        <div class='col-md-12 pull-right'>
-                                                            <?= $this->form->submit; ?>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </form>
+    <div class="container mt25 offset-0">
 
-						</div>
-					</div>
-					<!-- END OF IMG RIGHT TEXT -->
-					<div class="clearfix"></div>
-					<br><br>
-					
-				
 
-					
-					
-				</div>
-				
+        <!-- CONTENT -->
+        <div class="col-md-12 pagecontainer2 offset-0">
+            <div class="hpadding50c">
+                <h1 class="lato size30 slim"><?= $this->translate('Ranking of best Polish companies'); ?></h1>
+                <p class="aboutarrow"></p>
+            </div>
+            <div class="line3"></div>
 
-				
-			<div class="clearfix"></div><br><br>
-			</div>
-			<!-- END CONTENT -->			
-			
+            <div class="hpadding50c">
 
-			
-		</div>
-		
-		
-	</div>
 
-<?php
 
-$headers = array('APIKEY: 40fc46d06e72'); //Example API Key which must be changed.
+                <span class="lato size22 dark bold block textcenter"><?= $this->translate('Browse best Polish companies by category and area'); ?></span>
+                <!-- LEFT IMG -->
+                <div class="col-md-7 cpdd01 grey2">
 
-$url = "https://www.allagents.co.uk/api/v1/firms/bradleys-estate-agents/"; //example-agent must be changed
+                    <div class="line4"></div>
 
-$curl = curl_init(); // Initialize cURL
+                    <div class='col-md-12'>
+                        <?php foreach ($this->branchesRegion as $categoryName => $branches): ?>
+                            <h4><?= $categoryName; ?></h4>
+                            <ul>
+                                <?php
+                                foreach ($branches as $branch) {
+                                    $area = $branch['county'];
+                                    $cat = $branch['Agent']['Categories'][0]['Translation'][$this->language];
+                                    ?>
+                                    <li>
+                                        <a href='<?= $this->url(array('category' => $cat['slug'], 'region' => MF_Text::createSlug($area)), 'domain-ranking-region-category'); ?>'><?= $this->translate('Best companies') . ' ' . $this->translate('in') . " " . $area; ?></a>
+                                    </li>
+                                <?php } ?>
+                            </ul> 
+                        <?php endforeach; ?>
+                    </div>
 
-// Set the options for cURL
-curl_setopt($curl,CURLOPT_URL, $url); //Use the request url defined
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); //We want the result variable to contain the output
-curl_setopt($curl, CURLOPT_HTTPHEADER, $headers); //send custom header that has the API Key
+                </div>
+                <!-- END OF LEFT IMG -->
 
-$result = curl_exec($curl); //Make request via curl and store in $result
-curl_close($curl);//close the connection
+                <!-- IMG RIGHT TEXT -->
+                <div class="col-md-5 cpdd02">
+                    <div class="opensans grey">
 
-$decodedResult = (json_decode($result, true)); //Transform JSON output into associative array.
-$rating = $decodedResult['rating']; //Store Rating in its own variable
-$reviewCount = $decodedResult['votes']; //Store Review Count in its own variable
+                        <div class="line4"></div>
+                        <form method="POST" id='leagueTableSearch'>
+                            <div class="col-md-12">
+                                <?= $this->form->getElement('area'); ?>
+                            </div>
+                            <br />
+                            <div class="col-md-12">
+                                <?= $this->form->getElement('category_id'); ?>
+                                &nbsp;
+                            </div>
+                            <div class='col-md-12 pull-right'>
+                                <?= $this->form->submit; ?>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
 
-?>
+                    </div>
+                </div>
+                <!-- END OF IMG RIGHT TEXT -->
+                <div class="clearfix"></div>
+                <br><br>
 
-<!-- Normal HTML content begins -->
 
-<p> We are rated <?= $rating ?> based on <?= $reviewCount ?></p>
-                    
+
+
+
+            </div>
+
+
+
+            <div class="clearfix"></div><br><br>
+        </div>
+        <!-- END CONTENT -->			
+
+
+
+    </div>
+
+
+</div>
+

@@ -179,7 +179,7 @@ abstract class elFinderVolumeDriver {
 		// thumbnails crop (true - crop, false - scale image to fit thumbnail size)
 		'tmbCrop'         => true,
 		// thumbnails background color (hex #rrggbb or 'transparent')
-		'tmbBgColor'      => '#ffffff',
+		'tmbBgColor'      => 'transparent',
 		// image manipulations library
 		'imgLib'          => 'auto',
 		// on paste file -  if true - old file will be replaced with new one, if false new file get name - original_name-number.ext

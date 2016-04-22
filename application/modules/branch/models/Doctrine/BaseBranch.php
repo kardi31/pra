@@ -26,7 +26,7 @@
  * @property integer $rank
  * @property string $lat
  * @property string $lng
- * @property string $logo
+ * @property integer $photo_root_id
  * @property clob $description
  * @property string $facebook
  * @property string $twitter
@@ -138,9 +138,9 @@ abstract class Branch_Model_Doctrine_BaseBranch extends Doctrine_Record
              'type' => 'string',
              'length' => '255',
              ));
-        $this->hasColumn('logo', 'string', 255, array(
-             'type' => 'string',
-             'length' => '255',
+        $this->hasColumn('photo_root_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => '4',
              ));
         $this->hasColumn('description', 'clob', null, array(
              'type' => 'clob',

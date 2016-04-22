@@ -17,12 +17,12 @@ class User_Form_Update extends Zend_Form
         $userId = $this->createElement('hidden', 'user_id');
         $userId->setDecorators(array('ViewHelper'));
         
-        $email = new Glitch_Form_Element_Text_Email('email');
+        $email = $this->createElement('text', 'email');
         $email->setLabel('Email');
         
         $password = $this->createElement('password', 'password');
-		$password->setLabel('Password');
-        $password->setDecorators(array('ViewHelper'));
+		$password->setLabel('New password');
+//        $password->setDecorators(array('ViewHelper'));
 		
 		$confirmPassword = $this->createElement('password', 'confirm_password');
 		$confirmPassword->setLabel('Confirm password');

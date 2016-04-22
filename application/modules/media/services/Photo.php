@@ -272,7 +272,7 @@ class Media_Service_Photo extends MF_Service_ServiceAbstract {
     }
     
     public function createPhotoFile($filePath, $offset = '', $name = null, array $options, $watermarkFile = null) {
-            var_dump($filePath);exit;
+
         if(file_exists($filePath)) {
             $offsetDir = realpath($this->photosDir . DIRECTORY_SEPARATOR . $offset);
 
@@ -451,7 +451,7 @@ class Media_Service_Photo extends MF_Service_ServiceAbstract {
             @unlink($thumbnailImagePath);
         }
         
-        $r = imagejpeg( $thumbnailGdImage, $thumbnailImagePath, 90 );
+        $r = imagepng( $thumbnailGdImage, $thumbnailImagePath, 90 );
 
         imagedestroy( $sourceGdImage );
         imagedestroy( $thumbnailGdImage );

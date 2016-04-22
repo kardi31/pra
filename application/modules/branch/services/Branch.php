@@ -160,6 +160,49 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
        return $q->execute(array(),$hydrationMode);
    }
    
+   public function getBranchesByCategoryAndTown(){
+       $q = $this->branchTable->createQuery('b');
+       $q->orderBy('b.rating DESC');
+       $q->leftJoin('b.Agent a');
+       $q->leftJoin('a.Categories c');
+       $q->leftJoin('c.Translation ct');
+       $q->select('*');
+       $q->groupBy('c.id, b.town');
+       return $q->execute(array(),$hydrationMode);
+   }
+   
+   public function getBranchesByCategoryAndRegion($order = false){
+       $q = $this->branchTable->createQuery('b');
+       $q->orderBy('b.rating DESC');
+       $q->leftJoin('b.Agent a');
+       $q->leftJoin('a.Categories c');
+       $q->leftJoin('c.Translation ct');
+       $q->select('b.*,a.*,c.*,ct.*');
+       $q->groupBy('c.id, b.county');
+       if($order){
+            $translate = Zend_Registry::get('Zend_Translate');
+            $lang = $translate->getLocale();
+            $q->addWhere("ct.lang = '".$lang."'");
+            $q->orderBy('ct.title ASC,b.county ASC');
+            $q->limit(30);
+       }
+       return $q->execute(array(),$hydrationMode);
+   }
+   
+   public function getRankingNotes(){
+        $translate = Zend_Registry::get('Zend_Translate');
+        $lang = $translate->getLocale();
+        $branches = $this->getBranchesByCategoryAndRegion(true);
+        
+        $resultArray = array();
+        foreach($branches as $branch){
+            $groupName = $branch['Agent']['Categories'][0]['Translation'][$lang]['title'];
+            $resultArray[$groupName][] = $branch;
+        }
+
+        return $resultArray;
+   }
+   
    public function rankBranchesByCategory($category,$lang = 'pl', $hydrationMode = Doctrine_Core::HYDRATE_RECORD,$limit = 30){
        $q = $this->branchTable->createQuery('b');
        $q->addWhere('ct.slug = ? and ct.lang = ?',array($category,$lang));
@@ -219,7 +262,7 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
            $q->orderBy('b.premium_support DESC,rating DESC');
        }
        
-       $q->select('b.*,a.id,a.logo,a.name,a.link,bt.*');
+       $q->select('b.*,a.id,a.name,a.link,bt.*');
 //       echo $q;exit;
        return $q;
    }
