@@ -245,9 +245,13 @@
                                         <img src="<?= MF_Text::getPhotoUrl($lastNews['PhotoRoot'], '250x150'); ?>" alt="<?= $lastNews['Translation'][$this->language]['title']; ?>"/>
                                     </a>
                                     <div class="m1">
-                                        <h5 class="dark"><b><?= $lastNews['Translation'][$this->language]['title']; ?></b></h5>						
-                                    </div>							
+                                        <h5 class="dark"><b><?= $lastNews['Translation'][$this->language]['title']; ?></b></h5>	
+                                        <?php if(strlen($lastNews['src_name'])){ ?>
+                                            <a class="size12" href="<?= $lastNews['src_url']; ?>"><?= $lastNews['src_name']; ?></a>
+                                        <?php } ?>
+                                    </div>					
                                 </li>
+                                
                             <?php endforeach; ?>	
                         </ul>
                         <div class="clearfix"></div>

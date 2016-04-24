@@ -42,6 +42,7 @@ abstract class News_Model_Doctrine_BaseCategory extends Doctrine_Record
              'type' => 'integer',
              'length' => '4',
              ));
+        
         $this->hasColumn('title', 'string', 255, array(
              'type' => 'string',
              'length' => '255',

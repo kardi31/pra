@@ -52,11 +52,15 @@ jQuery(document).ready(function(jQuery){
 		},
 		auto: false,
 		prev: {
-			button: "#prev_btn",
+			button: function() {
+                            return $(this).parent().siblings(".prev");
+                        },
 			key: "left"
 		},
 		next: {
-			button: "#next_btn",
+			button: function() {
+                            return $(this).parent().siblings(".next");
+                        },
 			key: "right"
 		},				
 		swipe: true

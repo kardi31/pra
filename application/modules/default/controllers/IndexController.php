@@ -47,7 +47,7 @@ class Default_IndexController extends MF_Controller_Action {
         $newsService = $this->_service->getService('News_Service_News');
 
         $lastNews = $newsService->getLastNews(6, Doctrine_Core::HYDRATE_ARRAY);
-
+//        var_dump($lastNews);exit;
         $this->view->assign('lastNews', $lastNews);
 
         $this->view->assign('premiumBranches', $premiumBranches);

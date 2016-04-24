@@ -278,7 +278,11 @@ $(document).ready(function() {
                     <span class="section optionsSection">
                         <?php echo $this->form->publish ?>
                         <?php echo $this->form->publish_date->setAttrib('class', 'combiner-picker') ?>
-                        <?php // echo $this->form->category_id->setAttrib('class', 'nostyle') ?>
+                        
+                        <?php echo $this->form->src_name ?>
+                        <?php echo $this->form->src_url ?>
+                        <?php echo $this->form->src_orig_url ?>
+                            <?php // echo $this->form->category_id->setAttrib('class', 'nostyle') ?>
                         <?php // echo $this->form->group_id ?>
                         <?php // echo $this->form->student ?>
                         <?php // echo $this->form->student_accept ?>
