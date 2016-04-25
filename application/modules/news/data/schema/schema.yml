@@ -24,6 +24,12 @@ News:
       type: string(255)
     slug:
       type: string(255)
+    src_url:
+      type: string(255)
+    src_name:
+      type: string(255)
+    src_orig_url:
+      type: string(255)
     content:
       type: clob
     publish:

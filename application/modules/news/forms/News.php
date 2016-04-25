@@ -69,6 +69,24 @@ class News_Form_News extends Admin_Form {
         $url->setAttrib('class', 'span8');
         $url->setRequired(false);
         
+        $src_url = $this->createElement('text', 'src_url');
+        $src_url->setLabel('Adres www domeny');
+        $src_url->setDecorators(self::$textDecorators);
+        $src_url->setAttrib('class', 'span8');
+        $src_url->setRequired(false);
+        
+        $src_name = $this->createElement('text', 'src_name');
+        $src_name->setLabel('Nazwa zrodla (np. onet,interia)');
+        $src_name->setDecorators(self::$textDecorators);
+        $src_name->setAttrib('class', 'span8');
+        $src_name->setRequired(false);
+        
+        $src_orig_url = $this->createElement('text', 'src_orig_url');
+        $src_orig_url->setLabel('Adres www artykułu');
+        $src_orig_url->setDecorators(self::$textDecorators);
+        $src_orig_url->setAttrib('class', 'span8');
+        $src_orig_url->setRequired(false);
+        
         $publish = $this->createElement('checkbox', 'publish');
         $publish->setLabel('Publish');
         $publish->setDecorators(self::$checkgroupDecorators);
@@ -112,6 +130,9 @@ class News_Form_News extends Admin_Form {
             $publishDate,
             $show_views,
             $servicesDisplay,
+            $src_orig_url,
+            $src_name,
+            $src_url,
             $submit
         ));
     }

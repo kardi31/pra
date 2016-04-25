@@ -204,12 +204,18 @@ public static function createUniqueTableField($table,$field, $string, $id = 0, $
     }
     
     public static function getPhotoUrl($photo, $offset = false) {
+        
+        if(!strlen($photo['filename'])&&strlen($offset)){
+            return 'http://placehold.it/'.$offset;
+        }
+        
         $html = "/media/photos/".$photo['offset']."/";
         if($offset){
             $html .= $offset."/";
         }
         
         $html .= $photo['filename'];
+        
         
         return $html;
         

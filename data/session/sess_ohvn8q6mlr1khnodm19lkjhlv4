@@ -1,0 +1,1 @@
+RequestedURL|a:1:{s:3:"url";s:6:"/admin";}Messages|a:1:{s:8:"messages";a:1:{s:7:"success";a:1:{i:0;s:25:"Element został zmieniony";}}}Zend_Auth|a:1:{s:7:"storage";s:5:"admin";}USER|a:0:{}locale|a:1:{s:4:"lang";s:11:"favicon.ico";}

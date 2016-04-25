@@ -116,6 +116,18 @@ abstract class News_Model_Doctrine_BaseNews extends Doctrine_Record
              'type' => 'boolean',
              'default' => 1,
              ));
+        $this->hasColumn('src_url', 'string', 255, array(
+             'type' => 'string',
+             'length' => '255',
+             ));
+        $this->hasColumn('src_orig_url', 'string', 255, array(
+             'type' => 'string',
+             'length' => '255',
+             ));
+        $this->hasColumn('src_name', 'string', 255, array(
+             'type' => 'string',
+             'length' => '255',
+             ));
 
         $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_general_ci');
