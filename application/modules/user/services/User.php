@@ -268,10 +268,12 @@ class User_Service_User extends MF_Service_ServiceAbstract {
     }
     
     public function sendUpdateMail($user, $token, Zend_Mail $mail, Zend_View_Interface $view, $partial = 'email/update.phtml') {
-        $mail->addTo($user->getEmail());
-        $mail->setBodyText(
-                $view->partial($partial, array('user' => $user, 'token' => $token))
+        $view->addScriptPath(APPLICATION_PATH.'/modules/user/views/scripts/');
+        $mail->setBodyHtml(
+            $view->partial('email/template.phtml', array('content' => $view->partial($partial, array('user' => $user, 'token' => $token))))
         );
+        
+        $mail->addTo($user->getEmail());
         $mail->send(); 
     }
     

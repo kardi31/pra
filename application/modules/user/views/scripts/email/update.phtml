@@ -1,2 +1,17 @@
-<?php echo $this->translate('Go to link below to change ' . $this->type) ?>:
-<?php echo $this->url(array('token' => $this->token), 'domain-user-update-complete-token') ?>
+<?php 
+$name = $this->user['Agent']['name'];
+if(isset($this->user['Branch'])){
+    $name .= " ".$this->user['Branch']['office_name'];
+}
+
+echo $this->translate('Dear')." ".$name.",<br />";
+echo $this->translate('You or someone else requested password recovery for your account. To create new password, please click the link below.');
+
+?> <br />
+<a href='<?= $this->url(array('token' => $this->token), 'domain-user-update-complete-token'); ?>'><?= $this->url(array('token' => $this->token), 'domain-user-update-complete-token'); ?></a><br /><br />
+<?php
+    echo $this->translate('If you did not request new password, please just ignore this email');
+?>
+<br/><br />
+<?= $this->translate('Kind regards'); ?>, <br />
+<?= $this->translate('Rate Pole'); ?>

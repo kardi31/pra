@@ -33,6 +33,9 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                          case 'newsletter':
                             echo $this->translate('Thank you for your signing up to our newsletter.');
                             break;
+                         case 'reminder':
+                            echo $this->translate('We send you a link to reset your password. Check your email.');
+                            break;
                     endswitch;
                     ?>
                 </p>

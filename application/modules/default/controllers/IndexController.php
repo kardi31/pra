@@ -76,6 +76,16 @@ class Default_IndexController extends MF_Controller_Action {
         $this->_helper->viewRenderer->setResponseSegment('search');
         $this->_helper->actionStack('layout', 'index', 'default');
     }
+    
+    public function sitemapAction(){
+        if($this->view->language=='pl'){
+            include(APPLICATION_PATH.'/../public_html/sitemap_ocen.xml');
+        }
+        else{
+            include(APPLICATION_PATH.'/../public_html/sitemap_rate.xml');
+        }
+        exit;
+    }
 
     public function awardsAction() {
         $this->_helper->actionStack('layout', 'index', 'default');

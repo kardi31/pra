@@ -15,7 +15,10 @@ class Default_CronController extends MF_Controller_Action {
 
         parent::init();
 
-        $this->filename = 'sitemap_ocen.xml';
+        if($this->view->language=='pl')
+            $this->filename = 'sitemap_ocen.xml';
+        else
+            $this->filename = 'sitemap_rate.xml';
     }
 
     public function calculateVotesAndRatingAction() {

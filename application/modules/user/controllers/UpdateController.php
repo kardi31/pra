@@ -57,7 +57,7 @@ class User_UpdateController extends MF_Controller_Action {
                     
                     $this->view->messages()->add('Check email');
                     
-                    $this->_helper->redirector->gotoRoute(array(), 'domain-user-update-complete');
+                    $this->_helper->redirector->gotoRoute(array('type' => 'reminder'), 'domain-thank-you');
                 } catch(Exception $e) {
                     $this->_service->get('doctrine')->getCurrentConnection()->rollback();
                     $this->view->messages()->add($e->getMessage(), 'error');

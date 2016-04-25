@@ -10,6 +10,13 @@
            <tuv xml:lang="pl"><seg>Przykład</seg></tuv>
            <tuv xml:lang="en"><seg>Example</seg></tuv>
        </tu>
+       <tu tuid='You or someone else requested password recovery for your account. To create new password, please click the link below.'>
+           <tuv xml:lang="pl"><seg>Ty lub ktoś inny poprosił o odzyskanie hasła do Twojego konta. Aby utworzyć nowe hasło kliknij w link poniżej.</seg></tuv>
+       </tu>
+       
+       <tu tuid='If you did not request new password, please just ignore this email'>
+           <tuv xml:lang="pl"><seg>Jeżeli nie prosiłeś o zmiane hasła, zignoruj tego maila.</seg></tuv>
+       </tu>
        <tu tuid='recommends'>
            <tuv xml:lang="pl"><seg>rekomenduje</seg></tuv>
        </tu>
@@ -39,6 +46,9 @@
        </tu>
        <tu tuid='Your full name'>
            <tuv xml:lang="pl"><seg>Twoje imie i nazwisko</seg></tuv>
+       </tu>
+       <tu tuid='We send you a link to reset your password. Check your email.'>
+           <tuv xml:lang="pl"><seg>Wysłaliśmy link do resetowania hasła na Twoją pocztę. Sprawdź skrzynkę email.</seg></tuv>
        </tu>
        
        <tu tuid='Find your specialist with Rate-Pole.com'>
