@@ -286,8 +286,13 @@
 				
 
 				<div class="itemscontainer offset-1">
-			
-	
+                                    <a href="<?= $this->url(array(),'domain-advertising'); ?>">
+                                        <?php if($this->language=='pl'){ ?>
+                                            <img src="/images/reklama.gif" class="advertiseArea" alt="<?= $this->translate('Advertise with us'); ?>" />
+                                        <?php } else { ?>
+                                            <img src="/images/advertise.gif" class="advertiseArea" alt="<?= $this->translate('Advertise with us'); ?>" />
+                                        <?php } ?>
+                                    </a>
                                     <?php foreach($this->paginator as $branch): 
                                         try{
                                             $url = $this->url(array('slug' => $branch['office_link'],'agent' => $branch['Agent']['link']),'domain-branch-details');

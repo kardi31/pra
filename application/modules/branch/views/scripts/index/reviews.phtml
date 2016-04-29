@@ -1,8 +1,8 @@
-
 <!-- TAB 5 -->					
 <div id="reviews" class="tab-pane fade active in">
-    <?php foreach ($this->paginator as $review) { 
-        echo $this->partial('index/show-review.phtml','review',array('review' => $review));
+    <?php 
+    foreach ($this->paginator as $review) { 
+        echo $this->partial('index/show-review.phtml','review',array('review' => $review,'language' => $this->language));
         
     } ?>
 

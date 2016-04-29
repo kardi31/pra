@@ -205,7 +205,7 @@ class Review_IndexController extends MF_Controller_Action {
                 $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
         
                 $mail = new Zend_Mail('UTF-8');
-                $mail->setSubject($this->view->translate('Activate your review of '.$review['Agent'].' at '));
+                $mail->setSubject($this->view->translate('Activate your review of').' '.$review['Agent']['name']);
                 $mail->addTo($values['email'], $values['firstname'] . ' ' . $values['lastname']);
                 $mail->setReplyTo($options['reply_email'], 'Pracownik');
                
@@ -238,29 +238,42 @@ class Review_IndexController extends MF_Controller_Action {
           $metatagService = $this->_service->getService('Default_Service_Metatag');
         $metatagService->setCustomViewMetatags(array(
             'pl' => array(
-                'title' => 'Dodaj opinie o nowej firmie' 
+                'title' => 'Dodaj opinie o nowej firmie' ,
+                'description' => 'Dodaj swoją opinie o firmie, która jeszcze nie istnieje w bazie Oceń Fachowca.'
             ),
             'en' => array(
-                'title' => 'Add review for new company'
+                'title' => 'Add review for new company',
+                'description' => 'Add a review for company, which does not exist yet in Rate Pole database'
             )
         ),$this->view);
+        
+        if($this->view->language=='pl'){
+            $this->view->headMeta('Dodaj swoją opinie o firmie, która jeszcze nie istnieje w bazie Oceń Fachowca.', 'og:description','property');
+        }
+        else{
+            $this->view->headMeta('Add a review for company, which does not exist yet in Rate Pole database', 'og:description','property');
+        }
         
         $agentCategories = $agentService->getMainCategories();
 
         $this->view->assign('agentCategories',$agentCategories);
 
-        $this->view->headMeta()->appendName('robots', 'noindex, nofollow');
+        $this->view->headMeta()->appendName('robots', 'index, follow');
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($this->getRequest()->getParams())&&$agentForm->isValid($this->getRequest()->getParams())) {
                 
                 $values = $form->getValues();
-                
                 $agentValues = $agentForm->getValues();
                 
+                $agentValues['email'] = $agentValues['branch_email'];
                 
                 $agent = $agentService->saveNewAgentFromReview($agentValues);
                 $branch = $branchService->saveNewAgentBranchFromReview($agent['id'],$agentValues);
+                
+                
+                $agent->link('Categories',(int)$_POST['category_id']);
+                $agent->save();
                 
                 $values['agent_id'] = $agent['id'];
                 $values['branch_id'] = $branch['id'];
@@ -287,17 +300,13 @@ class Review_IndexController extends MF_Controller_Action {
                 $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
         
                 $mail = new Zend_Mail('UTF-8');
-                $mail->setSubject($this->view->translate('Activate your review of '.$review['Agent']['name'].' at '));
+                $mail->setSubject($this->view->translate('Activate your review of').' '.$review['Agent']['name']);
                 $mail->addTo($values['email'], $values['firstname'] . ' ' . $values['lastname']);
                 $mail->setReplyTo($review,$options['reply_email'], 'Pracownik');
                
                 $mailService->sendActivationEmail($review,$mail, $this->view);
                 
                 $this->_helper->redirector->gotoRoute(array('type' => 'review'), 'domain-thank-you');
-                
-            }
-            else{
-                var_dump($form->getMessages());exit;
                 
             }
         }

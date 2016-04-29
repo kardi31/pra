@@ -22,6 +22,13 @@ class Branch_IndexController extends MF_Controller_Action {
         
         $agent = $branch['Agent'];
         
+        try{
+            $category = $agent['Categories'][0];
+            setcookie('category',$category['id'],time()+60*60*24*30,'/');
+        } catch (Exception $ex) {
+
+        }
+        
         $metatagService = $this->_service->getService('Default_Service_Metatag');
         $metatagService->setCustomViewMetatags(array(
             'pl' => array(
@@ -78,16 +85,12 @@ class Branch_IndexController extends MF_Controller_Action {
         
         $form->getElement('branch_id')->setMultiOptions($branchService->prependBranchesValues($branch['id']));
         
-        if(count($agent['Branches'])==1){
-            $this->_helper->redirector->gotoUrl($this->view->url(array('slug' => $agent['Branches'][0]['office_link'],'agent' => $agent['link']),'domain-branch-details'));
-        }
-        
         $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
         $apikeys = $config->getOption('apikeys');
-        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+        $form->addElement('Recaptcha', 'g-recaptcha-response', array(
             'siteKey' => $apikeys['google']['siteKey'],
             'secretKey' => $apikeys['google']['secretKey']
-        ]);
+        ));
         
         
         $metatagService = $this->_service->getService('Default_Service_Metatag');

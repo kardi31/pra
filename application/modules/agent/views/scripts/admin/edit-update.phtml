@@ -3,7 +3,7 @@
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-   
+   $('.select2').select2();
     
      $('.section').hide();
      $('.contentSection').show();
@@ -42,7 +42,7 @@ $(document).ready(function() {
                     <?= $this->form->email; ?>
                     <hr />
                     <?= $this->form->name; ?>
-                    <?= $this->form->category_id->setAttrib('class',''); ?>
+                    <?= $this->form->category_id; ?>
                     <?= $this->form->facebook; ?>
                     <?= $this->form->twitter; ?>
                     <hr />

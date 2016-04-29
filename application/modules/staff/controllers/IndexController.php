@@ -153,10 +153,10 @@ class Staff_IndexController extends MF_Controller_Action {
         
         $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
         $apikeys = $config->getOption('apikeys');
-        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+        $form->addElement('Recaptcha', 'g-recaptcha-response', array(
             'siteKey' => $apikeys['google']['siteKey'],
             'secretKey' => $apikeys['google']['secretKey']
-        ]);
+        ));
         
         $this->view->assign('form',$form);
         

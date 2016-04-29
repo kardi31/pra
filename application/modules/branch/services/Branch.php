@@ -30,7 +30,7 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
         $values['deleted_at'] = date('Y-m-d H:i:s');
         $values['view'] = 0;
         $values['approved'] = 0;
-        $values['office_link'] = MF_Text::createUniqueTableField('Branch_Model_Doctrine_Branch','office_link', $branch_town);;
+        $values['office_link'] = MF_Text::createSlug($branch_town);;
         
         $record = $this->branchTable->getRecord();
         $record->fromArray($values);
@@ -39,18 +39,16 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
         return $record;
     }
     
-    public function saveNewAgentBranchFromReview($agent_id,$data){
-        $values = array();
+    public function saveNewAgentBranchFromReview($agent_id,$values){
         
         
-        $values['town'] = $data['town'];
-        $values['office_name'] = $data['town'];
         $values['agent_id'] = $agent_id;
 //        $values['deleted_at'] = date('Y-m-d H:i:s');
         $values['view'] = 0;
         $values['approved'] = 0;
-        $values['office_link'] = MF_Text::createUniqueTableField('Branch_Model_Doctrine_Branch','office_link', $data['town']);;
+        $values['office_name'] = $values['town'];
         
+        $values['office_link'] = MF_Text::createSlug($values['town']);
         $record = $this->branchTable->getRecord();
         $record->fromArray($values);
         $record->save();
@@ -71,7 +69,7 @@ class Branch_Service_Branch extends MF_Service_ServiceAbstract {
         
         $values['view'] = 1;
         $values['approved'] = 1;
-        $values['office_link'] = MF_Text::createUniqueTableField('Branch_Model_Doctrine_Branch','office_link', $data['town']);;
+        $values['office_link'] = MF_Text::createSlug($data['town']);;
         
         $record = $this->branchTable->getRecord();
         $record->fromArray($values);

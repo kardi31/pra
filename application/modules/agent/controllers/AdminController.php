@@ -639,10 +639,7 @@ class Agent_AdminController extends MF_Controller_Action {
                     $branchUser->save();
                 }
                 else{
-                    
                     $this->createUser('agent',$agent,$branch);
-                    
-                    
                 }
             }
             $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-agent', 'agent'));

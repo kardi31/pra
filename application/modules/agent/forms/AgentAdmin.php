@@ -159,6 +159,8 @@ class Agent_Form_AgentAdmin extends Admin_Form {
             $twitter,
             $submit
         ));
+        
+        $this->setElementFilters(array('StringTrim'));
     }
 }
 

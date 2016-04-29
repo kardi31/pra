@@ -43,7 +43,6 @@ class Review_Service_Temp extends MF_Service_ServiceAbstract {
     
     public function getReviewAdminForm(Review_Model_Doctrine_Temp $review = null,  Agent_Model_Doctrine_Agent $agent = null) {
         $form = new Review_Form_ReviewAdmin();
-        
         foreach($agent['Branches'] as $branch){
             $form->getElement('branch_id')->addMultiOption($branch['id'],$branch['office_name']." ".$branch['town']." ".$branch['postcode']);
         }
@@ -55,7 +54,6 @@ class Review_Service_Temp extends MF_Service_ServiceAbstract {
         if(null != $review) {
             $bannerArray = $review->toArray();
             $form->populate($bannerArray);
-//            
             $i18nService = MF_Service_ServiceBroker::getInstance()->getService('Default_Service_I18n');
             $languages = $i18nService->getLanguageList();
             foreach($languages as $language) {

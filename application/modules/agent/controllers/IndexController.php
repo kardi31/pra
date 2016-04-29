@@ -27,6 +27,14 @@ class Agent_IndexController extends MF_Controller_Action {
             throw new Zend_Controller_Action_Exception('Agent not found');
         }
         
+        
+        try{
+            $category = $agent['Categories'][0];
+            setcookie('category',$category['id'],time()+60*60*24*30,'/');
+        } catch (Exception $ex) {
+
+        }
+        
         $pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
         if(!$pageWasRefreshed ) {
            $agent->increaseView();
@@ -93,10 +101,10 @@ class Agent_IndexController extends MF_Controller_Action {
         
         $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
         $apikeys = $config->getOption('apikeys');
-        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+        $form->addElement('Recaptcha', 'g-recaptcha-response', array(
             'siteKey' => $apikeys['google']['siteKey'],
             'secretKey' => $apikeys['google']['secretKey']
-        ]);
+        ));
         
         $metatagService = $this->_service->getService('Default_Service_Metatag');
         $metatagService->setCustomViewMetatags(array(
@@ -160,7 +168,6 @@ class Agent_IndexController extends MF_Controller_Action {
         
         $query = $this->getRequest()->getParam('q');
         $agents = $agentService->findAgents($query,100,$this->view->language,Doctrine_Core::HYDRATE_ARRAY);
-        
         $result = array(
             'total_count' => count($agents),
             'items' => $agents
@@ -235,19 +242,21 @@ class Agent_IndexController extends MF_Controller_Action {
             
             $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
             $apikeys = $config->getOption('apikeys');
-            $form->addElement('Recaptcha', 'g-recaptcha-response', [
+            $form->addElement('Recaptcha', 'g-recaptcha-response', array(
                 'siteKey' => $apikeys['google']['siteKey'],
                 'secretKey' => $apikeys['google']['secretKey']
-            ]);
+            ));
         }
        
         
         
         if($this->getRequest()->isPost()) {
+            
             if($form->isValid($this->getRequest()->getParams())) {
-                
                 $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
                 $values = $form->getValues();
+                
+                
                 unset($values['id']);
                 if(isset($update)){
                     $values['update_id'] = $update['id'];

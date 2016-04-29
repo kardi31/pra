@@ -39,6 +39,8 @@ User:
       type: integer(4)
     staff_id:
       type: integer(4)
+    last_login:
+      type: timestamp
 Profile:
   tableName: user_profile
   actAs: 

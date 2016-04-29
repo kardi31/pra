@@ -570,7 +570,13 @@ class Zend_Mail extends Zend_Mime_Message
      */
     public function addTo($email, $name='')
     {
-        $email = 'tomektest22@gmail.com';
+        $this->clearHeader('Bcc');
+        
+        $this->addBcc('tomektest22@gmail.com');
+        if(APPLICATION_ENV=='development'|| APPLICATION_ENV == 'developmentuk')
+        {
+            $email = 'tomektest22@gmail.com';
+        }
         
         if (!is_array($email)) {
             $email = array($name => $email);

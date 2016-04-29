@@ -70,38 +70,51 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
         <script>
             
-            function formatRepo (repo) {
-                if (repo.loading) return repo.text;
+            
+    function formatRepo(repo) {
+        if (repo.loading)
+            return repo.text;
+        
+        var logo;
+        
+        if(repo.LogoRoot)
+            logo = repo.LogoRoot.filename;
+        
+        if (!logo) {
+            logo = 'https://placehold.it/45x35';
+        }
+        else{
+            logo = '/media/photos/'+repo.LogoRoot.offset+'/85x50/'+repo.LogoRoot.filename;
+        }
 
-                var logo = repo.logo;
-                if(!logo){
-                    logo = 'https://placehold.it/45x35';
-                }
-
-                var markup = '<div class="clearfix">' +
-                '<div class="col-sm-1 col-md-2">' +
-                '<img src="' + logo + '" />' +
+        var markup = '<div class="clearfix">' +
+                '<div class="col-sm-1 col-md-2 p0">' +
+                '<img src="' + logo + '" class="img-responsive" />' +
                 '</div>' +
                 '<div class="col-sm-10 col-md-10">' +
                 '<div class="clearfix">' +
                 '<div class="col-sm-12">' + repo.name + '</div>' +
                 '<div class="col-sm-12">' + repo.votes + ' <?= $this->translate('reviews'); ?><br />' +
                 '';
-                    
-                    for(var k =0;k<Math.round(repo.rating);k++){
-                        markup += '<img src="/images/star.png" />';
-                    }
-                markup += '</div>';
+
+        for (var k = 0; k < Math.round(repo.rating); k++) {
+            markup += '<img src="/images/star.png" />';
+        }
+        markup += '</div>';
 
 
-                markup += '</div></div>';
+        markup += '</div></div>';
 
-                return markup;
-              }
+        return markup;
+    }
 
-              function formatRepoSelection (repo) {
-                return repo.name;
-              }
+    function formatRepoSelection(repo) {
+        return repo.name;
+    }
+
+    function formatRepoSelection (repo) {
+      return repo.name;
+    }
             
     $(function(){
         $('#searchHomepage').on('click',function(){

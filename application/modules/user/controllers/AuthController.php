@@ -40,17 +40,6 @@ class User_AuthController extends MF_Controller_Action
             if($form->isValid($this->getRequest()->getParams())) {
                 $user = $userService->getUser($form->getValue('username'), 'email');
                 
-                    $values['password'] = $form->getValue('password');
-                        $passwordEncoder = new User_PasswordEncoder();
-                        $values['salt'] = MF_Text::createUniqueToken();
-                        $values['token'] = MF_Text::createUniqueToken();
-                        
-
-                        $values['password'] = $passwordEncoder->encode($values['password'], $values['salt']);
-                        $user->set('salt',$values['salt']);
-                        $user->set('token',$values['token']);
-                        $user->set('password',$values['password']);
-                        $user->save();
                 
                 if ($user && !$user->isActive()):
                     $this->view->messages()->add($this->view->translate('User is not active'), 'error');
@@ -62,6 +51,9 @@ class User_AuthController extends MF_Controller_Action
                         $auth->setRememberMeCookie(false);
                     }
                     if($result->isValid()) {
+                        $user->set('last_login',date('Y-m-d H:i:s'));
+                        $user->save();
+                        
                         switch($user->role):
                             case 'agent':
                             case 'branch':

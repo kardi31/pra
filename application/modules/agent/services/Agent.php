@@ -71,7 +71,9 @@ class Agent_Service_Agent extends MF_Service_ServiceAbstract {
        $q = $this->agentTable->createQuery('a');
        $q->leftJoin('a.Categories c');
        $q->leftJoin('c.Translation ct');
-       $q->select('a.name,a.rating,a.votes,a.logo,ct.title,c.id');
+       $q->leftJoin('a.LogoRoot lr');
+       $q->select('a.name,a.rating,a.votes,ct.title,c.id,lr.filename,lr.offset');
+       $q->groupBy('a.id');
        $q->addWhere('LOWER(a.name) like ?',"%".strtolower($query)."%");
 //       $q->addWhere('ct.lang = ?',$language);
        $q->limit($limit);

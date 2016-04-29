@@ -1,4 +1,14 @@
 <?php if(isset($this->tree)): ?>
+    <ul class="langSwitcher">
+         <li>
+            <a href="<?= PL_URL; ?>">
+                <img src="/images/pl.png" alt="pl" />
+            </a>
+            <a href="<?= UK_URL; ?>">
+                <img src="/images/gb.png" alt="en" />
+            </a>
+        </li>
+    </ul>
     <ul class="nav navbar-nav navbar-right">
     <?php foreach($this->tree as $item): ?>
         <li <?php if($item->getNode()->hasChildren()): ?> class="dropdown" <?php endif; ?>>
@@ -21,14 +31,7 @@
         
         <?php endforeach; ?>
         
-        <li class="langSwitcher">
-                <a href="<?= PL_URL; ?>">
-                    <img src="/images/pl.png" />
-                </a>
-                <a href="<?= UK_URL; ?>">
-                    <img src="/images/gb.png" />
-                </a>
-        </li>
+       
     </ul>
     <?php elseif(isset($this->subtree)): ?>
         <ul class="dropdown-menu">

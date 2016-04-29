@@ -68,6 +68,8 @@ class Admin_IndexController extends MF_Controller_Action
         $agentService = $this->_service->getService('Agent_Service_Agent');
         $updateService = $this->_service->getService('Agent_Service_Update');
         $userService = $this->_service->getService('User_Service_User');
+        $reviewService = $this->_service->getService('Review_Service_Review');
+        $commentService = $this->_service->getService('Review_Service_Comment');
         
         $notApprovedBranches = $branchService->getNotApprovedBranches(true);
         $this->view->assign('notApprovedBranches', $notApprovedBranches);
@@ -78,6 +80,13 @@ class Admin_IndexController extends MF_Controller_Action
         
         $notApprovedAgents = $agentService->getNotApprovedAgents(true);
         $this->view->assign('notApprovedAgents', $notApprovedAgents);
+        
+        
+        $notApprovedComments = $commentService->getNotApprovedComments(true);
+        $this->view->assign('notApprovedComments', $notApprovedComments);
+        
+        $notApprovedReviews = $reviewService->getNotApprovedReviews(true);
+        $this->view->assign('notApprovedReviews', $notApprovedReviews);
         
         if(!$this->view->adminTitle && $current = $this->view->navigation()->findOneBy('active', true)) {
             $this->view->adminTitle = $this->view->translate($current->getLabel());

@@ -41,7 +41,15 @@ class Review_Form_ReviewAdmin extends Admin_Form {
         $rating->setRequired(true);
         $rating->setLabel('Ocena');
         $rating->setDecorators(self::$selectDecorators);
-        $rating->addMultiOptions(range(1,5));
+        $rating->addMultiOptions(
+                array(
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    4 => 4,
+                    5 => 5
+                )
+                );
         
         
         $selectbranch = $this->createElement('select','branch_id');

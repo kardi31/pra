@@ -66,7 +66,7 @@
                         ?>
                         
                         
-                        <img src="<?= $yourAd; ?>" alt="<?= $this->banner['Translation'][$this->language]['name']; ?>" />
+                        <img src="<?= $yourAd; ?>" alt="<?= $this->banner['Translation'][$this->language]['name']; ?>" alt="<?= $this->translate('Advertise here'); ?>" />
                     </div>
                     <div class="ctitle">
                         <?php //  $this->banner['website']; ?>
@@ -192,7 +192,7 @@
                 <!-- Carousel -->
                 <div class="wrapper">
                     <div class="list_carousel homepageFeaturedList">		
-                        <ul id="foo2" class="carousel_homepage">
+                        <ul id="foo2" class="">
                             <?php foreach ($this->premiumBranches as $premiumBranch): ?>
                                 <li>
                                     <a href="<?= $this->url(array('agent' => $premiumBranch['Agent']['link'], 'slug' => $premiumBranch['office_link']), 'domain-branch-details'); ?>">
@@ -217,8 +217,8 @@
                             <?php endforeach; ?>	
                         </ul>
                         <div class="clearfix"></div>
-                        <a id="prev_btn2" class="prev" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
-                        <a id="next_btn2" class="next" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
+                        <a id="prev_foo2" class="prev" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
+                        <a id="next_foo2" class="next" href="#"><img src="/assets/images/spacer.png" alt=""/></a>
                     </div>
                 </div>
 
@@ -268,18 +268,26 @@
 <!-- / WRAP -->
 <script>
 
+            
     function formatRepo(repo) {
         if (repo.loading)
             return repo.text;
-
-        var logo = repo.logo;
+        
+        var logo;
+        
+        if(repo.LogoRoot)
+            logo = repo.LogoRoot.filename;
+        
         if (!logo) {
             logo = 'https://placehold.it/45x35';
         }
+        else{
+            logo = '/media/photos/'+repo.LogoRoot.offset+'/85x50/'+repo.LogoRoot.filename;
+        }
 
         var markup = '<div class="clearfix">' +
-                '<div class="col-sm-1 col-md-2">' +
-                '<img src="' + logo + '" />' +
+                '<div class="col-sm-1 col-md-2 p0">' +
+                '<img src="' + logo + '" class="img-responsive" />' +
                 '</div>' +
                 '<div class="col-sm-10 col-md-10">' +
                 '<div class="clearfix">' +

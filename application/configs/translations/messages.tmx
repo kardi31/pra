@@ -24,12 +24,19 @@
            <tuv xml:lang="pl"><seg>Podaj swoje nowe hasło.</seg></tuv>
        </tu>
        
+       <tu tuid='has been accepted.'>
+           <tuv xml:lang="pl"><seg>została zaakceptowana.</seg></tuv>
+       </tu>
        <tu tuid='of customers'>
            <tuv xml:lang="pl"><seg>klientów</seg></tuv>
        </tu>
        <tu tuid='Compete for Best Company of the Month title'>
            <tuv xml:lang="pl"><seg>Rywalizuj o tytuł firmy miesiąca</seg></tuv>
        </tu>
+       <tu tuid='Activate your review of'>
+           <tuv xml:lang="pl"><seg>Aktywuj swoją opinie o firmie</seg></tuv>
+       </tu>
+       
        <tu tuid='Win free advertising space'>
            <tuv xml:lang="pl"><seg>Wygrywaj darmową reklame</seg></tuv>
        </tu>
@@ -89,7 +96,17 @@
        <tu tuid='Your password has been successfully edited.'>
            <tuv xml:lang="pl"><seg>Twoje hasło zostało pomyślnie edytowane.</seg></tuv>
        </tu>
+       <tu tuid='Something went wrong. Please copy the current url and send it to us through our '>
+           <tuv xml:lang="pl"><seg>Wystąpił błąd. Skopiuj adres url obecnej strony i wyślij go nam przez</seg></tuv>
+       </tu>
        
+       <tu tuid='contact form.'>
+           <tuv xml:lang="pl"><seg>Formularz kontaktowy</seg></tuv>
+       </tu>
+       
+       <tu tuid='Submit Review'>
+           <tuv xml:lang="pl"><seg>Dodaj Opinie</seg></tuv>
+       </tu>
        <tu tuid='Submit review'>
            <tuv xml:lang="pl"><seg>Dodaj opinie</seg></tuv>
        </tu>
@@ -175,7 +192,7 @@
            <tuv xml:lang="pl"><seg>Edytuj informacje</seg></tuv>
        </tu>
        <tu tuid='Your company account has been created on Rate Pole'>
-           <tuv xml:lang="pl"><seg>Twoja konto firmowe zostało utworzone na Oceń Fachowca</seg></tuv>
+           <tuv xml:lang="pl"><seg>Twoje konto firmowe zostało utworzone na Oceń Fachowca</seg></tuv>
        </tu>
        
        <tu tuid='Dear'>

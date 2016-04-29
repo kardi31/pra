@@ -25,7 +25,7 @@ $agentPsp = (int) $agent['premium_support'];
             <div class="padding20">
                 <h1 class="h2 mt0 lato"><?= $agent['name']; ?></h1>
                 <span class="stars">
-                    <?= MF_Text::showStars($agent['rating']); ?>
+                    <?= MF_Text::showStars((int)$agent['rating']); ?>
                 </span>
             </div>
 

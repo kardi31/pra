@@ -41,7 +41,7 @@ else{
                 }
                 ?></h1>
                 <span class="stars">
-                    <?= str_repeat('<img src="/images/star.png">',round($branch['rating'])); ?>
+                    <?= MF_Text::showStars((int)$branch['rating']); ?>
                 </span>
             </div>
         </div>
@@ -165,7 +165,6 @@ else{
         height: 190px;
       }
     </style>
-  </head>
             <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
             <div class="needassistancebox" id="map"></div>
             <script>
@@ -173,7 +172,7 @@ else{
                 var mapDiv = document.getElementById('map');
                 var map = new google.maps.Map(mapDiv, {
                   center: {lat: <?= $branch['lat']; ?>, lng: <?= $branch['lng']; ?>},
-                  zoom: 9
+                  zoom: 10
                 });
                 var marker = new google.maps.Marker({
                     position: {lat: <?= $branch['lat']; ?>, lng: <?= $branch['lng']; ?>},
@@ -183,6 +182,42 @@ else{
               }
             </script>
                 <?php } ?>
+            
+            <?php if(strlen($branch['facebook'])){
+                if($this->language=='pl'){
+                    $fbLang = 'pl_PL';
+                }
+                else{
+                    $fbLang = 'en_GB';
+                }
+                
+                $facebook = $branch['facebook'];
+                if(strpos($facebook,'facebook')!==false){
+                    
+                }
+                else{
+                    $facebook = 'https://facebook.com/'.$facebook;
+                }
+                
+                ?>
+                <br />
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "//connect.facebook.net/<?= $fbLang ?>/sdk.js#xfbml=1&version=v2.5&appId=530955950330860";;
+                  fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+                <div class="alsolikebox">
+                    <div class="alsolikebox">
+                    <div class="fb-page" data-href="<?= $facebook; ?>" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"></div>
+                    </div>
+                </div>
+            <?php }
+            
+            ?>
+            
             <div class="pagecontainer2 mt20 alsolikebox">
                 <div class="cpadding1">
                     <span class="icon-location"></span>

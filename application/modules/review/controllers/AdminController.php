@@ -324,13 +324,11 @@ class Review_AdminController extends MF_Controller_Action {
         if(!$tempReview = $tempService->getReview($this->getRequest()->getParam('id'))) {
             throw new Zend_Controller_Action_Exception('Review not found');
         }
-        
         if(!$agent = $agentService->getAgent($tempReview['agent_id'])) {
             throw new Zend_Controller_Action_Exception('Agent not found');
         }
         
         $form = $tempService->getReviewAdminForm($tempReview,$agent);
-        
         $this->view->assign('review',$tempReview);
         $this->view->assign('form',$form);
         
@@ -345,13 +343,15 @@ class Review_AdminController extends MF_Controller_Action {
                 try {                                   
                     $this->_service->get('doctrine')->getCurrentConnection()->beginTransaction();
                     $values = $form->getValues();
-                    
                     $review = $commentService->saveReviewFromTemp($values);
+                    
+                    
+                    
                     
                     $options = $this->getFrontController()->getParam('bootstrap')->getOptions();
                     
                     $mail = new Zend_Mail('UTF-8');
-                    $mail->setSubject($this->view->translate('Company')." ".$review['Agent'].' '.$this->view->translate('has been reviewed.'));
+                    $mail->setSubject($this->view->translate('Company')." ".$review['Agent']['name'].' '.$this->view->translate('has been reviewed.'));
                     $mail->addTo($review['Branch']['email'], $review['Agent']['name']);
                     $mail->setReplyTo($review,$options['reply_email'], 'Oceń Fachowca');
 //                    $mail->addTo('kardi31@o2.pl');
@@ -363,18 +363,20 @@ class Review_AdminController extends MF_Controller_Action {
                         $mail->addTo($review['Staff2']['email'], $review['Staff2']['firstname']." ".$review['Staff2']['lastname']);
                     }
                     
-                    $mailService->sendReviewApprovedEmail($tempReview,$mail, $this->view);
+                    $mailService->sendReviewApprovedEmail($review,$mail, $this->view);
                     
+                    $commentService->calculateAgentsVotesAndRating($review['agent_id']);
+                    $commentService->calculateBranchesVotesAndRating($review['branch_id']);
                     
                     $mailReviewer = new Zend_Mail('UTF-8');
-                    $mailReviewer->setSubject($this->view->translate('Your review of')." ".$review['Agent'].' '.$this->view->translate('has been accepted.'));
+                    $mailReviewer->setSubject($this->view->translate('Your review of')." ".$review['Agent']['name'].' '.$this->view->translate('has been accepted.'));
                     $mailReviewer->addTo($review['email'], $review['display_name']);
                     $mailReviewer->setReplyTo($review,$options['reply_email'], 'Oceń Fachowca');
 //                    $mail->addTo('kardi31@o2.pl');
                     
-                    $mailService->sendReviewApprovedEmailForReviewer($tempReview,$mailReviewer, $this->view);
+                    $mailService->sendReviewApprovedEmailForReviewer($review,$mailReviewer, $this->view);
                     
-                    $tempReview->delete();
+//                    $tempReview->delete();
                     
                     $this->_service->get('doctrine')->getCurrentConnection()->commit();
                     $this->_helper->redirector->gotoUrl($this->view->adminUrl('list-review-temp', 'review'));

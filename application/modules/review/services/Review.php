@@ -25,36 +25,22 @@ class Review_Service_Review extends MF_Service_ServiceAbstract {
    public function getAllReviews(){
        return $this->reviewTable->findAll();
    }
-   public function getAllActiveAds($hydrationMode = Doctrine_Core::HYDRATE_RECORD){
-       $q = $this->reviewTable->createQuery('p');
-       $q->addWhere('p.publish = 1');
-       return $q->execute(array(),$hydrationMode);
+   public function getNotApprovedReviews($hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->tempTable->createQuery('r');
+       return $q->count(array(),$hydrationMode);
    }
    
-   public function getAgentValuationAccuracy($agent_id,$hydrationMode = Doctrine_Core::HYDRATE_RECORD){
-       $q = $this->reviewTable->createQuery('r');
-       $q->addWhere('r.agent_id = ?',$agent_id);
-       $q->groupBy('agent_id');
-       $q->select('count(id) as total_reviews');
-       $q->addSelect('sum(fee_satisfaction) as sum_fee');
-       $q->addSelect('sum(best_price) as sum_valuation');
-       
-       $result = $q->fetchOne(array(),$hydrationMode);
-       if(!$result)
-           return false;
-       $returnArray = array();
-       $returnArray['fee_accuracy'] = round($result['sum_fee']/$result['total_reviews'],2)*100;
-       $returnArray['valuation_accuracy'] = round($result['sum_valuation']/$result['total_reviews'],2)*100;
-       return $returnArray;
-   }
-   
-   public function calculateBranchesVotesAndRating(){
+   public function calculateBranchesVotesAndRating($branchId = false){
         $q = $this->reviewTable->createQuery('r');
         $q->innerJoin('r.Branch b');
         $q->groupBy('branch_id');
         $q->select('count(id) as sum_votes');
         $q->addSelect('ROUND(AVG(r.rating)) as avg_rating');
+        $q->addSelect('ROUND(AVG(r.recommend),2) as avg_reco');
         $q->addSelect('r.*,b.*');
+        if($branchId){
+            $q->addWhere('r.branch_id = '.$branchId);
+        }
         
         $result = $q->execute();
         
@@ -62,6 +48,7 @@ class Review_Service_Review extends MF_Service_ServiceAbstract {
             $branch = $reviewBranches->get('Branch');
             $branch->set('votes',(int)$reviewBranches['sum_votes']);
             $branch->set('rating',$reviewBranches['avg_rating']);
+            $branch->set('customer_satisfaction',$reviewBranches['avg_reco']);
             
             $points = round((int)$reviewBranches['sum_votes']*$reviewBranches['avg_rating'],2);
             
@@ -70,20 +57,27 @@ class Review_Service_Review extends MF_Service_ServiceAbstract {
         }
    }
    
-   public function calculateAgentsVotesAndRating(){
+   public function calculateAgentsVotesAndRating($agentId = false){
         $q = $this->reviewTable->createQuery('r');
         $q->innerJoin('r.Agent a');
         $q->groupBy('agent_id');
         $q->select('count(id) as sum_votes');
         $q->addSelect('ROUND(AVG(r.rating)) as avg_rating');
+        $q->addSelect('ROUND(AVG(r.recommend),2) as avg_reco');
         $q->addSelect('r.*,b.*');
+        if($agentId){
+            $q->addWhere('r.agent_id = '.$agentId);
+        }
+        
         
         $result = $q->execute();
+        
         
         foreach($result as $reviewAgents){
             $agent = $reviewAgents->get('Agent');
             $agent->set('votes',(int)$reviewAgents['sum_votes']);
             $agent->set('rating',$reviewAgents['avg_rating']);
+            $agent->set('customer_satisfaction',$reviewAgents['avg_reco']);
             
             $points = round((int)$reviewAgents['sum_votes']*$reviewAgents['avg_rating'],2);
             

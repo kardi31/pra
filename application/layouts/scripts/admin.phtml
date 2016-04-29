@@ -218,7 +218,9 @@
                         <li><a href="<?php echo $this->adminUrl('list-update', 'agent') ?>"><span class="icon16 icomoon-icon-newspaper"></span><?php echo $this->translate('Oddziały - aktualizacja') ?></a></li>
                         <li><a href="<?php echo $this->adminUrl('list-review-temp', 'review') ?>"><span class="icon16 icomoon-icon-newspaper"></span><?php echo $this->translate('Nowe opinie') ?></a></li>
                         <li><a href="<?php echo $this->adminUrl('list-review', 'review') ?>"><span class="icon16 icomoon-icon-newspaper"></span><?php echo $this->translate('Opinie') ?></a></li>
-                      
+                      <li><a href="<?php echo $this->adminUrl('list-message', 'default') ?>"><span class="icon16 entypo-icon-list"></span><?php echo $this->translate('Wiadomosci  fachowca') ?></a></li> 
+                        <li><a href="<?php echo $this->adminUrl('list-category', 'agent') ?>"><span class="icon16 entypo-icon-list"></span><?php echo $this->translate('Kategorie') ?></a></li> 
+                       
                         <li><a href="<?php echo $this->adminUrl('list-staff', 'staff') ?>"><span class="icon16 icomoon-icon-users"></span><?php echo $this->translate('Pracownicy') ?></a></li>
                         <li><a href="<?php echo $this->adminUrl('list-update', 'staff') ?>"><span class="icon16 icomoon-icon-users"></span><?php echo $this->translate('Pracownicy - aktualizacja') ?></a></li>
                         <li><a href="<?php echo $this->adminUrl('list-banner', 'banner') ?>"><span class="icon16 icomoon-icon-list-view-2"></span><?php echo $this->translate('Banners') ?></a></li>
@@ -274,6 +276,7 @@
                                 </li> 
                             </ul>
                         </li> 
+                               
                           <li>
                             <a href="#"><span class="icon16 icomoon-icon-comments-2"></span><?php echo $this->translate('Ogłoszenia') ?></a>
                             <ul class="sub">
@@ -332,6 +335,8 @@
                             <li><span class="number"><?php echo $this->notApprovedAgents ?></span><span class="icon16 icomoon-icon-pencil-2"></span><?php echo $this->translate('Nowe firmy') ?></li>
                             <li><span class="number"><?php echo $this->notApprovedBranches ?></span><span class="icon16 icomoon-icon-pencil-2"></span><?php echo $this->translate('Nowe oddziały') ?></li>
                             <li><span class="number"><?php echo $this->notApprovedUpdates ?></span><span class="icon16 icomoon-icon-pencil-2"></span><?php echo $this->translate('Nowe updaty') ?></li>
+                            <li><span class="number"><?php echo $this->notApprovedReviews ?></span><span class="icon16 icomoon-list"></span><?php echo $this->translate('Nowe opinie') ?></li>
+                            <li><span class="number"><?php echo $this->notApprovedComments ?></span><span class="icon16 icomoon-list"></span><?php echo $this->translate('Nowe komentarze') ?></li>
                             <!--<li><span class="number">201</span><span class="icon16 icomoon-icon-tag"></span>Tags</li>-->
                         </ul>
                     </div>

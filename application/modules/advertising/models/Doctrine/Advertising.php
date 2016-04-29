@@ -22,6 +22,12 @@ class Advertising_Model_Doctrine_Advertising extends Advertising_Model_Doctrine_
     }
     
     public static function getDefaultAd() {
-        return 'http://placehold.it/728x90?text=Brak+logo';
+        
+        $translate = Zend_Registry::get('Zend_Translate');
+        $lang = $translate->getLocale();
+        if($lang=='pl')
+            return '/images/reklama.gif';
+        else
+            return '/images/advertise.gif';
     }
 }

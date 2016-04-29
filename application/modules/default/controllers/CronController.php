@@ -82,7 +82,7 @@ class Default_CronController extends MF_Controller_Action {
     private function generateStaticSitemap() {
         
         try {
-            $this->addUrl($this->view->url(array(),'domain-find-specialist'));
+//            $this->addUrl($this->view->url(array(),'domain-find-specialist'));
             $this->addUrl($this->view->url(array(),'domain-search-company'));
             $this->addUrl($this->view->url(array(),'domain-awards'));
             $this->addUrl($this->view->url(array(),'domain-premium-package'));

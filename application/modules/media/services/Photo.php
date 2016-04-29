@@ -451,7 +451,7 @@ class Media_Service_Photo extends MF_Service_ServiceAbstract {
             @unlink($thumbnailImagePath);
         }
         
-        $r = imagepng( $thumbnailGdImage, $thumbnailImagePath, 90 );
+        $r = imagejpeg( $thumbnailGdImage, $thumbnailImagePath, 90 );
 
         imagedestroy( $sourceGdImage );
         imagedestroy( $thumbnailGdImage );

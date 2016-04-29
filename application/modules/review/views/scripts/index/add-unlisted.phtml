@@ -260,7 +260,7 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                     <p>
                         <?= $this->form->terms; ?>
                         <label for="f_terms"><span style="color:Red;">*</span>
-                            <?= $this->translate('I have read and understood the rules above, and hereby agree to the'); ?> <a target="_blank" href="/rules"><?= $this->translate('Terms and Conditions'); ?></a> <?= $this->translate('of this website.'); ?> <?= $this->translate('I also confirm this review is based on my direct experience with the company, and is truthful, honest and fair.'); ?></label>
+                            <?= $this->translate('I have read and understood the rules above, and hereby agree to the'); ?> <a target="_blank" href="<?= $this->url(array(),'domain-terms-conditions'); ?>"><?= $this->translate('Terms and Conditions'); ?></a> <?= $this->translate('of this website.'); ?> <?= $this->translate('I also confirm this review is based on my direct experience with the company, and is truthful, honest and fair.'); ?></label>
                     </p>
                     <p>
                         <?= $this->form->assoc; ?>
@@ -295,7 +295,7 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
                             <li><?= $this->translate('You are allowed to add only 1 review of certain company every 6 months.'); ?></li>
                             <li><?= $this->translate('We do not accept any reviews added within company network.'); ?></li>
                             <li><?= $this->translate('We moderate every reviews checking multiple factors. The moderation process may take up to 7 days.'); ?></li>
-                            <li><?= $this->translate('Read our'); ?> <a href="http://www.allagents.co.uk/terms-conditions/" target="_blank" class="modal-terms"><?= $this->translate('Terms and Conditions'); ?></a> <?= $this->translate('before you publish a review.'); ?></li>
+                            <li><?= $this->translate('Read our'); ?> <a href="<?= $this->url(array(),'domain-terms-conditions'); ?>" target="_blank" class="modal-terms"><?= $this->translate('Terms and Conditions'); ?></a> <?= $this->translate('before you publish a review.'); ?></li>
                         </ul>
                     </div>
                 </div>
@@ -326,7 +326,7 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
         var agent_id = $('#agent_id').val();
 
 	$( ".custompicker" ).datepicker({
-            firstDay: 1,
+            firstDay: 0,
             maxDate: new Date,
             'monthNames': ['<?= $this->translate('January'); ?>', '<?= $this->translate('February'); ?>', '<?= $this->translate('March'); ?>', 
             '<?= $this->translate('April'); ?>', '<?= $this->translate('May'); ?>', '<?= $this->translate('June'); ?>', '<?= $this->translate('July'); ?>', 

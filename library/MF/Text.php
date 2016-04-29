@@ -155,12 +155,12 @@ class MF_Text
         $rating = round($rating);
         
         if($type=='big'){
-            echo str_repeat('<img src="/images/star-big.png" />',$rating); 
-            echo str_repeat('<img src="/images/star-o-big.png" />',5-$rating); 
+            echo str_repeat('<img src="/images/star-big.png" alt="star" />',$rating); 
+            echo str_repeat('<img src="/images/star-o-big.png" alt="empty star" />',5-$rating); 
         }
         else{
-            echo str_repeat('<img src="/images/star.png" />',$rating); 
-            echo str_repeat('<img src="/images/star-o.png" />',5-$rating); 
+            echo str_repeat('<img src="/images/star.png" alt="star" />',$rating); 
+            echo str_repeat('<img src="/images/star-o.png" alt="empty star" />',5-$rating); 
         }
     }
 public static function createUniqueTableField($table,$field, $string, $id = 0, $toLower = true, $space = '-') {

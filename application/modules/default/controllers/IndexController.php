@@ -8,9 +8,7 @@ class Default_IndexController extends MF_Controller_Action {
         $agentService = $this->_service->getService('Agent_Service_Agent');
         $branchService = $this->_service->getService('Branch_Service_Branch');
 
-
-
-        if (!$category = $agentService->getFullCategory($_COOKIE['category'], 'slug', $this->view->language)) {
+        if (!$category = $agentService->getFullCategory($_COOKIE['category'], 'id', $this->view->language)) {
             $category = $agentService->getRandomCategory();
         }
 
@@ -18,6 +16,7 @@ class Default_IndexController extends MF_Controller_Action {
 
         $geolocationData = var_export(unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $_SERVER['REMOTE_ADDR'])), true);
         $userTown = (isset($geolocationData['geoplugin_city']) && strlen($geolocationData['geoplugin_city'])) ? $geolocationData['geoplugin_city'] : 'Kraków';
+        
 
         $premiumBranches = $branchService->getRandomPremiumBranches();
         $bestTownBranches = $branchService->getBestTownBranches($userTown, 3);
@@ -35,14 +34,18 @@ class Default_IndexController extends MF_Controller_Action {
         $metatagService->setCustomViewMetatags(array(
             'pl' => array(
                 'title' => 'Opinie o firmach',
-                'description' => 'Lista najlepszych firm w Polsce, opinie klientów o firmach.'
+                'description' => 'Lista najlepszych firm w Polsce, opinie klientów o firmach. Znajdź fachowców polecanych przez klientów.'
             ),
             'en' => array(
                 'title' => 'Reviews of Polish companies',
-                'description' => 'List of the best Polish companies, customer reviews, rankings.'
+                'description' => 'List of the best Polish companies, customer reviews, rankings. Find Polish companies recommended by customers.'
             )
                 ), $this->view);
-
+        if($this->view->language=='pl')
+            $this->view->headMeta(PL_URL.'/images/logo_fb.png', 'og:image','property');
+        else
+            $this->view->headMeta(UK_URL.'/images/ratepole_logo_fb.png', 'og:image','property');
+        
 
         $newsService = $this->_service->getService('News_Service_News');
 
@@ -87,6 +90,28 @@ class Default_IndexController extends MF_Controller_Action {
         exit;
     }
 
+    public function advertisingAction() {
+        $this->_helper->actionStack('layout', 'index', 'default');
+        $this->_helper->layout->setLayout('page');
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Reklama',
+                'description' => 'Reklamuj się z Oceń Fachowca.'
+            ),
+            'en' => array(
+                'title' => 'Advertising',
+                'description' => 'Advertise with Rate Pole'
+            )
+                ), $this->view);
+        
+        
+        if($this->view->language=='en'){
+            $this->_helper->viewRenderer('index/advertising-en', null, true);
+        }
+    }
+    
     public function awardsAction() {
         $this->_helper->actionStack('layout', 'index', 'default');
         $this->_helper->layout->setLayout('page');
@@ -462,10 +487,10 @@ class Default_IndexController extends MF_Controller_Action {
 
         $config = Zend_Controller_Front::getInstance()->getParam('bootstrap');
         $apikeys = $config->getOption('apikeys');
-        $form->addElement('Recaptcha', 'g-recaptcha-response', [
+        $form->addElement('Recaptcha', 'g-recaptcha-response', array(
             'siteKey' => $apikeys['google']['siteKey'],
             'secretKey' => $apikeys['google']['secretKey']
-        ]);
+        ));
 //        
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {

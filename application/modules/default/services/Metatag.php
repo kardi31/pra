@@ -238,7 +238,7 @@ class Default_Service_Metatag extends MF_Service_ServiceAbstract {
         $view->doctype('XHTML1_RDFA');
        
         if(strlen($title)) {
-            $view->headMeta($title." - UKS Jedynka Krzeszowice", 'og:title','property');
+            $view->headMeta($title, 'og:title','property');
         }
         if(strlen($image_url)) {
             if(strpos($image_url,'http://')==false){

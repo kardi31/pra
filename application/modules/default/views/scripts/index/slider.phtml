@@ -10,6 +10,39 @@
             <!-- papercut fade turnoff flyin slideright slideleft slideup slidedown-->
 
             <!-- FADE -->
+            <li data-transition="fade" data-slotamount="1" data-masterspeed="300">
+                <img src="/images/find-your-specialist.jpg" alt="<?= $this->translate('Find your specialist!'); ?>"/>
+                <div class="tp-caption scrolleffect sft"
+                     data-x="center"
+                     data-y="120"
+                     data-speed="1000"
+                     data-start="800"
+                     data-easing="easeOutExpo"  >
+                    <div class="sboxpurple textcenter padding20 pt40 slidersepia" >
+                        <span class="lato size65 slim caps white">
+                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
+                                <h1 style="margin:0px;color:#fff;padding:0px;font-size:65px;">                           
+                            <?php
+                            echo $this->translate('Find your specialist!') . " ";
+                            ?>
+                                </h1>
+                            </a>
+                        </span><br />
+                        <span class="lato size48 slim caps yellowgreen">
+                            
+                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
+                            <?= $this->translate('Tell us what you want to do.'); ?>
+                            </a>
+                        </span><br/><br /><br />
+                        <span class="lato size28 white slim uppercase">
+                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
+                            <?= $this->translate('We will contact proper specialist in your nearby area for you!'); ?>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </li>
+
             <li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
                 <img src="/images/trophy2.jpg" alt="
                 <?php
@@ -84,37 +117,6 @@
                     </div>
                 </div>	
             </li>-->
-            <li data-transition="fade" data-slotamount="1" data-masterspeed="300">
-                <img src="/images/find-your-specialist.jpg" alt="<?= $this->translate('Find your specialist!'); ?>"/>
-                <div class="tp-caption scrolleffect sft"
-                     data-x="center"
-                     data-y="120"
-                     data-speed="1000"
-                     data-start="800"
-                     data-easing="easeOutExpo"  >
-                    <div class="sboxpurple textcenter padding20 pt40 slidersepia" >
-                        <span class="lato size65 slim caps white">
-                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
-                            <?php
-                            echo $this->translate('Find your specialist!') . " ";
-                            ?>
-                            </a>
-                        </span><br /><br /><br /><br />
-                        <span class="lato size48 slim caps yellowgreen">
-                            
-                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
-                            <?= $this->translate('Tell us what you want to do.'); ?>
-                            </a>
-                        </span><br/><br /><br />
-                        <span class="lato size28 white slim uppercase">
-                            <a data-toggle="modal" data-target="#findSpecialist" href='javascript:void(0)'>
-                            <?= $this->translate('We will contact proper specialist in your nearby area for you!'); ?>
-                            </a>
-                        </span>
-                    </div>
-                </div>
-            </li>
-
         </ul>
         <div class="tp-bannertimer none"></div>
     </div>

@@ -19,7 +19,10 @@ echo MF_View_Helper_Breadcrumb::getInstance()->getBreadcrumbs();
 
                 <section class="column">
                     <section>
-                        <div style="padding-bottom: 100px;"><?php echo $this->message ?></div>
+                        <input type="hidden" name="error" value="<?php echo $this->message ?>" />
+                        <div style="padding-bottom: 100px;"><?= $this->translate('Something went wrong. Please copy the current url and send it to us through our ');?>
+                            <a href="<?= $this->url(array(),'domain-contact'); ?>"><?= $this->translate('contact form.'); ?></a>
+                        </div>
 
                         <?php if (isset($this->exception)): ?>
 

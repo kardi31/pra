@@ -21,6 +21,13 @@ class Review_Service_Comment extends MF_Service_ServiceAbstract {
        return $this->commentTable->findAll();
    }
    
+   
+   public function getNotApprovedComments($hydrationMode = Doctrine_Core::HYDRATE_RECORD){
+       $q = $this->commentTable->createQuery('r');
+       $q->addWhere('r.approve = 0');
+       return $q->count(array(),$hydrationMode);
+   }
+   
    public function getReviewComments($review_id,$hydrationMode = Doctrine_Core::HYDRATE_ARRAY){
        $q = $this->commentTable->createQuery('c');
        $q->leftJoin('c.Translation ct');

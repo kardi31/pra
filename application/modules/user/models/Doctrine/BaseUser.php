@@ -19,6 +19,7 @@
  * @property integer $agent_id
  * @property integer $branch_id
  * @property integer $staff_id
+ * @property timestamp $last_login
  * @property User_Model_Doctrine_Profile $Profile
  * @property Doctrine_Collection $Update
  * @property Doctrine_Collection $Groups
@@ -91,6 +92,9 @@ abstract class User_Model_Doctrine_BaseUser extends Doctrine_Record
         $this->hasColumn('staff_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => '4',
+             ));
+        $this->hasColumn('last_login', 'timestamp', null, array(
+             'type' => 'timestamp',
              ));
 
         $this->option('type', 'MyISAM');

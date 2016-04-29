@@ -848,6 +848,7 @@ class Zend_Acl
                 $this->_isAllowedResource = $resource;
             }
         }
+        
 
         if (null === $privilege) {
             // query on all privileges

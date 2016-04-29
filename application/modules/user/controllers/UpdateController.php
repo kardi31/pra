@@ -36,7 +36,7 @@ class User_UpdateController extends MF_Controller_Action {
             'en' => array(
                 'title' => 'Password recovery'
             )
-                ), $this->view);
+        ), $this->view);
         $this->view->headMeta()->appendName('robots', 'noindex, follow');
         
         $this->view->messages()->clean();
@@ -169,6 +169,17 @@ class User_UpdateController extends MF_Controller_Action {
         $userService = $this->_service->getService('User_Service_User');
         
         $token = $this->getRequest()->getParam('token');
+        
+        $metatagService = $this->_service->getService('Default_Service_Metatag');
+        $metatagService->setCustomViewMetatags(array(
+            'pl' => array(
+                'title' => 'Odzyskiwanie hasła'
+            ),
+            'en' => array(
+                'title' => 'Password recovery'
+            )
+        ), $this->view);
+        $this->view->headMeta()->appendName('robots', 'noindex, nofollow');
         
         if($token && $update = $userService->getUpdateOfToken($token)) {
             $form = $userService->getUpdateForm($update, $update->getType());

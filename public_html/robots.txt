@@ -1,3 +1,2 @@
 User-agent: *
-Disallow: /
-#Disallow: /login/
+Sitemap: http://ocen-fachowca.pl/sitemap.xml

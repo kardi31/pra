@@ -40,9 +40,9 @@ jQuery(document).ready(function(jQuery){
 		width: "100%",
 		height: 240,
 		items: {
-			visible: 5,
+			visible: 3,
 			minimum: 1,
-			start: 2
+			start: 0
 		},
 		scroll: {
 			items: 1,
@@ -53,13 +53,13 @@ jQuery(document).ready(function(jQuery){
 		auto: false,
 		prev: {
 			button: function() {
-                            return $(this).parent().siblings(".prev");
+                            return $(this).closest(".prev");
                         },
 			key: "left"
 		},
 		next: {
 			button: function() {
-                            return $(this).parent().siblings(".next");
+                            return $(this).closest(".next");
                         },
 			key: "right"
 		},				
@@ -71,9 +71,9 @@ jQuery(document).ready(function(jQuery){
 		width: "100%",
 		height: 240,
 		items: {
-			visible: 5,
+			visible: 3,
 			minimum: 1,
-			start: 2
+			start: 0
 		},
 		scroll: {
 			items: 1,
@@ -83,11 +83,11 @@ jQuery(document).ready(function(jQuery){
 		},
 		auto: false,				
 		prev: {
-			button: "#prev_btn2",
+			button: "#prev_foo2",
 			key: "left"
 		},
 		next: {
-			button: "#next_btn2",
+			button: "#next_foo2",
 			key: "right"
 		},				
 		swipe: true
